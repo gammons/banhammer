@@ -1,32 +1,39 @@
 package me.grantammons.banhammer.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import me.grantammons.banhammer.core.Game;
 
 /**
  * Created by grantammons on 5/30/15.
  */
-public class GameView implements Screen {
+public class GameView implements Screen, InputListener {
     private SpriteBatch batch;
-    private PlayerView playerView;
     private OrthographicCamera cam;
     private GameInputProcessor inputProcessor;
 
-    int WORLD_WIDTH = 64;
-    int WORLD_HEIGHT = 64;
+    private MapView mapView;
+    private PlayerView playerView;
+    private Game game;
+
+    int WORLD_WIDTH = 128;
+    int WORLD_HEIGHT = 128;
 
     public GameView(GameInputProcessor processor) {
         inputProcessor = processor;
+        game = new Game();
     }
 
     @Override
     public void show() {
         batch = new SpriteBatch();
-        playerView = new PlayerView();
-        inputProcessor.addListener(playerView);
+        mapView = new MapView(game.map);
+        playerView = new PlayerView(game.player);
+        inputProcessor.addListener(this);
 
         setupCamera();
         batch.setProjectionMatrix(cam.combined);
@@ -35,12 +42,13 @@ public class GameView implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(cam.combined);
 
         batch.begin();
+        mapView.draw(batch);
         playerView.draw(batch);
         batch.end();
     }
@@ -81,5 +89,16 @@ public class GameView implements Screen {
         cam = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT * (h / w));
         cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
+    }
+
+    @Override
+    public void notify(int direction) {
+        switch (direction) {
+            case Input.Keys.UP:  game.movePlayerUp(); break;
+            case Input.Keys.DOWN:  game.movePlayerDown(); break;
+            case Input.Keys.LEFT:  game.movePlayerLeft(); break;
+            case Input.Keys.RIGHT:  game.movePlayerRight(); break;
+        }
+
     }
 }

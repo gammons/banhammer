@@ -28,22 +28,22 @@ public class GameInputProcessor implements InputProcessor {
         switch (keycode) {
             case Keys.LEFT:
                 if (leftPressed == false)
-                    notifyListeners("left");
+                    notifyListeners(Keys.LEFT);
                 leftPressed = true;
                 break;
             case Keys.RIGHT:
                 if (rightPressed == false)
-                    notifyListeners("right");
+                    notifyListeners(Keys.RIGHT);
                 rightPressed = true;
                 break;
             case Keys.UP:
                 if (upPressed == false)
-                    notifyListeners("up");
+                    notifyListeners(Keys.UP);
                 upPressed = true;
                 break;
             case Keys.DOWN:
                 if (downPressed == false)
-                    notifyListeners("down");
+                    notifyListeners(Keys.DOWN);
                 downPressed = true;
                 break;
         }
@@ -103,7 +103,7 @@ public class GameInputProcessor implements InputProcessor {
         // TODO Auto-generated method stub
         return false;
     }
-    private void notifyListeners(String direction) {
+    private void notifyListeners(int direction) {
         Iterator<InputListener> iterator  = listeners.iterator();
         while (iterator.hasNext()) {
             InputListener listener = iterator.next();
