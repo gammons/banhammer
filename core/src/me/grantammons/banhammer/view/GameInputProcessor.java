@@ -2,9 +2,10 @@ package me.grantammons.banhammer.view;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GameInputProcessor implements InputProcessor {
     private boolean leftPressed;
@@ -12,24 +13,37 @@ public class GameInputProcessor implements InputProcessor {
     private boolean upPressed;
     private boolean downPressed;
 
-    private boolean mousePressed;
-    private Vector2 mouseCoords;
-    private int windowHeight;
-    private int windowWidth;
+    private List<InputListener> listeners;
+
+    public GameInputProcessor() {
+        listeners = new ArrayList<InputListener>();
+    }
+
+    public void addListener(InputListener listener) {
+        listeners.add(listener);
+    }
 
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Keys.LEFT:
+                if (leftPressed == false)
+                    notifyListeners("left");
                 leftPressed = true;
                 break;
             case Keys.RIGHT:
+                if (rightPressed == false)
+                    notifyListeners("right");
                 rightPressed = true;
                 break;
             case Keys.UP:
+                if (upPressed == false)
+                    notifyListeners("up");
                 upPressed = true;
                 break;
             case Keys.DOWN:
+                if (downPressed == false)
+                    notifyListeners("down");
                 downPressed = true;
                 break;
         }
@@ -63,15 +77,12 @@ public class GameInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        mouseCoords = new Vector2(screenX, screenY);
-        mousePressed = true;
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         // TODO Auto-generated method stub
-        mousePressed = false;
         return false;
     }
 
@@ -92,36 +103,11 @@ public class GameInputProcessor implements InputProcessor {
         // TODO Auto-generated method stub
         return false;
     }
-
-    public boolean isLeftPressed() {
-        return leftPressed;
-    }
-
-    public boolean isRightPressed() {
-        return rightPressed;
-    }
-
-    public boolean isUpPressed() {
-        return upPressed;
-    }
-
-    public boolean isDownPressed() {
-        return downPressed;
-    }
-
-    public boolean isMousePressed() {
-        return mousePressed;
-    }
-
-    public Vector2 getMouseCoords(OrthographicCamera c) {
-        Vector3 v = new Vector3(mouseCoords.x, mouseCoords.y, 0);
-        Vector3 unprojected = c.unproject(v);
-        return new Vector2(unprojected.x, unprojected.y);
-    }
-
-    public void setWindow(int width, int height) {
-        windowHeight = height;
-        windowWidth = width;
-
+    private void notifyListeners(String direction) {
+        Iterator<InputListener> iterator  = listeners.iterator();
+        while (iterator.hasNext()) {
+            InputListener listener = iterator.next();
+            listener.notify(direction);
+        }
     }
 }

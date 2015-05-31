@@ -26,6 +26,7 @@ public class GameView implements Screen {
     public void show() {
         batch = new SpriteBatch();
         playerView = new PlayerView();
+        inputProcessor.addListener(playerView);
 
         setupCamera();
         batch.setProjectionMatrix(cam.combined);
@@ -71,7 +72,7 @@ public class GameView implements Screen {
 
     @Override
     public void dispose() {
-
+        batch.dispose();
     }
 
     private void setupCamera() {

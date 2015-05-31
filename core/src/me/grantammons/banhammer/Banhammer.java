@@ -1,6 +1,7 @@
 package me.grantammons.banhammer;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import me.grantammons.banhammer.view.GameInputProcessor;
@@ -17,6 +18,7 @@ public class Banhammer extends Game {
 	public void create () {
 
         inputProcessor = new GameInputProcessor();
+        Gdx.input.setInputProcessor(inputProcessor);
         gameView = new GameView(inputProcessor);
         setScreen(gameView);
 	}
