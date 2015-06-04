@@ -50,8 +50,7 @@ public class GameView implements Screen {
 
         batch.begin();
         mapView.draw(batch);
-        //batch.draw(playerView.sprite, playerView.sprite.getX() + lerped, playerView.sprite.getY());
-        playerView.draw(batch, delta);
+        playerView.draw(batch);
         cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
         cam.update();
         batch.end();

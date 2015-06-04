@@ -14,26 +14,11 @@ public class Game {
         map = new Map();
     }
 
-    public void movePlayerLeft() {
-        if (map.canMoveLeft(player))
-            player.moveLeft();
+    public boolean canPlayerMove(int direction) {
+        return map.canMove(player, direction);
     }
 
-    public void movePlayerRight() {
-        if (map.canMoveRight(player))
-            player.moveRight();
-
-    }
-
-    public void movePlayerUp() {
-        if (map.canMoveUp(player))
-            player.moveUp();
-
-    }
-
-    public void movePlayerDown() {
-        if (map.canMoveDown(player))
-            player.moveDown();
-
+    public void movePlayer(int direction) {
+        player.move(direction);
     }
 }

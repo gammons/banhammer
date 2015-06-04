@@ -7,19 +7,12 @@ public class Entity {
     public int x;
     public int y;
 
-    public void moveLeft() {
-        x--;
-    }
-
-    public void moveRight() {
-        x++;
-    }
-
-    public void moveUp() {
-        y++;
-    }
-
-    public void moveDown() {
-        y--;
+    public void move(int direction) {
+        switch(direction) {
+            case Constants.LEFT: x--; break;
+            case Constants.RIGHT: x++; break;
+            case Constants.UP: y++; break;
+            case Constants.DOWN: y--; break;
+        }
     }
 }

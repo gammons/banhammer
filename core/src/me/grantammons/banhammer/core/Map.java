@@ -18,22 +18,32 @@ public class Map {
         return map;
     }
 
-    public boolean canMoveLeft(Entity e) {
+    public boolean canMove(Entity e, int direction) {
+        switch (direction) {
+            case Constants.LEFT: return canMoveLeft(e);
+            case Constants.RIGHT: return canMoveRight(e);
+            case Constants.UP: return canMoveUp(e);
+            case Constants.DOWN: return canMoveDown(e);
+        }
+        return false;
+    }
+
+    private boolean canMoveLeft(Entity e) {
         return e.x != 0 && map[e.y][e.x - 1] != 1;
 
     }
 
-    public boolean canMoveRight(Entity e) {
+    private boolean canMoveRight(Entity e) {
         return e.x != map[e.y].length - 1 && map[e.y][e.x + 1] != 1;
 
     }
 
-    public boolean canMoveDown(Entity e) {
+    private boolean canMoveDown(Entity e) {
         return e.y != 0 && map[e.y - 1][e.x] != 1;
 
     }
 
-    public boolean canMoveUp(Entity e) {
+    private boolean canMoveUp(Entity e) {
         return e.y != map.length - 1 && map[e.y + 1][e.x] != 1;
 
     }
