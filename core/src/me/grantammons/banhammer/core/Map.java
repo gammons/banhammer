@@ -19,30 +19,22 @@ public class Map {
     }
 
     public boolean canMoveLeft(Entity e) {
-        if (e.x == 0)
-            return  false;
+        return e.x != 0 && map[e.y][e.x - 1] != 1;
 
-        return map[e.y][e.x - 1] != 1;
     }
 
     public boolean canMoveRight(Entity e) {
-        if (e.x == map[e.y].length - 1)
-            return  false;
+        return e.x != map[e.y].length - 1 && map[e.y][e.x + 1] != 1;
 
-        return map[e.y][e.x + 1] != 1;
     }
 
     public boolean canMoveDown(Entity e) {
-        if (e.y == 0)
-            return false;
+        return e.y != 0 && map[e.y - 1][e.x] != 1;
 
-        return map[e.y - 1][e.x] != 1;
     }
 
     public boolean canMoveUp(Entity e) {
-        if (e.y == map.length - 1)
-            return false;
+        return e.y != map.length - 1 && map[e.y + 1][e.x] != 1;
 
-        return map[e.y + 1][e.x] != 1;
     }
 }

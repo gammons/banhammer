@@ -1,7 +1,6 @@
 package me.grantammons.banhammer.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,7 +10,7 @@ import me.grantammons.banhammer.core.Game;
 /**
  * Created by grantammons on 5/30/15.
  */
-public class GameView implements Screen, InputListener {
+public class GameView implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera cam;
     private GameInputProcessor inputProcessor;
@@ -19,6 +18,7 @@ public class GameView implements Screen, InputListener {
     private MapView mapView;
     private PlayerView playerView;
     private Game game;
+    private boolean isWalking;
 
     int WORLD_WIDTH = 128;
     int WORLD_HEIGHT = 128;
@@ -32,8 +32,8 @@ public class GameView implements Screen, InputListener {
     public void show() {
         batch = new SpriteBatch();
         mapView = new MapView(game.map);
-        playerView = new PlayerView(game.player);
-        inputProcessor.addListener(this);
+        playerView = new PlayerView(game);
+        inputProcessor.addListener(playerView);
 
         setupCamera();
         batch.setProjectionMatrix(cam.combined);
@@ -47,20 +47,23 @@ public class GameView implements Screen, InputListener {
 
         batch.setProjectionMatrix(cam.combined);
 
+
         batch.begin();
         mapView.draw(batch);
-        playerView.draw(batch);
+        //batch.draw(playerView.sprite, playerView.sprite.getX() + lerped, playerView.sprite.getY());
+        playerView.draw(batch, delta);
+        cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
+        cam.update();
         batch.end();
+
     }
 
     @Override
     public void resize(int width, int height) {
         cam.viewportHeight = WORLD_HEIGHT;
         cam.viewportWidth = (WORLD_HEIGHT / (float)height) * width;
-        cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);
+        cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
         cam.update();
-        //System.out.println("new size = ("+width+", "+height+")");
-        //System.out.println("viewport = ("+cam.viewportWidth+", "+cam.viewportHeight+")");
     }
 
     @Override
@@ -87,18 +90,11 @@ public class GameView implements Screen, InputListener {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         cam = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT * (h / w));
-        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+        //cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
     }
 
-    @Override
-    public void notify(int direction) {
-        switch (direction) {
-            case Input.Keys.UP:  game.movePlayerUp(); break;
-            case Input.Keys.DOWN:  game.movePlayerDown(); break;
-            case Input.Keys.LEFT:  game.movePlayerLeft(); break;
-            case Input.Keys.RIGHT:  game.movePlayerRight(); break;
-        }
-
+    private void debugCoords(float x, float y) {
+        System.out.println("viewport = ("+x+", "+y+")");
     }
 }
