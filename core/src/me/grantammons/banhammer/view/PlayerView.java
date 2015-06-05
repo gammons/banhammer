@@ -32,6 +32,7 @@ public class PlayerView implements InputListener {
         this.game = game;
         sprite = new Sprite(new Texture("player.png"));
         sprite.setSize(PIXEL_WIDTH, PIXEL_HEIGHT);
+        sprite.setPosition(game.player.x * PIXEL_HEIGHT, game.player.y * PIXEL_HEIGHT);
     }
 
     @Override

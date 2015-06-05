@@ -18,7 +18,6 @@ public class GameView implements Screen {
     private MapView mapView;
     private PlayerView playerView;
     private Game game;
-    private boolean isWalking;
 
     int WORLD_WIDTH = 128;
     int WORLD_HEIGHT = 128;
@@ -89,7 +88,7 @@ public class GameView implements Screen {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         cam = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT * (h / w));
-        //cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+        cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
         cam.update();
     }
 
