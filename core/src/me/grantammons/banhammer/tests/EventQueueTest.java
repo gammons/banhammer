@@ -1,7 +1,7 @@
 package me.grantammons.banhammer.tests;
 
-import me.grantammons.banhammer.core.Entity;
-import me.grantammons.banhammer.core.Player;
+import me.grantammons.banhammer.core.entities.Entity;
+import me.grantammons.banhammer.core.entities.Player;
 import me.grantammons.banhammer.core.utils.EventQueue;
 import org.testng.Assert;
 import org.testng.annotations.Test;

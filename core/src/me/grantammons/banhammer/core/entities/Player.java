@@ -1,4 +1,4 @@
-package me.grantammons.banhammer.core;
+package me.grantammons.banhammer.core.entities;
 
 /**
  * Created by grantammons on 5/31/15.

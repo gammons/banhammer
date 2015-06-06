@@ -1,11 +1,11 @@
-package me.grantammons.banhammer.view;
+package me.grantammons.banhammer.view.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.TimeUtils;
-import me.grantammons.banhammer.core.Entity;
+import me.grantammons.banhammer.core.entities.Entity;
 import me.grantammons.banhammer.core.Game;
 import static me.grantammons.banhammer.core.Constants.*;
 

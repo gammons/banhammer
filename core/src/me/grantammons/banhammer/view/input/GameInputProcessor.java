@@ -1,7 +1,8 @@
-package me.grantammons.banhammer.view;
+package me.grantammons.banhammer.view.input;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import me.grantammons.banhammer.view.input.InputListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;

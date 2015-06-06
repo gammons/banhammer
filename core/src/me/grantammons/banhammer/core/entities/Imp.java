@@ -1,6 +1,4 @@
-package me.grantammons.banhammer.core.monsters;
-
-import me.grantammons.banhammer.core.Monster;
+package me.grantammons.banhammer.core.entities;
 
 /**
  * Created by grantammons on 6/5/15.

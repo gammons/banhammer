@@ -1,6 +1,6 @@
 package me.grantammons.banhammer.core.utils;
 
-import me.grantammons.banhammer.core.Entity;
+import me.grantammons.banhammer.core.entities.Entity;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,7 @@
-package me.grantammons.banhammer.core;
+package me.grantammons.banhammer.core.entities;
+
+import me.grantammons.banhammer.core.Constants;
+import me.grantammons.banhammer.core.Map;
 
 /**
  * Created by grantammons on 5/31/15.
@@ -9,13 +12,13 @@ public class Entity {
 
     public String name;
     public int speed;
-    public int energy;
-    public int intendedDirection = -1;
+    public int intendedDirection = Constants.NO_DIRECTION;
 
     public void takeTurn() {
+        System.out.println(name + " is taking turn");
         if (intendedDirection >= 0) {
             move(intendedDirection);
-            intendedDirection = -1;
+            intendedDirection = Constants.NO_DIRECTION;
         } else {
             // do some other shit
         }
@@ -36,6 +39,10 @@ public class Entity {
                 y--;
                 break;
         }
+    }
+
+    public void calculateMove(Map map) {
+
     }
 }
 

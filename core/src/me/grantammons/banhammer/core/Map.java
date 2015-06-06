@@ -1,5 +1,7 @@
 package me.grantammons.banhammer.core;
 
+import me.grantammons.banhammer.core.entities.Entity;
+
 /**
  * Created by grantammons on 5/31/15.
  */

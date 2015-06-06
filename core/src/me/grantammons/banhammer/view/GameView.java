@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import me.grantammons.banhammer.core.Game;
+import me.grantammons.banhammer.view.entities.EntityView;
+import me.grantammons.banhammer.view.entities.PlayerView;
+import me.grantammons.banhammer.view.input.GameInputProcessor;
 
 /**
  * Created by grantammons on 5/30/15.

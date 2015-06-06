@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import me.grantammons.banhammer.view.GameInputProcessor;
+import me.grantammons.banhammer.view.input.GameInputProcessor;
 import me.grantammons.banhammer.view.GameView;
 
 public class Banhammer extends Game {
