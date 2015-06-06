@@ -10,21 +10,24 @@ public class Entity {
     public int x;
     public int y;
 
+    public int prevX;
+    public int prevY;
+
     public String name;
     public int speed;
     public int intendedDirection = Constants.NO_DIRECTION;
 
     public void takeTurn() {
-        System.out.println(name + " is taking turn");
         if (intendedDirection >= 0) {
             move(intendedDirection);
-            intendedDirection = Constants.NO_DIRECTION;
         } else {
             // do some other shit
         }
     }
 
     public void move(int direction) {
+        prevX = x;
+        prevY = y;
         switch (direction) {
             case Constants.LEFT:
                 x--;

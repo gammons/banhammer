@@ -22,10 +22,7 @@ public class PlayerView extends EntityView implements InputListener {
 
         setIntendedDirection(direction);
         if (game.canMoveTo(entity, entity.intendedDirection)) {
-            isWalking = true;
-            origX = entity.x;
-            origY = entity.y;
-            walkDirection = entity.intendedDirection;
+            System.out.println("GAME TICK");
             game.tick();
         } else {
             entity.intendedDirection = Constants.NO_DIRECTION;

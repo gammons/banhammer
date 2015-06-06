@@ -53,9 +53,12 @@ public class Scheduler {
     public Entity nextEntity() {
         if (current != null && repeat.indexOf(current) != -1) {
             queue.add(current, current.speed);
-            duration = DEFAULT_DURATION;
         }
-        return current = queue.get();
+        current = queue.get();
+        duration = current.speed;
+
+        System.out.println("Next entity is "+ current.name);
+        return current;
     }
 
     public Entity currentEntity() {

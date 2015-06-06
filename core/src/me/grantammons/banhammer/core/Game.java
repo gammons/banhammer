@@ -24,8 +24,6 @@ public class Game {
         player = new Player();
         player.x = 1;
         player.y = 1;
-        player.speed = 10;
-        player.name = "Player";
 
         map = new Map();
         entities = new ArrayList<Entity>();
@@ -39,13 +37,16 @@ public class Game {
     public void tick() {
         // player should always be the next entity that needs to take a turn, when entering tick()
         Entity e = scheduler.currentEntity();
+        System.out.println("current entity is "+e.name + " with speed "+e.speed);
         e.takeTurn();
 
         e = scheduler.nextEntity();
+        System.out.println("NEXT entity is "+e.name + " with speed "+ e.speed);
         while (!e.equals(player)) {
             e.calculateMove(map);
             e.takeTurn();
             e = scheduler.nextEntity();
+            System.out.println("NEXT NEXT entity is "+e.name + " with speed "+ e.speed);
         }
     }
 
@@ -53,7 +54,6 @@ public class Game {
         Monster monster = new Imp();
         monster.x = 3;
         monster.y = 3;
-        monster.name = "Imp";
         entities.add(monster);
 
         for(Entity e : entities) {

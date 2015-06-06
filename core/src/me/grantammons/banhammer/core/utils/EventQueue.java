@@ -48,9 +48,11 @@ public class EventQueue {
         if (_time > 0) {
             time += _time;
 
+            debugTimes("Before");
             for(int i = 0; i < eventTimes.size(); i++) {
                 eventTimes.set(i, eventTimes.get(i) - _time);
             }
+            debugTimes("After");
         }
         return entityEvents.remove(0);
     }

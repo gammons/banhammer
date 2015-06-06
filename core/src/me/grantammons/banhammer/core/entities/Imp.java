@@ -6,6 +6,6 @@ package me.grantammons.banhammer.core.entities;
 public class Imp extends Monster {
     public Imp() {
         name = "Imp";
-        speed = 20;
+        speed = 10;
     }
 }

@@ -14,11 +14,11 @@ public class SchedulerTest {
     public void testAddingItemToScheduler() {
         Scheduler as = new Scheduler();
         Player p = new Player();
-        p.speed = 1;
+        p.speed = 10;
         p.name = "player";
 
         Entity e = new Entity();
-        e.speed = 2;
+        e.speed = 20;
         e.name = "enemy";
 
         as.addEntity(p);
