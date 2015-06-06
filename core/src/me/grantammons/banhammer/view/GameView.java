@@ -17,6 +17,7 @@ public class GameView implements Screen {
 
     private MapView mapView;
     private PlayerView playerView;
+    private EntityView monsterView;
     private Game game;
 
     int WORLD_WIDTH = 128;
@@ -32,6 +33,7 @@ public class GameView implements Screen {
         batch = new SpriteBatch();
         mapView = new MapView(game.map);
         playerView = new PlayerView(game);
+        monsterView = new EntityView(game, game.entities.get(1), "monster.png");
         inputProcessor.addListener(playerView);
 
         setupCamera();
@@ -50,6 +52,7 @@ public class GameView implements Screen {
         batch.begin();
         mapView.draw(batch);
         playerView.draw(batch);
+        monsterView.draw(batch);
         cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
         cam.update();
         batch.end();
