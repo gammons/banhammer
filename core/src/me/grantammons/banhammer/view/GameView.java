@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import me.grantammons.banhammer.core.Constants;
 import me.grantammons.banhammer.core.Game;
 import me.grantammons.banhammer.view.entities.EntityView;
 import me.grantammons.banhammer.view.entities.PlayerView;
@@ -22,13 +23,13 @@ public class GameView implements Screen {
     private PlayerView playerView;
     private EntityView monsterView;
     private Game game;
+    private Hud hud;
 
-    int WORLD_WIDTH = 128;
-    int WORLD_HEIGHT = 128;
 
     public GameView(GameInputProcessor processor) {
         inputProcessor = processor;
         game = new Game();
+        hud = new Hud();
     }
 
     @Override
@@ -60,12 +61,15 @@ public class GameView implements Screen {
         cam.update();
         batch.end();
 
+        hud.render();;
+
     }
 
     @Override
     public void resize(int width, int height) {
-        cam.viewportHeight = WORLD_HEIGHT;
-        cam.viewportWidth = (WORLD_HEIGHT / (float)height) * width;
+        hud.resize(width, height);
+        cam.viewportHeight = Constants.VIEWPORT_HEIGHT;
+        cam.viewportWidth = (Constants.VIEWPORT_WIDTH / (float)height) * width;
         cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
         cam.update();
     }
@@ -93,7 +97,7 @@ public class GameView implements Screen {
     private void setupCamera() {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        cam = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT * (h / w));
+        cam = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT * (h / w));
         cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
         cam.update();
     }

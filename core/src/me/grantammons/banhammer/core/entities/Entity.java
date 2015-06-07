@@ -6,6 +6,7 @@ import me.grantammons.banhammer.core.Map;
 /**
  * Created by grantammons on 5/31/15.
  */
+
 public class Entity {
     public int x;
     public int y;

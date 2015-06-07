@@ -16,7 +16,7 @@ import static me.grantammons.banhammer.core.Constants.*;
 public class EntityView {
     int PIXEL_WIDTH = 16;
     int PIXEL_HEIGHT = 16;
-    float WALK_SPEED = 150f;
+    float WALK_SPEED = 90f;
 
     private long timestamp;
     protected boolean isWalking;
@@ -39,6 +39,7 @@ public class EntityView {
 
     public void draw(Batch batch) {
         if (didLocationChange()) {
+            isWalking = true;
             if (timestamp == 0) {
                 timestamp = TimeUtils.millis();
             }
@@ -65,6 +66,7 @@ public class EntityView {
             if (lerped >= 15) {
                 setLastSeen();
                 timestamp = 0;
+                isWalking = false;
             }
         } else {
             batch.draw(sprite, entity.x * PIXEL_WIDTH, entity.y * PIXEL_HEIGHT);
