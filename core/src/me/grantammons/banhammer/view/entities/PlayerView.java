@@ -22,7 +22,6 @@ public class PlayerView extends EntityView implements InputListener {
 
         setIntendedDirection(direction);
         if (game.canMoveTo(entity, entity.intendedDirection)) {
-            System.out.println("GAME TICK");
             game.tick();
         } else {
             entity.intendedDirection = Constants.NO_DIRECTION;

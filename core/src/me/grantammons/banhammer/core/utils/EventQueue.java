@@ -48,19 +48,13 @@ public class EventQueue {
         if (_time > 0) {
             time += _time;
 
-            debugTimes("Before");
             for(int i = 0; i < eventTimes.size(); i++) {
                 eventTimes.set(i, eventTimes.get(i) - _time);
             }
-            debugTimes("After");
         }
-        return entityEvents.remove(0);
-    }
+        Entity e = entityEvents.remove(0);
 
-    private void debugTimes(String s) {
-        for(int i = 0; i < eventTimes.size(); i++) {
-            System.out.println(s+", eventTimes[" + i + "] to " + eventTimes.get(i));
-        }
+        return e;
     }
 
     public Entity remove(Entity entity) {
@@ -77,4 +71,19 @@ public class EventQueue {
         return eventTimes;
 
     }
+
+    private void debugEvents(String s) {
+        System.out.print(s + " [");
+        for(Entity e : entityEvents) {
+            System.out.print(e.name + ", ");
+        }
+        System.out.print("]\n");
+    }
+
+    private void debugTimes(String s) {
+        for(int i = 0; i < eventTimes.size(); i++) {
+            System.out.println(s+", eventTimes[" + i + "] to " + eventTimes.get(i));
+        }
+    }
+
 }

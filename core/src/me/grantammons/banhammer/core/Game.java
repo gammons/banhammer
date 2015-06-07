@@ -18,8 +18,6 @@ public class Game {
     public List<Entity> entities;
     private Scheduler scheduler;
 
-    private static final int TURN_LENGTH = 100;
-
     public Game() {
         player = new Player();
         player.x = 1;
@@ -29,24 +27,27 @@ public class Game {
         entities = new ArrayList<Entity>();
         entities.add(player);
         scheduler = new Scheduler();
-        scheduler.addEntity(player);
         generateMonsters();
-        scheduler.nextEntity(); //make it the player's turn initially
     }
 
     public void tick() {
-        // player should always be the next entity that needs to take a turn, when entering tick()
-        Entity e = scheduler.currentEntity();
-        System.out.println("current entity is "+e.name + " with speed "+e.speed);
-        e.takeTurn();
+        processPlayerTurn();
+        processEntityTurns();
+    }
 
+    private void processPlayerTurn() {
+        Entity e = scheduler.currentEntity();
+        if (e == null) e = scheduler.nextEntity(); // special case for first turn
+        e.takeTurn();
+    }
+
+    private void processEntityTurns() {
+        Entity e;
         e = scheduler.nextEntity();
-        System.out.println("NEXT entity is "+e.name + " with speed "+ e.speed);
         while (!e.equals(player)) {
             e.calculateMove(map);
             e.takeTurn();
             e = scheduler.nextEntity();
-            System.out.println("NEXT NEXT entity is "+e.name + " with speed "+ e.speed);
         }
     }
 

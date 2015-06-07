@@ -57,7 +57,6 @@ public class Scheduler {
         current = queue.get();
         duration = current.speed;
 
-        System.out.println("Next entity is "+ current.name);
         return current;
     }
 
