@@ -11,9 +11,6 @@ public class Entity {
     public int x;
     public int y;
 
-    public int prevX;
-    public int prevY;
-
     public String name;
     public int speed;
     public int intendedDirection = Constants.NO_DIRECTION;
@@ -27,8 +24,6 @@ public class Entity {
     }
 
     public void move(int direction) {
-        prevX = x;
-        prevY = y;
         switch (direction) {
             case Constants.LEFT:
                 x--;
