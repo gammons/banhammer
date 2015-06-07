@@ -2,7 +2,7 @@ package me.grantammons.banhammer.view.input;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import me.grantammons.banhammer.view.input.InputListener;
+import me.grantammons.banhammer.core.Constants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,6 +13,11 @@ public class GameInputProcessor implements InputProcessor {
     private boolean rightPressed;
     private boolean upPressed;
     private boolean downPressed;
+
+    private boolean downLeftPressed;
+    private boolean downRightPressed;
+    private boolean upLeftPressed;
+    private boolean upRightPressed;
 
     private List<InputListener> listeners;
 
@@ -28,24 +33,56 @@ public class GameInputProcessor implements InputProcessor {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Keys.LEFT:
+            case Keys.NUM_4:
+            case Keys.H:
                 if (leftPressed == false)
-                    notifyListeners(Keys.LEFT);
+                    notifyListeners(Constants.WEST);
                 leftPressed = true;
                 break;
             case Keys.RIGHT:
+            case Keys.NUM_6:
+            case Keys.L:
                 if (rightPressed == false)
-                    notifyListeners(Keys.RIGHT);
+                    notifyListeners(Constants.EAST);
                 rightPressed = true;
                 break;
             case Keys.UP:
+            case Keys.NUM_8:
+            case Keys.K:
                 if (upPressed == false)
-                    notifyListeners(Keys.UP);
+                    notifyListeners(Constants.NORTH);
                 upPressed = true;
                 break;
             case Keys.DOWN:
+            case Keys.NUM_2:
+            case Keys.J:
                 if (downPressed == false)
-                    notifyListeners(Keys.DOWN);
+                    notifyListeners(Constants.SOUTH);
                 downPressed = true;
+                break;
+            case Keys.NUM_1:
+            case Keys.B:
+                if (downLeftPressed == false)
+                    notifyListeners(Constants.SOUTHWEST);
+                downLeftPressed = true;
+                break;
+            case Keys.NUM_3:
+            case Keys.N:
+                if (downRightPressed == false)
+                    notifyListeners(Constants.SOUTHEAST);
+                downRightPressed = true;
+                break;
+            case Keys.NUM_7:
+            case Keys.Y:
+                if (upLeftPressed == false)
+                    notifyListeners(Constants.NORTHWEST);
+                upLeftPressed = true;
+                break;
+            case Keys.NUM_9:
+            case Keys.U:
+                if (upRightPressed == false)
+                    notifyListeners(Constants.NORTHEAST);
+                upRightPressed = true;
                 break;
         }
         return false;
@@ -55,16 +92,40 @@ public class GameInputProcessor implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Keys.LEFT:
+            case Keys.NUM_4:
+            case Keys.H:
                 leftPressed = false;
                 break;
             case Keys.RIGHT:
+            case Keys.NUM_6:
+            case Keys.L:
                 rightPressed = false;
                 break;
             case Keys.UP:
+            case Keys.NUM_8:
+            case Keys.K:
                 upPressed = false;
                 break;
             case Keys.DOWN:
+            case Keys.NUM_2:
+            case Keys.J:
                 downPressed = false;
+                break;
+            case Keys.NUM_1:
+            case Keys.B:
+                downLeftPressed = false;
+                break;
+            case Keys.NUM_3:
+            case Keys.N:
+                downRightPressed = false;
+                break;
+            case Keys.NUM_7:
+            case Keys.Y:
+                upLeftPressed = false;
+                break;
+            case Keys.NUM_9:
+            case Keys.U:
+                upRightPressed = false;
                 break;
         }
         return false;

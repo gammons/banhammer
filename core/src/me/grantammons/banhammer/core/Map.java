@@ -35,30 +35,56 @@ public class Map {
 
     public boolean canMove(Entity e, int direction) {
         switch (direction) {
-            case Constants.LEFT: return canMoveLeft(e);
-            case Constants.RIGHT: return canMoveRight(e);
-            case Constants.UP: return canMoveUp(e);
-            case Constants.DOWN: return canMoveDown(e);
+            case Constants.WEST: return canMoveEast(e);
+            case Constants.EAST: return canMoveWest(e);
+            case Constants.NORTH: return canMoveNorth(e);
+            case Constants.SOUTH: return canMoveSouth(e);
+            case Constants.NORTHEAST:  return canMoveNorthEast(e);
+            case Constants.NORTHWEST: return canMoveNorthWest(e);
+            case Constants.SOUTHEAST: return canMoveSouthEast(e);
+            case Constants.SOUTHWEST: return canMoveSouthWest(e);
         }
         return false;
     }
 
-    private boolean canMoveLeft(Entity e) {
+    private boolean canMoveEast(Entity e) {
         return e.x != 0 && map[e.y][e.x - 1] != 1;
 
     }
 
-    private boolean canMoveRight(Entity e) {
+    private boolean canMoveNorthWest(Entity e) {
+        if ((e.y + 1 == map.length) || (e.x - 1) < 0)
+            return false;
+        return map[e.y + 1][e.x - 1] != 1;
+    }
+    private boolean canMoveNorthEast(Entity e) {
+        if (e.y + 1 == map.length || (e.x + 1 == map[e.y].length))
+            return false;
+        return map[e.y + 1][e.x + 1] != 1;
+    }
+
+    private boolean canMoveSouthWest(Entity e) {
+        if ((e.y - 1 < 0) || (e.x - 1 < 0))
+            return false;
+        return map[e.y - 1][e.x - 1] != 1;
+    }
+    private boolean canMoveSouthEast(Entity e) {
+        if ((e.y - 1 < 0) || (e.x + 1 == map[e.y].length))
+            return false;
+        return map[e.y - 1][e.x + 1] != 1;
+    }
+
+    private boolean canMoveWest(Entity e) {
         return e.x != map[e.y].length - 1 && map[e.y][e.x + 1] != 1;
 
     }
 
-    private boolean canMoveDown(Entity e) {
+    private boolean canMoveSouth(Entity e) {
         return e.y != 0 && map[e.y - 1][e.x] != 1;
 
     }
 
-    private boolean canMoveUp(Entity e) {
+    private boolean canMoveNorth(Entity e) {
         return e.y != map.length - 1 && map[e.y + 1][e.x] != 1;
 
     }

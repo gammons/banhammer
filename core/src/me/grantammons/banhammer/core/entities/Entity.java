@@ -25,17 +25,33 @@ public class Entity {
 
     public void move(int direction) {
         switch (direction) {
-            case Constants.LEFT:
+            case Constants.WEST:
                 x--;
                 break;
-            case Constants.RIGHT:
+            case Constants.EAST:
                 x++;
                 break;
-            case Constants.UP:
+            case Constants.NORTH:
                 y++;
                 break;
-            case Constants.DOWN:
+            case Constants.SOUTH:
                 y--;
+                break;
+            case Constants.NORTHEAST:
+                y++;
+                x++;
+                break;
+            case Constants.NORTHWEST:
+                y++;
+                x--;
+                break;
+            case Constants.SOUTHEAST:
+                y--;
+                x++;
+                break;
+            case Constants.SOUTHWEST:
+                y--;
+                x--;
                 break;
         }
     }

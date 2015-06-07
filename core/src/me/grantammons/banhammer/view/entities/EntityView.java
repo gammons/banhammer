@@ -48,17 +48,29 @@ public class EntityView {
             float lerped = Interpolation.fade.apply(0f, 15f, t);
 
             switch (entity.intendedDirection) {
-                case UP:
+                case NORTH:
                     sprite.setPosition(lastSeenX * PIXEL_HEIGHT, lastSeenY * PIXEL_HEIGHT + lerped);
                     break;
-                case DOWN:
+                case SOUTH:
                     sprite.setPosition(lastSeenX * PIXEL_HEIGHT, lastSeenY * PIXEL_HEIGHT - lerped);
                     break;
-                case LEFT:
+                case WEST:
                     sprite.setPosition(lastSeenX * PIXEL_HEIGHT - lerped, lastSeenY * PIXEL_HEIGHT);
                     break;
-                case RIGHT:
+                case EAST:
                     sprite.setPosition(lastSeenX * PIXEL_HEIGHT + lerped, lastSeenY * PIXEL_HEIGHT);
+                    break;
+                case NORTHEAST:
+                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT + lerped, lastSeenY * PIXEL_HEIGHT + lerped);
+                    break;
+                case NORTHWEST:
+                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT - lerped, lastSeenY * PIXEL_HEIGHT + lerped);
+                    break;
+                case SOUTHEAST:
+                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT + lerped, lastSeenY * PIXEL_HEIGHT - lerped);
+                    break;
+                case SOUTHWEST:
+                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT - lerped, lastSeenY * PIXEL_HEIGHT - lerped);
                     break;
             }
             sprite.draw(batch);
