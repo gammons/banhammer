@@ -38,7 +38,7 @@ public class Game {
     private void processPlayerTurn() {
         Entity e = scheduler.currentEntity();
         if (e == null) e = scheduler.nextEntity(); // special case for first turn
-        e.takeTurn();
+        e.takeTurn(map, entities);
     }
 
     private void processEntityTurns() {
@@ -46,7 +46,7 @@ public class Game {
         e = scheduler.nextEntity();
         while (!e.equals(player)) {
             e.calculateMove(map);
-            e.takeTurn();
+            e.takeTurn(map, entities);
             e = scheduler.nextEntity();
         }
     }

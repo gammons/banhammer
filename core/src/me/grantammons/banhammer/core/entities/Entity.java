@@ -3,6 +3,8 @@ package me.grantammons.banhammer.core.entities;
 import me.grantammons.banhammer.core.Constants;
 import me.grantammons.banhammer.core.Map;
 
+import java.util.List;
+
 /**
  * Created by grantammons on 5/31/15.
  */
@@ -15,9 +17,13 @@ public class Entity {
     public int speed;
     public int intendedDirection = Constants.NO_DIRECTION;
 
-    public void takeTurn() {
+    public void takeTurn(Map map, List<Entity> entities) {
         if (intendedDirection >= 0) {
-            move(intendedDirection);
+            if (map.canDig(this, intendedDirection)) {
+                map.dig(this, intendedDirection);
+            } else if (map.canMove(this, intendedDirection)) {
+                move(intendedDirection);
+            }
         } else {
             // do some other shit
         }
