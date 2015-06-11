@@ -33,7 +33,7 @@ public class EntityView {
         this.entity = entity;
         sprite = new Sprite(new Texture(asset));
         sprite.setSize(PIXEL_WIDTH, PIXEL_HEIGHT);
-        sprite.setPosition(entity.x * PIXEL_HEIGHT, entity.y * PIXEL_HEIGHT);
+        sprite.setPosition(entity.getX() * PIXEL_HEIGHT, entity.getY() * PIXEL_HEIGHT);
         isWalking = false;
     }
 
@@ -47,7 +47,7 @@ public class EntityView {
             float t = TimeUtils.timeSinceMillis(timestamp) / WALK_SPEED;
             float lerped = Interpolation.fade.apply(0f, 15f, t);
 
-            switch (entity.intendedDirection) {
+            switch (entity.getIntendedDirection()) {
                 case NORTH:
                     sprite.setPosition(lastSeenX * PIXEL_HEIGHT, lastSeenY * PIXEL_HEIGHT + lerped);
                     break;
@@ -81,16 +81,16 @@ public class EntityView {
                 isWalking = false;
             }
         } else {
-            batch.draw(sprite, entity.x * PIXEL_WIDTH, entity.y * PIXEL_HEIGHT);
+            batch.draw(sprite, entity.getX() * PIXEL_WIDTH, entity.getY() * PIXEL_HEIGHT);
         }
     }
 
     private void setLastSeen() {
-        lastSeenX = entity.x;
-        lastSeenY = entity.y;
+        lastSeenX = entity.getX();
+        lastSeenY = entity.getY();
     }
 
     private boolean didLocationChange() {
-        return lastSeenX != entity.x || lastSeenY != entity.y;
+        return lastSeenX != entity.getX() || lastSeenY != entity.getY();
     }
 }

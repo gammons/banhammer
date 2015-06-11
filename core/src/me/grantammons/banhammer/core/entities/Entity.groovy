@@ -1,42 +1,34 @@
-package me.grantammons.banhammer.core.entities;
-
-import me.grantammons.banhammer.core.Constants;
-import me.grantammons.banhammer.core.Map;
-
-import java.util.List;
-
+package me.grantammons.banhammer.core.entities
+import me.grantammons.banhammer.core.Constants
+import me.grantammons.banhammer.core.Map
 /**
  * Created by grantammons on 5/31/15.
  */
 
 public class Entity {
-    public int x;
-    public int y;
+    int x
+    int y
+    String name
+    int speed
+    int intendedDirection = Constants.NO_DIRECTION;
 
-    public String name;
-    public int speed;
-    public int intendedDirection = Constants.NO_DIRECTION;
-
-    public void takeTurn(Map map, List<Entity> entities) {
+    def takeTurn(map, List<Entity> entities) {
         if (intendedDirection >= 0) {
-            if (map.canDig(this, intendedDirection)) {
-                map.dig(this, intendedDirection);
-            } else if (canHitEntity(entities)) {
-
-            } else if (map.canMove(this, intendedDirection)) {
-                move(intendedDirection);
+            switch(true)
+            {
+                case { map.canDig(this, intendedDirection) }:
+                    map.dig(this, intendedDirection)
+                    break;
+//                case { canHitEntity(entities) }:
+//                    println "can hit enemy"
+                case { map.canMove(this, intendedDirection)}:
+                    move(intendedDirection)
             }
-        } else {
-            // do some other shit
         }
     }
 
     private boolean canHitEntity(List<Entity> entities) {
         return false;
-    }
-
-    public int getSpeed() {
-        return speed;
     }
 
     public void move(int direction) {

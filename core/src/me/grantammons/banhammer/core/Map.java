@@ -55,14 +55,14 @@ public class Map {
         if (!canDig(e, direction)) return;
 
         switch (direction) {
-            case Constants.WEST: digTile(e.x - 1, e.y); break;
-            case Constants.EAST: digTile(e.x + 1, e.y); break;
-            case Constants.NORTH: digTile(e.x, e.y + 1); break;
-            case Constants.SOUTH: digTile(e.x, e.y - 1); break;
-            case Constants.NORTHEAST: digTile(e.x + 1, e.y + 1); break;
-            case Constants.NORTHWEST: digTile(e.x - 1, e.y + 1); break;
-            case Constants.SOUTHEAST: digTile(e.x + 1, e.y - 1); break;
-            case Constants.SOUTHWEST: digTile(e.x - 1, e.y - 1); break;
+            case Constants.WEST: digTile(e.getX() - 1, e.getY()); break;
+            case Constants.EAST: digTile(e.getX() + 1, e.getY()); break;
+            case Constants.NORTH: digTile(e.getX(), e.getY() + 1); break;
+            case Constants.SOUTH: digTile(e.getX(), e.getY() - 1); break;
+            case Constants.NORTHEAST: digTile(e.getX() + 1, e.getY() + 1); break;
+            case Constants.NORTHWEST: digTile(e.getX() - 1, e.getY() + 1); break;
+            case Constants.SOUTHEAST: digTile(e.getX() + 1, e.getY() - 1); break;
+            case Constants.SOUTHWEST: digTile(e.getX() - 1, e.getY() - 1); break;
         }
     }
 
@@ -98,44 +98,44 @@ public class Map {
     }
 
     private int tileEast(Entity e) {
-        if (e.x == map[e.y].length - 1) return BEDROCK;
-        return map[e.y][e.x + 1];
+        if (e.getX() == map[e.getY()].length - 1) return BEDROCK;
+        return map[e.getY()][e.getX() + 1];
     }
 
     private int tileWest(Entity e) {
-        if (e.x == 0) return BEDROCK;
-        return map[e.y][e.x - 1];
+        if (e.getX() == 0) return BEDROCK;
+        return map[e.getY()][e.getX() - 1];
     }
 
     private int tileSouth(Entity e) {
-        if (e.y == 0) return BEDROCK;
-        return map[e.y - 1][e.x];
+        if (e.getY() == 0) return BEDROCK;
+        return map[e.getY() - 1][e.getX()];
     }
 
     private int tileNorth(Entity e) {
-        if (e.y == map.length - 1) return BEDROCK;
-        return map[e.y + 1][e.x];
+        if (e.getY() == map.length - 1) return BEDROCK;
+        return map[e.getY() + 1][e.getX()];
     }
 
     private int tileNorthWest(Entity e) {
-        if ((e.y == map.length - 1) || (e.x - 1) < 0)
+        if ((e.getY() == map.length - 1) || (e.getX() - 1) < 0)
             return BEDROCK;
-        return map[e.y + 1][e.x - 1];
+        return map[e.getY() + 1][e.getX() - 1];
     }
     private int tileNorthEast(Entity e) {
-        if ((e.y == map.length - 1) || (e.x == map[e.y].length - 1))
+        if ((e.getY() == map.length - 1) || (e.getX() == map[e.getY()].length - 1))
             return BEDROCK;
-        return map[e.y + 1][e.x + 1];
+        return map[e.getY() + 1][e.getX() + 1];
     }
 
     private int tileSouthWest(Entity e) {
-        if ((e.y - 1 < 0) || (e.x - 1 < 0))
+        if ((e.getY() - 1 < 0) || (e.getX() - 1 < 0))
             return BEDROCK;
-        return map[e.y - 1][e.x - 1];
+        return map[e.getY() - 1][e.getX() - 1];
     }
     private int tileSouthEast(Entity e) {
-        if ((e.y - 1 < 0) || (e.x == map[e.y].length - 1))
+        if ((e.getY() - 1 < 0) || (e.getX() == map[e.getY()].length - 1))
             return BEDROCK;
-        return map[e.y - 1][e.x + 1];
+        return map[e.getY() - 1][e.getX() + 1];
     }
 }

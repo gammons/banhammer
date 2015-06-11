@@ -12,14 +12,14 @@ public abstract class Monster extends Entity {
 
         boolean moveFound = false;
         for(int x = 0; x < 10; x++) {
-            intendedDirection = MathUtils.random(3);
-            if (map.canMove(this, intendedDirection)) {
+            setIntendedDirection(MathUtils.random(3));
+            if (map.canMove(this, getIntendedDirection())) {
                 moveFound = true;
                 break;
             }
         }
         if (!moveFound) {
-            intendedDirection = Constants.NO_DIRECTION;
+            setIntendedDirection(Constants.NO_DIRECTION);
         }
     }
 }

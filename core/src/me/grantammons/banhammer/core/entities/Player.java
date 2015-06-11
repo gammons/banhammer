@@ -5,7 +5,7 @@ package me.grantammons.banhammer.core.entities;
  */
 public class Player extends Entity {
     public Player() {
-        name = "Playeh";
-        speed = 10;
+        setName("Playeh");
+        setSpeed(10);
     }
 }

@@ -20,8 +20,8 @@ public class Game {
 
     public Game() {
         player = new Player();
-        player.x = 1;
-        player.y = 1;
+        player.setX(1);
+        player.setY(1);
 
         map = new Map();
         entities = new ArrayList<Entity>();
@@ -53,8 +53,8 @@ public class Game {
 
     private void generateMonsters() {
         Monster monster = new Imp();
-        monster.x = 3;
-        monster.y = 3;
+        monster.setX(3);
+        monster.setY(3);
         entities.add(monster);
 
         for(Entity e : entities) {

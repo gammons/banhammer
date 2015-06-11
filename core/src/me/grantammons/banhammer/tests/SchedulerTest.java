@@ -14,23 +14,23 @@ public class SchedulerTest {
     public void testAddingItemToScheduler() {
         Scheduler as = new Scheduler();
         Player p = new Player();
-        p.speed = 10;
-        p.name = "player";
+        p.setSpeed(10);
+        p.setName("player");
 
         Entity e = new Entity();
-        e.speed = 20;
-        e.name = "enemy";
+        e.setSpeed(20);
+        e.setName("enemy");
 
         as.addEntity(p);
         as.addEntity(e);
 
-        Assert.assertEquals(as.nextEntity().name, p.name);
-        Assert.assertEquals(as.nextEntity().name, e.name);
-        Assert.assertEquals(as.nextEntity().name, p.name);
-        Assert.assertEquals(as.nextEntity().name, p.name);
-        Assert.assertEquals(as.nextEntity().name, e.name);
-        Assert.assertEquals(as.nextEntity().name, p.name);
-        Assert.assertEquals(as.nextEntity().name, p.name);
-        Assert.assertEquals(as.nextEntity().name, e.name);
+        Assert.assertEquals(as.nextEntity().getName(), p.getName());
+        Assert.assertEquals(as.nextEntity().getName(), e.getName());
+        Assert.assertEquals(as.nextEntity().getName(), p.getName());
+        Assert.assertEquals(as.nextEntity().getName(), p.getName());
+        Assert.assertEquals(as.nextEntity().getName(), e.getName());
+        Assert.assertEquals(as.nextEntity().getName(), p.getName());
+        Assert.assertEquals(as.nextEntity().getName(), p.getName());
+        Assert.assertEquals(as.nextEntity().getName(), e.getName());
     }
 }

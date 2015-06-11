@@ -75,7 +75,7 @@ public class EventQueue {
     private void debugEvents(String s) {
         System.out.print(s + " [");
         for(Entity e : entityEvents) {
-            System.out.print(e.name + ", ");
+            System.out.print(e.getName() + ", ");
         }
         System.out.print("]\n");
     }
