@@ -27,7 +27,7 @@ public class Scheduler {
 
     public void addEntity(Entity e) {
         repeat.add(e);
-        queue.add(e, e.speed);
+        queue.add(e, e.getSpeed());
     }
 
     public void clear() {
@@ -52,10 +52,10 @@ public class Scheduler {
 
     public Entity nextEntity() {
         if (current != null && repeat.indexOf(current) != -1) {
-            queue.add(current, current.speed);
+            queue.add(current, current.getSpeed());
         }
         current = queue.get();
-        duration = current.speed;
+        duration = current.getSpeed();
 
         return current;
     }

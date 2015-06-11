@@ -21,6 +21,8 @@ public class Entity {
         if (intendedDirection >= 0) {
             if (map.canDig(this, intendedDirection)) {
                 map.dig(this, intendedDirection);
+            } else if (canHitEntity(entities)) {
+
             } else if (map.canMove(this, intendedDirection)) {
                 move(intendedDirection);
             }
@@ -29,20 +31,20 @@ public class Entity {
         }
     }
 
+    private boolean canHitEntity(List<Entity> entities) {
+        return false;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
     public void move(int direction) {
         switch (direction) {
-            case Constants.WEST:
-                x--;
-                break;
-            case Constants.EAST:
-                x++;
-                break;
-            case Constants.NORTH:
-                y++;
-                break;
-            case Constants.SOUTH:
-                y--;
-                break;
+            case Constants.WEST: x--; break;
+            case Constants.EAST: x++; break;
+            case Constants.NORTH: y++; break;
+            case Constants.SOUTH: y--; break;
             case Constants.NORTHEAST:
                 y++;
                 x++;
