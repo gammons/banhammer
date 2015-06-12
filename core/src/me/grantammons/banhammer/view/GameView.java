@@ -36,9 +36,9 @@ public class GameView implements Screen {
     @Override
     public void show() {
         batch = new SpriteBatch();
-        mapView = new MapView(game.map);
+        mapView = new MapView(game.getMap());
         playerView = new PlayerView(game);
-        monsterView = new EntityView(game, game.entities.get(1), "monster.png");
+        monsterView = new EntityView(game, game.getEntities().get(1), "monster.png");
         inputProcessor.addListener(playerView);
 
         setupCamera();
