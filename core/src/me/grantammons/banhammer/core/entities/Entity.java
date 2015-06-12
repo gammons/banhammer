@@ -1,6 +1,7 @@
 package me.grantammons.banhammer.core.entities;
 
 import me.grantammons.banhammer.core.Constants;
+import me.grantammons.banhammer.core.Location;
 import me.grantammons.banhammer.core.Map;
 
 import java.util.List;
@@ -10,8 +11,8 @@ import java.util.List;
  */
 
 public class Entity {
-    public int x;
-    public int y;
+    public Location location;
+    public Location intendedLocation;
 
     public String name;
     public int speed;
@@ -19,12 +20,13 @@ public class Entity {
 
     public void takeTurn(Map map, List<Entity> entities) {
         if (intendedDirection >= 0) {
-            if (map.canDig(this, intendedDirection)) {
-                map.dig(this, intendedDirection);
+            intendedLocation = Location.setLocationFromDirection(location, intendedDirection);
+            if (map.canDig(intendedLocation)) {
+                map.dig(intendedLocation);
             } else if (canHitEntity(entities)) {
 
-            } else if (map.canMove(this, intendedDirection)) {
-                move(intendedDirection);
+            } else if (map.canMove(intendedLocation)) {
+                move();
             }
         } else {
             // do some other shit
@@ -32,6 +34,11 @@ public class Entity {
     }
 
     private boolean canHitEntity(List<Entity> entities) {
+        for (Entity e : entities) {
+            if ((Math.abs(e.location.x - location.x) == 1) || (Math.abs(e.location.y - location.y) == 1)) {
+
+            }
+        }
         return false;
     }
 
@@ -39,29 +46,8 @@ public class Entity {
         return speed;
     }
 
-    public void move(int direction) {
-        switch (direction) {
-            case Constants.WEST: x--; break;
-            case Constants.EAST: x++; break;
-            case Constants.NORTH: y++; break;
-            case Constants.SOUTH: y--; break;
-            case Constants.NORTHEAST:
-                y++;
-                x++;
-                break;
-            case Constants.NORTHWEST:
-                y++;
-                x--;
-                break;
-            case Constants.SOUTHEAST:
-                y--;
-                x++;
-                break;
-            case Constants.SOUTHWEST:
-                y--;
-                x--;
-                break;
-        }
+    public void move() {
+        location = intendedLocation;
     }
 
     public void calculateMove(Map map) {

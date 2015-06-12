@@ -1,7 +1,5 @@
 package me.grantammons.banhammer.core;
 
-import me.grantammons.banhammer.core.entities.Entity;
-
 /**
  * Created by grantammons on 5/31/15.
  */
@@ -42,100 +40,36 @@ public class Map {
         return map;
     }
 
-    public boolean canMove(Entity e, int direction) {
-        return intendedTileType(e, direction) != BEDROCK;
+    public boolean canMove(Location location) {
+        return tileAt(location) != BEDROCK;
     }
 
-    public boolean canDig(Entity e, int direction) {
-        int t = intendedTileType(e, direction);
+    public boolean canDig(Location location) {
+        int t = tileAt(location);
         return (t == DIRT || t == DIRTDUG1 || t == DIRTDUG2 || t == DIRTDUG3);
     }
 
-    public void dig(Entity e, int direction) {
-        if (!canDig(e, direction)) return;
-
-        switch (direction) {
-            case Constants.WEST: digTile(e.x - 1, e.y); break;
-            case Constants.EAST: digTile(e.x + 1, e.y); break;
-            case Constants.NORTH: digTile(e.x, e.y + 1); break;
-            case Constants.SOUTH: digTile(e.x, e.y - 1); break;
-            case Constants.NORTHEAST: digTile(e.x + 1, e.y + 1); break;
-            case Constants.NORTHWEST: digTile(e.x - 1, e.y + 1); break;
-            case Constants.SOUTHEAST: digTile(e.x + 1, e.y - 1); break;
-            case Constants.SOUTHWEST: digTile(e.x - 1, e.y - 1); break;
-        }
-    }
-
-    private void digTile(int x, int y) {
-        switch(map[y][x]) {
+    public void dig(Location location) {
+        switch(map[location.y][location.x]) {
             case DIRT:
-                map[y][x] = DIRTDUG1;
+                map[location.y][location.x] = DIRTDUG1;
                 break;
             case DIRTDUG1:
-                map[y][x] = DIRTDUG2;
+                map[location.y][location.x] = DIRTDUG2;
                 break;
             case DIRTDUG2:
-                map[y][x] = DIRTDUG3;
+                map[location.y][location.x] = DIRTDUG3;
                 break;
             case DIRTDUG3:
-                map[y][x] = GROUND;
+                map[location.y][location.x] = GROUND;
                 break;
         }
     }
 
-    private int intendedTileType(Entity e, int direction) {
-        switch (direction) {
-            case Constants.WEST: return tileWest(e);
-            case Constants.EAST: return tileEast(e);
-            case Constants.NORTH: return tileNorth(e);
-            case Constants.SOUTH: return tileSouth(e);
-            case Constants.NORTHEAST:  return tileNorthEast(e);
-            case Constants.NORTHWEST: return tileNorthWest(e);
-            case Constants.SOUTHEAST: return tileSouthEast(e);
-            case Constants.SOUTHWEST: return tileSouthWest(e);
-        }
-        return BEDROCK;
-    }
-
-    private int tileEast(Entity e) {
-        if (e.x == map[e.y].length - 1) return BEDROCK;
-        return map[e.y][e.x + 1];
-    }
-
-    private int tileWest(Entity e) {
-        if (e.x == 0) return BEDROCK;
-        return map[e.y][e.x - 1];
-    }
-
-    private int tileSouth(Entity e) {
-        if (e.y == 0) return BEDROCK;
-        return map[e.y - 1][e.x];
-    }
-
-    private int tileNorth(Entity e) {
-        if (e.y == map.length - 1) return BEDROCK;
-        return map[e.y + 1][e.x];
-    }
-
-    private int tileNorthWest(Entity e) {
-        if ((e.y == map.length - 1) || (e.x - 1) < 0)
+    private int tileAt(Location location) {
+        if ((location.x <= 0 || location.x >= map[location.y].length) ||
+                (location.y <= 0 || location.y >= map.length))
             return BEDROCK;
-        return map[e.y + 1][e.x - 1];
-    }
-    private int tileNorthEast(Entity e) {
-        if ((e.y == map.length - 1) || (e.x == map[e.y].length - 1))
-            return BEDROCK;
-        return map[e.y + 1][e.x + 1];
-    }
-
-    private int tileSouthWest(Entity e) {
-        if ((e.y - 1 < 0) || (e.x - 1 < 0))
-            return BEDROCK;
-        return map[e.y - 1][e.x - 1];
-    }
-    private int tileSouthEast(Entity e) {
-        if ((e.y - 1 < 0) || (e.x == map[e.y].length - 1))
-            return BEDROCK;
-        return map[e.y - 1][e.x + 1];
+        return map[location.y][location.x];
     }
 }

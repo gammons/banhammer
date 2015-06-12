@@ -33,7 +33,7 @@ public class EntityView {
         this.entity = entity;
         sprite = new Sprite(new Texture(asset));
         sprite.setSize(PIXEL_WIDTH, PIXEL_HEIGHT);
-        sprite.setPosition(entity.x * PIXEL_HEIGHT, entity.y * PIXEL_HEIGHT);
+        sprite.setPosition(entity.location.x * PIXEL_HEIGHT, entity.location.y * PIXEL_HEIGHT);
         isWalking = false;
     }
 
@@ -81,16 +81,16 @@ public class EntityView {
                 isWalking = false;
             }
         } else {
-            batch.draw(sprite, entity.x * PIXEL_WIDTH, entity.y * PIXEL_HEIGHT);
+            batch.draw(sprite, entity.location.x * PIXEL_WIDTH, entity.location.y * PIXEL_HEIGHT);
         }
     }
 
     private void setLastSeen() {
-        lastSeenX = entity.x;
-        lastSeenY = entity.y;
+        lastSeenX = entity.location.x;
+        lastSeenY = entity.location.y;
     }
 
     private boolean didLocationChange() {
-        return lastSeenX != entity.x || lastSeenY != entity.y;
+        return lastSeenX != entity.location.x || lastSeenY != entity.location.y;
     }
 }

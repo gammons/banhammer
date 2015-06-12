@@ -16,7 +16,7 @@ public class PlayerView extends EntityView implements InputListener {
     public void notify(int direction) {
         if (isWalking) return;
 
-        if (game.canMoveTo(entity, direction)) {
+        if (game.playerCanMoveTo(direction)) {
             entity.intendedDirection = direction;
             game.tick();
         }
