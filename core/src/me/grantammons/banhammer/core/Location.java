@@ -38,4 +38,8 @@ public class Location {
         }
         return loc;
     }
+
+    public boolean equals(Location other) {
+        return (other.x == x && other.y == y);
+    }
 }

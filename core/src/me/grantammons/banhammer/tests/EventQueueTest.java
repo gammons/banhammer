@@ -1,7 +1,7 @@
 package me.grantammons.banhammer.tests;
 
 import me.grantammons.banhammer.core.entities.Entity;
-import me.grantammons.banhammer.core.entities.Player;
+import me.grantammons.banhammer.core.entities.playerClasses.Brute;
 import me.grantammons.banhammer.core.utils.EventQueue;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -20,14 +20,14 @@ public class EventQueueTest {
     @Test(description="adding an event to the queue does not change getTime")
     public void testAddItemChangesTime() {
         EventQueue eq = new EventQueue();
-        eq.add(new Player(), 10);
+        eq.add(new Brute(), 10);
         Assert.assertEquals(eq.getTime(), 0);
     }
 
     @Test(description="adding an event adds to entityEvents and eventTimes")
     public void testAddItemAddsToEntityEvents() {
         EventQueue eq = new EventQueue();
-        Player p = new Player();
+        Brute p = new Brute();
         eq.add(p, 10);
         Assert.assertEquals(eq.getEntityEvents().size(), 1);
         Assert.assertEquals(eq.getEntityEvents().get(0), p);
@@ -36,7 +36,7 @@ public class EventQueueTest {
     @Test(description="getting an event changes getTime")
     public void testGetItem() {
         EventQueue eq = new EventQueue();
-        Player p = new Player();
+        Brute p = new Brute();
         eq.add(p, 10);
         Entity e = eq.get();
         Assert.assertEquals(e, p);
@@ -47,9 +47,9 @@ public class EventQueueTest {
     public void testAddEvents() {
         System.out.println("My test");
         EventQueue eq = new EventQueue();
-        Player p1 = new Player();
-        Player p2 = new Player();
-        Player p3 = new Player();
+        Brute p1 = new Brute();
+        Brute p2 = new Brute();
+        Brute p3 = new Brute();
 
         eq.add(p1, 5);
         eq.add(p2, 10);
@@ -71,9 +71,9 @@ public class EventQueueTest {
     @Test(description="Remove an event")
     public void testRemoveEvent() {
         EventQueue eq = new EventQueue();
-        Player p1 = new Player();
-        Player p2 = new Player();
-        Player p3 = new Player();
+        Brute p1 = new Brute();
+        Brute p2 = new Brute();
+        Brute p3 = new Brute();
 
         eq.add(p1, 1);
         eq.add(p2, 2);

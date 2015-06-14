@@ -1,5 +1,9 @@
 package me.grantammons.banhammer.core;
 
+import me.grantammons.banhammer.core.entities.Entity;
+
+import java.util.ArrayList;
+
 /**
  * Created by grantammons on 5/31/15.
  */
@@ -24,7 +28,7 @@ public class Map {
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1},
+        {1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 2, 1, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -35,6 +39,12 @@ public class Map {
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
+
+    public ArrayList<Entity> entities;
+
+    public Map() {
+        entities = new ArrayList<Entity>();
+    }
 
     public int[][] getMap() {
         return map;
@@ -71,5 +81,13 @@ public class Map {
                 (location.y <= 0 || location.y >= map.length))
             return BEDROCK;
         return map[location.y][location.x];
+    }
+
+    public Entity entityAt (Location location) {
+        for(Entity e : entities) {
+            if (e.location.equals(location))
+                return e;
+        }
+        return null;
     }
 }

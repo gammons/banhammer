@@ -1,7 +1,7 @@
 package me.grantammons.banhammer.tests;
 
 import me.grantammons.banhammer.core.entities.Entity;
-import me.grantammons.banhammer.core.entities.Player;
+import me.grantammons.banhammer.core.entities.playerClasses.Brute;
 import me.grantammons.banhammer.core.utils.Scheduler;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -13,12 +13,10 @@ public class SchedulerTest {
     @Test(description = "adding an item")
     public void testAddingItemToScheduler() {
         Scheduler as = new Scheduler();
-        Player p = new Player();
-        p.speed = 10;
+        Brute p = new Brute();
         p.name = "player";
 
         Entity e = new Entity();
-        e.speed = 20;
         e.name = "enemy";
 
         as.addEntity(p);

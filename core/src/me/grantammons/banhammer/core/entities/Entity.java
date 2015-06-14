@@ -1,10 +1,7 @@
 package me.grantammons.banhammer.core.entities;
 
-import me.grantammons.banhammer.core.Constants;
-import me.grantammons.banhammer.core.Location;
-import me.grantammons.banhammer.core.Map;
-
-import java.util.List;
+import me.grantammons.banhammer.core.*;
+import me.grantammons.banhammer.core.items.Item;
 
 /**
  * Created by grantammons on 5/31/15.
@@ -15,16 +12,42 @@ public class Entity {
     public Location intendedLocation;
 
     public String name;
-    public int speed;
+
+    protected int speed;
+
+    protected int strength;
+    protected int magic;
+    protected int fortitude; //dexterity
+    protected int charm;
+    protected int brainpower;
+
+    protected int hp;
+    protected int maxHp;
+
+    protected Item weapon;
+    protected Item secondWeapon;
+
+    protected Item hat;
+    protected Item shirt;
+    protected Item pants;
+    protected Item shoes;
+    protected Item gloves;
+    protected Sack sack;
+
     public int intendedDirection = Constants.NO_DIRECTION;
 
-    public void takeTurn(Map map, List<Entity> entities) {
+    public Entity() {
+
+    }
+
+    public void takeTurn(Map map) {
         if (intendedDirection >= 0) {
             intendedLocation = Location.setLocationFromDirection(location, intendedDirection);
-            if (map.canDig(intendedLocation)) {
+            Entity attackable = map.entityAt(intendedLocation);
+            if (attackable != null) {
+                attack(attackable);
+            } else if (map.canDig(intendedLocation)) {
                 map.dig(intendedLocation);
-            } else if (canHitEntity(entities)) {
-
             } else if (map.canMove(intendedLocation)) {
                 move();
             }
@@ -33,18 +56,13 @@ public class Entity {
         }
     }
 
-    private boolean canHitEntity(List<Entity> entities) {
-        for (Entity e : entities) {
-            if ((Math.abs(e.location.x - location.x) == 1) || (Math.abs(e.location.y - location.y) == 1)) {
-
-            }
-        }
-        return false;
+    private void attack(Entity attackable) {
+        System.out.println("attacking "+attackable.name);
+        Combat.attack(this, attackable);
     }
 
-    public int getSpeed() {
-        return speed;
-    }
+    public int getSpeed() { return speed; }
+    public void setSpeed(int speed) { this.speed = speed; }
 
     public void move() {
         location = intendedLocation;
@@ -53,5 +71,6 @@ public class Entity {
     public void calculateMove(Map map) {
 
     }
+
 }
 
