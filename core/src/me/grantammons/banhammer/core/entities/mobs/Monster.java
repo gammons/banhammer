@@ -1,13 +1,16 @@
-package me.grantammons.banhammer.core.entities;
+package me.grantammons.banhammer.core.entities.mobs;
 
 import com.badlogic.gdx.math.MathUtils;
 import me.grantammons.banhammer.core.Location;
 import me.grantammons.banhammer.core.Map;
+import me.grantammons.banhammer.core.Notifier;
+import me.grantammons.banhammer.core.entities.Entity;
 
-/**
- * Created by grantammons on 6/5/15.
- */
 public abstract class Monster extends Entity {
+    public Monster(Notifier notifier) {
+        super(notifier);
+    }
+
     public void calculateMove(Map map) {
         boolean moveFound = false;
         for(int x = 0; x < 10; x++) {

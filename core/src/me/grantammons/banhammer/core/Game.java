@@ -1,8 +1,8 @@
 package me.grantammons.banhammer.core;
 
 import me.grantammons.banhammer.core.entities.Entity;
-import me.grantammons.banhammer.core.entities.Imp;
-import me.grantammons.banhammer.core.entities.Monster;
+import me.grantammons.banhammer.core.entities.mobs.Imp;
+import me.grantammons.banhammer.core.entities.mobs.Monster;
 import me.grantammons.banhammer.core.entities.playerClasses.Brute;
 import me.grantammons.banhammer.core.utils.Scheduler;
 
@@ -15,9 +15,11 @@ public class Game {
     public Entity player;
     public Map map;
     private Scheduler scheduler;
+    private Notifier notifier;
 
     public Game() {
-        player = new Brute();
+        notifier = new Notifier();
+        player = new Brute(notifier);
         player.location = new Location(1,1);
 
         map = new Map();
@@ -60,7 +62,7 @@ public class Game {
     }
 
     private void generateMonsters() {
-        Monster monster = new Imp();
+        Monster monster = new Imp(notifier);
         monster.location = new Location(3,3);
         map.entities.add(monster);
 

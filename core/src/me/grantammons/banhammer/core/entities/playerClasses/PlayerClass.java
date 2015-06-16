@@ -1,12 +1,14 @@
 package me.grantammons.banhammer.core.entities.playerClasses;
 
 import com.badlogic.gdx.math.MathUtils;
+import me.grantammons.banhammer.core.Notifier;
 import me.grantammons.banhammer.core.entities.Entity;
 
-public abstract class PlayerClass extends Entity implements PlayerInterface {
+public abstract class PlayerClass extends Entity {
     public static final int MAX_STAT = 18;
 
-    public PlayerClass() {
+    public PlayerClass(Notifier notifier) {
+        super(notifier);
         genStats();
     }
 

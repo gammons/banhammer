@@ -7,7 +7,7 @@ import me.grantammons.banhammer.core.items.Item;
  * Created by grantammons on 5/31/15.
  */
 
-public class Entity {
+public abstract class Entity implements StatsInterface {
     public Location location;
     public Location intendedLocation;
 
@@ -36,8 +36,11 @@ public class Entity {
 
     public int intendedDirection = Constants.NO_DIRECTION;
 
-    public Entity() {
+    protected Notifier notifier;
 
+    public Entity(Notifier notifier) {
+        sack = new Sack();
+        this.notifier = notifier;
     }
 
     public void takeTurn(Map map) {
@@ -56,11 +59,6 @@ public class Entity {
         }
     }
 
-    private void attack(Entity attackable) {
-        System.out.println("attacking "+attackable.name);
-        Combat.attack(this, attackable);
-    }
-
     public int getSpeed() { return speed; }
     public void setSpeed(int speed) { this.speed = speed; }
 
@@ -71,6 +69,40 @@ public class Entity {
     public void calculateMove(Map map) {
 
     }
+
+    public int getStrength() {
+        int str = strength;
+        for(Item i : sack.getItems()) {
+            str += str * i.getUnequippedStrengthModifier();
+        }
+        return strength;
+    }
+
+    public int getMagic() {
+        return magic;
+    }
+
+    public int getFortitude() {
+        return fortitude;
+    }
+
+    public int getCharm() {
+        return charm;
+    }
+
+    public int getBrainpower() {
+        return brainpower;
+    }
+
+    private void attack(Entity attackable) {
+    }
+
+//    public void getAttack() {
+//        (getStrength() * weapon.getStrengthModifier())  * weapon.getStrengthModifier()
+//    }
+
+
+
 
 }
 

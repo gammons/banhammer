@@ -1,9 +1,6 @@
-package me.grantammons.banhammer.core.entities.playerClasses;
+package me.grantammons.banhammer.core.entities;
 
-/**
- * Created by grantammons on 6/14/15.
- */
-public interface PlayerInterface {
+public interface StatsInterface {
     float getStrengthModifier();
     float getMagicModifier();
     float getFortitudeModifier();

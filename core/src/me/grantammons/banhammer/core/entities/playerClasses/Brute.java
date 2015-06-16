@@ -1,11 +1,18 @@
 package me.grantammons.banhammer.core.entities.playerClasses;
 
+import me.grantammons.banhammer.core.Notifier;
+
 public class Brute extends PlayerClass {
     public static float STRENGTH_MODIFIER = 0.85f;
     public static float MAGIC_MODIFIER = 0.15f;
     public static float FORTITUDE_MODIFIER = 0.85f;
     public static float CHARM_MODIFIER = 0.15f;
     public static float BRAINPOWER_MODIFIER = 0.15f;
+
+    public Brute(Notifier notifier) {
+        super(notifier);
+        speed = 10;
+    }
 
     @Override
     public float getStrengthModifier() {

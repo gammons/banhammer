@@ -1,5 +1,6 @@
 package me.grantammons.banhammer.tests;
 
+import me.grantammons.banhammer.core.Notifier;
 import me.grantammons.banhammer.core.entities.playerClasses.Brute;
 import org.testng.annotations.Test;
 
@@ -9,7 +10,7 @@ import org.testng.annotations.Test;
 public class PlayerClassTest {
     @Test(description="generating stats")
     public void testGenerateStats() {
-        Brute b = new Brute();
+        Brute b = new Brute(new Notifier());
         System.out.println(b.toString());
     }
 }

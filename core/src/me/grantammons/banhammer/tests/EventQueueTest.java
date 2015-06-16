@@ -1,5 +1,6 @@
 package me.grantammons.banhammer.tests;
 
+import me.grantammons.banhammer.core.Notifier;
 import me.grantammons.banhammer.core.entities.Entity;
 import me.grantammons.banhammer.core.entities.playerClasses.Brute;
 import me.grantammons.banhammer.core.utils.EventQueue;
@@ -20,14 +21,14 @@ public class EventQueueTest {
     @Test(description="adding an event to the queue does not change getTime")
     public void testAddItemChangesTime() {
         EventQueue eq = new EventQueue();
-        eq.add(new Brute(), 10);
+        eq.add(new Brute(new Notifier()), 10);
         Assert.assertEquals(eq.getTime(), 0);
     }
 
     @Test(description="adding an event adds to entityEvents and eventTimes")
     public void testAddItemAddsToEntityEvents() {
         EventQueue eq = new EventQueue();
-        Brute p = new Brute();
+        Brute p = new Brute(new Notifier());
         eq.add(p, 10);
         Assert.assertEquals(eq.getEntityEvents().size(), 1);
         Assert.assertEquals(eq.getEntityEvents().get(0), p);
@@ -36,7 +37,7 @@ public class EventQueueTest {
     @Test(description="getting an event changes getTime")
     public void testGetItem() {
         EventQueue eq = new EventQueue();
-        Brute p = new Brute();
+        Brute p = new Brute(new Notifier());
         eq.add(p, 10);
         Entity e = eq.get();
         Assert.assertEquals(e, p);
@@ -47,9 +48,9 @@ public class EventQueueTest {
     public void testAddEvents() {
         System.out.println("My test");
         EventQueue eq = new EventQueue();
-        Brute p1 = new Brute();
-        Brute p2 = new Brute();
-        Brute p3 = new Brute();
+        Brute p1 = new Brute(new Notifier());
+        Brute p2 = new Brute(new Notifier());
+        Brute p3 = new Brute(new Notifier());
 
         eq.add(p1, 5);
         eq.add(p2, 10);
@@ -71,9 +72,9 @@ public class EventQueueTest {
     @Test(description="Remove an event")
     public void testRemoveEvent() {
         EventQueue eq = new EventQueue();
-        Brute p1 = new Brute();
-        Brute p2 = new Brute();
-        Brute p3 = new Brute();
+        Brute p1 = new Brute(new Notifier());
+        Brute p2 = new Brute(new Notifier());
+        Brute p3 = new Brute(new Notifier());
 
         eq.add(p1, 1);
         eq.add(p2, 2);

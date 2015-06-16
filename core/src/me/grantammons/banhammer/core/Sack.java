@@ -1,7 +1,24 @@
 package me.grantammons.banhammer.core;
 
+import me.grantammons.banhammer.core.items.Item;
+
 import java.util.ArrayList;
 
-public class Sack extends ArrayList {
+public class Sack {
+    private ArrayList<Item> items;
+
+    public Sack() {
+        items = new ArrayList<Item>();
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public int weight() {
+        int total = 0;
+        for (Item i : items) { total += i.getWeight(); }
+        return total;
+    }
 
 }
