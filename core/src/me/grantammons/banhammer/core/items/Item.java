@@ -27,9 +27,13 @@ public abstract class Item implements ItemStatsInterface {
     }
 
     @Override
-    public float getEquippedMagicModifier() {
-        return 0;
-    }
+    public float getEquippedMagicModifier() { return 0; }
+
+    @Override
+    public float getUnequippedSquirrelModifier() { return 0; }
+
+    @Override
+    public float getEquippedSquirrelModifier() { return 0; }
 
     @Override
     public float getUnequippedFortitudeModifier() {

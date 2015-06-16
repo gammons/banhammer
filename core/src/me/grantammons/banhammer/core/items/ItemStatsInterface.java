@@ -13,6 +13,9 @@ public interface ItemStatsInterface {
     float getUnequippedFortitudeModifier();
     float getEquippedFortitudeModifier();
 
+    float getUnequippedSquirrelModifier();
+    float getEquippedSquirrelModifier();
+
     float getUnequippedCharmModifier();
     float getEquippedCharmModifier();
 

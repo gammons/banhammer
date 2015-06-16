@@ -17,7 +17,8 @@ public abstract class Entity implements StatsInterface {
 
     protected int strength;
     protected int magic;
-    protected int fortitude; //dexterity
+    protected int fortitude; //constitution
+    protected int squirrel; //dexterity
     protected int charm;
     protected int brainpower;
 
@@ -70,12 +71,30 @@ public abstract class Entity implements StatsInterface {
 
     }
 
-    public int getStrength() {
-        int str = strength;
+    public float attackNumber() {
+        float str = strength;
         for(Item i : sack.getItems()) {
-            str += str * i.getUnequippedStrengthModifier();
+            str += i.getUnequippedStrengthModifier();
         }
-        return strength;
+        str += weapon.getEquippedStrengthModifier();
+        return str;
+    }
+
+    public float defendNumber() {
+        float f = fortitude;
+        for(Item i : sack.getItems()) {
+            f += i.getUnequippedFortitudeModifier();
+        }
+        if (hat != null) f += hat.getEquippedFortitudeModifier();
+        if (shirt != null) f += shirt.getEquippedFortitudeModifier();
+        if (pants != null) f += pants.getEquippedFortitudeModifier();
+        if (shoes != null) f += shoes.getEquippedFortitudeModifier();
+        if (gloves != null) f += gloves.getEquippedFortitudeModifier();
+        return f;
+    }
+
+    public float dodgeNumber() {
+        return speed + squirrel;
     }
 
     public int getMagic() {
@@ -94,15 +113,7 @@ public abstract class Entity implements StatsInterface {
         return brainpower;
     }
 
-    private void attack(Entity attackable) {
+    private void attack(Entity victim) {
     }
-
-//    public void getAttack() {
-//        (getStrength() * weapon.getStrengthModifier())  * weapon.getStrengthModifier()
-//    }
-
-
-
-
 }
 

@@ -5,6 +5,6 @@ package me.grantammons.banhammer.core.items.weapons;
  */
 public class TwoHandedSword extends Weapon {
     public float getEquippedStrengthModifier() {
-        return 0.05f;
+        return 2;
     }
 }
