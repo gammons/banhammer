@@ -2,11 +2,13 @@ package me.grantammons.banhammer.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import me.grantammons.banhammer.Banhammer;
+import me.grantammons.rogueEngine.MainGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Banhammer(), config);
+		config.height = 760;
+		config.width = 1280;
+		new LwjglApplication(new MainGame(), config);
 	}
 }

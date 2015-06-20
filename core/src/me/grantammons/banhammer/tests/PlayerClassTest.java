@@ -1,7 +1,7 @@
 package me.grantammons.banhammer.tests;
 
-import me.grantammons.banhammer.core.Notifier;
-import me.grantammons.banhammer.core.entities.playerClasses.Brute;
+import me.grantammons.rogueEngine.core.Notifier;
+import me.grantammons.banhammer.entities.playerClasses.Brute;
 import org.testng.annotations.Test;
 
 /**

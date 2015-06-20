@@ -1,10 +1,10 @@
 package me.grantammons.banhammer.tests;
 
-import me.grantammons.banhammer.core.Notifier;
-import me.grantammons.banhammer.core.entities.mobs.Imp;
-import me.grantammons.banhammer.core.entities.playerClasses.Brute;
-import me.grantammons.banhammer.core.items.Item;
-import me.grantammons.banhammer.core.items.weapons.TwoHandedSword;
+import me.grantammons.rogueEngine.core.Notifier;
+import me.grantammons.banhammer.entities.mobs.Imp;
+import me.grantammons.banhammer.entities.playerClasses.Brute;
+import me.grantammons.rogueEngine.core.items.Item;
+import me.grantammons.banhammer.items.weapons.TwoHandedSword;
 import org.testng.annotations.Test;
 
 public class AttackTest {
