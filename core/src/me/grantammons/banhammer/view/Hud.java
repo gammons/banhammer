@@ -1,10 +1,13 @@
 package me.grantammons.banhammer.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import me.grantammons.banhammer.core.Constants;
+import me.grantammons.banhammer.core.Game;
 
 /**
  * Created by grantammons on 6/6/15.
@@ -17,8 +20,9 @@ public class Hud {
 
     public Hud() {
         batch = new SpriteBatch();
-        font = new BitmapFont( Gdx.files.internal("arial-15.fnt"), true);
+        //font = new BitmapFont( Gdx.files.internal("arial-15.fnt"), true);
         //font.getRegion().getTexture().setFilter( Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        setupFont();
         setupCamera();
     }
 
@@ -30,10 +34,14 @@ public class Hud {
         hudCamera.update();
     }
 
-    public void render() {
+    public void render(Game game) {
         batch.setProjectionMatrix(hudCamera.combined);
         batch.begin();
-        font.draw(batch, "testing shit", 10,0);
+        int i = 0;
+        for(String s : game.recentNotifications()) {
+            font.draw(batch, s, 10,i);
+            i += 10;
+        }
         batch.end();
     }
 
@@ -42,6 +50,16 @@ public class Hud {
         hudCamera.position.set(0,0,0);
         hudCamera.setToOrtho(true);
         hudCamera.update();
+    }
+
+    private void setupFont() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Inconsolata-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 14;
+        parameter.flip = true;
+        parameter.borderColor = Color.BLACK;
+        font = generator.generateFont(parameter);
+        generator.dispose();
     }
 
 }

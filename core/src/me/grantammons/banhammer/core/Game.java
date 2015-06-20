@@ -30,7 +30,9 @@ public class Game {
 
     public void tick() {
         processPlayerTurn();
+        bringOutYourDead();
         processEntityTurns();
+        bringOutYourDead();
     }
 
     public boolean playerCanMoveTo(int direction) {
@@ -43,6 +45,10 @@ public class Game {
             if (e instanceof Monster) monsters.add(e);
         }
         return monsters;
+    }
+
+    public ArrayList<String> recentNotifications() {
+        return notifier.recent();
     }
 
     private void processPlayerTurn() {
@@ -69,5 +75,13 @@ public class Game {
         for(Entity e : map.entities) {
             scheduler.addEntity(e);
         }
+    }
+
+    private void bringOutYourDead() {
+        map.entities.forEach(e -> {
+            if (e.isDead()) scheduler.remove(e);
+        });
+        map.entities.removeIf(e -> e.isDead());
+
     }
 }

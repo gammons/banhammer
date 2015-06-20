@@ -38,6 +38,8 @@ public class EntityView {
     }
 
     public void draw(Batch batch) {
+        if (entity.isDead()) return;
+
         if (didLocationChange()) {
             isWalking = true;
             if (timestamp == 0) {

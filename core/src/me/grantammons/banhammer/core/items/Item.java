@@ -9,9 +9,32 @@ public abstract class Item implements ItemStatsInterface {
     Location location;
 
     int requiredStrength;
+    int attack;
+    int defense;
     int weight;
+    protected String name;
+
+    public float getUnequippedSpeedModifier() {
+        return 0;
+    }
 
     @Override
+    public float getEquippedSpeedModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getUnequippedAttackModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getEquippedAttackModifier() {
+        return 0;
+    }
+
+
+        @Override
     public float getUnequippedStrengthModifier() {
         return 0;
     }
@@ -62,6 +85,16 @@ public abstract class Item implements ItemStatsInterface {
 
     @Override
     public float getEquippedBrainpowerModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getUnequippedDefenseModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getEquippedDefenseModifier() {
         return 0;
     }
 

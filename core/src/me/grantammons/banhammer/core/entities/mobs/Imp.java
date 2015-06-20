@@ -8,7 +8,9 @@ import me.grantammons.banhammer.core.Notifier;
 public class Imp extends Monster {
     public Imp(Notifier notifier) {
         super(notifier);
-        speed = 15;
+        name = "Imp";
+        hp = 5;
+        speed = 5;
     }
 
     @Override

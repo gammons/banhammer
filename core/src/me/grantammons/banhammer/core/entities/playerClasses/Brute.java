@@ -11,7 +11,9 @@ public class Brute extends PlayerClass {
 
     public Brute(Notifier notifier) {
         super(notifier);
-        speed = 10;
+        name = "Brute";
+        hp = 10;
+        speed = 5;
     }
 
     @Override

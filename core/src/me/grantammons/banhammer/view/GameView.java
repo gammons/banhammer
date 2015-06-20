@@ -62,7 +62,7 @@ public class GameView implements Screen {
         cam.update();
         batch.end();
 
-        hud.render();;
+        hud.render(game);;
 
     }
 
