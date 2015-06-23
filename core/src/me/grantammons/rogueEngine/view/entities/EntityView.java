@@ -14,8 +14,6 @@ import static me.grantammons.rogueEngine.core.Constants.*;
  * Created by grantammons on 6/5/15.
  */
 public class EntityView {
-    int PIXEL_WIDTH = 16;
-    int PIXEL_HEIGHT = 16;
     float WALK_SPEED = 90f;
 
     private long timestamp;
@@ -33,7 +31,7 @@ public class EntityView {
         this.entity = entity;
         sprite = new Sprite(new Texture(asset));
         sprite.setSize(PIXEL_WIDTH, PIXEL_HEIGHT);
-        sprite.setPosition(entity.location.x * PIXEL_HEIGHT, entity.location.y * PIXEL_HEIGHT);
+        sprite.setPosition(entity.location.x * PIXEL_WIDTH, entity.location.y * PIXEL_HEIGHT);
         isWalking = false;
     }
 

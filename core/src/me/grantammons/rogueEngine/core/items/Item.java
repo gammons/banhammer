@@ -6,13 +6,24 @@ import me.grantammons.rogueEngine.core.Location;
  * Created by grantammons on 6/12/15.
  */
 public abstract class Item implements ItemStatsInterface {
-    Location location;
-
     int requiredStrength;
     int attack;
     int defense;
     int weight;
+
+    public String getName() {
+        return name;
+    }
+
     protected String name;
+    protected String unidentifiedName;
+    public Location location;
+
+    public String getSpriteFile() {
+        return spriteFile;
+    }
+
+    protected String spriteFile;
 
     public float getUnequippedSpeedModifier() {
         return 0;

@@ -1,9 +1,11 @@
 package me.grantammons.rogueEngine.core;
 
-import me.grantammons.rogueEngine.core.entities.Entity;
 import me.grantammons.banhammer.entities.mobs.Imp;
-import me.grantammons.rogueEngine.core.entities.mobs.Mob;
 import me.grantammons.banhammer.entities.playerClasses.Brute;
+import me.grantammons.banhammer.items.weapons.TwoHandedSword;
+import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.entities.mobs.Mob;
+import me.grantammons.rogueEngine.core.items.Item;
 import me.grantammons.rogueEngine.core.utils.Scheduler;
 
 import java.util.ArrayList;
@@ -25,6 +27,11 @@ public class Game {
         map = new Map();
         map.entities.add(player);
         scheduler = new Scheduler();
+
+        TwoHandedSword sword = new TwoHandedSword();
+        sword.location = new Location(7,7);
+        map.items.add(sword);
+
         generateMonsters();
     }
 
@@ -32,6 +39,7 @@ public class Game {
         processPlayerTurn();
         bringOutYourDead();
         processEntityTurns();
+        itemPickups();
         bringOutYourDead();
     }
 
@@ -67,10 +75,28 @@ public class Game {
         }
     }
 
+    private void itemPickups() {
+        for(Item i : map.items) {
+            for(Entity e : map.entities) {
+                if (e.location.x == i.location.x && e.location.y == i.location.y) {
+                    e.pickupItem(i);
+                }
+            }
+        }
+    }
+
     private void generateMonsters() {
         Mob mob = new Imp(notifier);
         mob.location = new Location(3,3);
         map.entities.add(mob);
+
+        Mob mob2 = new Imp(notifier);
+        mob2.location = new Location(6,6);
+        map.entities.add(mob2);
+
+        Mob mob3 = new Imp(notifier);
+        mob3.location = new Location(9,9);
+        map.entities.add(mob3);
 
         for(Entity e : map.entities) {
             scheduler.addEntity(e);
@@ -83,5 +109,9 @@ public class Game {
         });
         map.entities.removeIf(e -> e.isDead());
 
+    }
+
+    public ArrayList<Item> getItems() {
+        return map.items;
     }
 }

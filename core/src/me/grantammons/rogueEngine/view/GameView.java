@@ -7,10 +7,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import me.grantammons.rogueEngine.core.Constants;
 import me.grantammons.rogueEngine.core.Game;
+import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.items.Item;
 import me.grantammons.rogueEngine.view.entities.EntityView;
 import me.grantammons.rogueEngine.view.entities.PlayerView;
 import me.grantammons.rogueEngine.view.input.GameInputProcessor;
+import me.grantammons.rogueEngine.view.items.ItemView;
 import me.grantammons.rogueEngine.view.map.MapView;
+
+import java.util.ArrayList;
 
 /**
  * Created by grantammons on 5/30/15.
@@ -22,12 +27,15 @@ public class GameView implements Screen {
 
     private MapView mapView;
     private PlayerView playerView;
-    private EntityView monsterView;
+    private ArrayList<EntityView> monsterViews;
+    private ArrayList<ItemView> itemViews;
     private Game game;
     private Hud hud;
 
 
     public GameView(GameInputProcessor processor) {
+        monsterViews = new ArrayList<EntityView>();
+        itemViews = new ArrayList<ItemView>();
         inputProcessor = processor;
         game = new Game();
         hud = new Hud();
@@ -38,7 +46,8 @@ public class GameView implements Screen {
         batch = new SpriteBatch();
         mapView = new MapView(game.map);
         playerView = new PlayerView(game);
-        monsterView = new EntityView(game, game.getMonsters().get(0), "monster.png");
+        setupMonsters();
+        setupItems();
         inputProcessor.addListener(playerView);
 
         setupCamera();
@@ -57,7 +66,8 @@ public class GameView implements Screen {
         batch.begin();
         mapView.draw(batch);
         playerView.draw(batch);
-        monsterView.draw(batch);
+        for(EntityView monsterView : monsterViews) { monsterView.draw(batch); }
+        for(ItemView itemView : itemViews) { itemView.draw(batch); }
         cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
         cam.update();
         batch.end();
@@ -105,5 +115,17 @@ public class GameView implements Screen {
 
     private void debugCoords(float x, float y) {
         System.out.println("viewport = ("+x+", "+y+")");
+    }
+
+    private void setupMonsters() {
+        for(Entity e : game.getMonsters()) {
+            monsterViews.add(new EntityView(game, e, "monster.png"));
+        }
+    }
+
+    private void setupItems() {
+        for(Item i : game.getItems()) {
+            itemViews.add(new ItemView(game, i));
+        }
     }
 }

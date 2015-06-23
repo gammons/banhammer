@@ -303,5 +303,10 @@ public abstract class Entity implements StatsInterface {
         hp -= (int)amount;
         if (hp <= 0) die();
     }
+
+    public void pickupItem(Item i) {
+        notifier.notify(name + " picks up "+i.getName());
+        sack.getItems().add(i);
+    }
 }
 

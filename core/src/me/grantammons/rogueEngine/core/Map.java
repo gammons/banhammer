@@ -1,6 +1,7 @@
 package me.grantammons.rogueEngine.core;
 
 import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.items.Item;
 
 import java.util.ArrayList;
 
@@ -41,9 +42,11 @@ public class Map {
     };
 
     public ArrayList<Entity> entities;
+    public ArrayList<Item> items;
 
     public Map() {
         entities = new ArrayList<Entity>();
+        items = new ArrayList<Item>();
     }
 
     public int[][] getMap() {

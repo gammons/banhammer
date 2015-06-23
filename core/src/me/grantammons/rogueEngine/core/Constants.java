@@ -19,5 +19,9 @@ public class Constants {
     public static final int VIEWPORT_WIDTH=256;
     public static final int VIEWPORT_HEIGHT=256;
 
+    public static final int PIXEL_WIDTH=16;
+    public static final int PIXEL_HEIGHT=16;
+
+
     public static final int MAX_CHARACTER_STAT=18;
 }
