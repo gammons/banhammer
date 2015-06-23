@@ -17,9 +17,6 @@ import me.grantammons.rogueEngine.view.map.MapView;
 
 import java.util.ArrayList;
 
-/**
- * Created by grantammons on 5/30/15.
- */
 public class GameView implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera cam;
@@ -62,18 +59,33 @@ public class GameView implements Screen {
 
         batch.setProjectionMatrix(cam.combined);
 
+        expireDeadThings();
 
         batch.begin();
         mapView.draw(batch);
         playerView.draw(batch);
-        for(EntityView monsterView : monsterViews) { monsterView.draw(batch); }
-        for(ItemView itemView : itemViews) { itemView.draw(batch); }
+
+        renderMonstersAndItems();
+
         cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
         cam.update();
         batch.end();
 
         hud.render(game);;
 
+    }
+
+    private void expireDeadThings() {
+        monsterViews.removeIf(m -> m.getEntity().isExpired() == true);
+    }
+
+    private void renderMonstersAndItems() {
+        for (EntityView monsterView : monsterViews) {
+            monsterView.draw(batch);
+        }
+        for (ItemView itemView : itemViews) {
+            itemView.draw(batch);
+        }
     }
 
     @Override

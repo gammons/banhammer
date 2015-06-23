@@ -20,6 +20,11 @@ public class ItemView {
     }
 
     public void draw(Batch batch) {
+        if (item.isExpired()) return;
         batch.draw(sprite, item.location.x * Constants.PIXEL_WIDTH, item.location.y * Constants.PIXEL_HEIGHT);
+    }
+
+    public Item getItem() {
+        return item;
     }
 }

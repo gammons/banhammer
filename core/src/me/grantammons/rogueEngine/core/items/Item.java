@@ -2,14 +2,12 @@ package me.grantammons.rogueEngine.core.items;
 
 import me.grantammons.rogueEngine.core.Location;
 
-/**
- * Created by grantammons on 6/12/15.
- */
 public abstract class Item implements ItemStatsInterface {
     int requiredStrength;
     int attack;
     int defense;
     int weight;
+    private boolean isExpired = false;
 
     public String getName() {
         return name;
@@ -111,6 +109,13 @@ public abstract class Item implements ItemStatsInterface {
 
     public int getWeight() {
         return weight;
+    }
+    public boolean isExpired() {
+        return isExpired;
+    }
+
+    public void setIsExpired(boolean isExpired) {
+        this.isExpired = isExpired;
     }
 
 }

@@ -37,7 +37,7 @@ public abstract class Entity implements StatsInterface {
     protected Item gloves;
     protected Sack sack;
 
-    protected boolean isDead;
+    private boolean isExpired = false;
 
     public int intendedDirection = Constants.NO_DIRECTION;
 
@@ -46,7 +46,6 @@ public abstract class Entity implements StatsInterface {
     public Entity(Notifier notifier) {
         sack = new Sack();
         this.notifier = notifier;
-        isDead = false;
     }
 
 
@@ -254,18 +253,13 @@ public abstract class Entity implements StatsInterface {
         this.weapon = weapon;
     }
 
-    public boolean isDead() {
-        return isDead;
+    public Sack getSack() {
+        return sack;
     }
-
-    public void setIsDead(boolean isDead) {
-        this.isDead = isDead;
-    }
-
 
     public void die() {
         notifier.notify(name + " is killed!");
-        isDead = true;
+        isExpired = true;
     }
 
     public float dodgeNumber() {
@@ -276,6 +270,7 @@ public abstract class Entity implements StatsInterface {
 
     public void move() {
         location = intendedLocation;
+        sack.getItems().forEach(i -> i.location = location);
     }
 
     public void calculateMove(Map map) {
@@ -307,6 +302,11 @@ public abstract class Entity implements StatsInterface {
     public void pickupItem(Item i) {
         notifier.notify(name + " picks up "+i.getName());
         sack.getItems().add(i);
+        i.setIsExpired(true);
+    }
+
+    public boolean isExpired() {
+        return isExpired;
     }
 }
 

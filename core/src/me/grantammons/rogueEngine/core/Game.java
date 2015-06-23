@@ -83,6 +83,7 @@ public class Game {
                 }
             }
         }
+        map.items.removeIf(i -> i.isExpired());
     }
 
     private void generateMonsters() {
@@ -105,9 +106,16 @@ public class Game {
 
     private void bringOutYourDead() {
         map.entities.forEach(e -> {
-            if (e.isDead()) scheduler.remove(e);
+            if (e.isExpired()) {
+                scheduler.remove(e);
+                e.getSack().getItems().forEach(item -> {
+                    notifier.notify(e.name + " drops a "+item.getName());
+                    item.setIsExpired(false);
+                    map.items.add(item);
+                });
+            }
         });
-        map.entities.removeIf(e -> e.isDead());
+        map.entities.removeIf(e -> e.isExpired());
 
     }
 

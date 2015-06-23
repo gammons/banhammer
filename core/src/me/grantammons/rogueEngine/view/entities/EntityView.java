@@ -36,8 +36,6 @@ public class EntityView {
     }
 
     public void draw(Batch batch) {
-        if (entity.isDead()) return;
-
         if (didLocationChange()) {
             isWalking = true;
             if (timestamp == 0) {
@@ -92,5 +90,9 @@ public class EntityView {
 
     private boolean didLocationChange() {
         return lastSeenX != entity.location.x || lastSeenY != entity.location.y;
+    }
+
+    public Entity getEntity() {
+        return entity;
     }
 }
