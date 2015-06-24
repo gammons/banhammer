@@ -17,11 +17,14 @@ public class MapView {
     private Sprite blockSprite;
     private Sprite dirtSprite;
     private TextureRegion[] dirtRegions = new TextureRegion[4];
+    private TextureRegion[][] dungeonRegions;
 
     public MapView(Map map) {
         this.map = map;
-        blockSprite = new Sprite(new Texture("block.png"));
+        Texture dungeon = new Texture("dungeon.png");
+        dungeonRegions = TextureRegion.split(dungeon, 16, 16);
         setupDirt();
+        blockSprite = new Sprite(new Texture("block.png"));
         blockSprite.setSize(PIXEL_WIDTH, PIXEL_HEIGHT);
     }
 
@@ -30,6 +33,9 @@ public class MapView {
         for(int y = 0; y < m.length; y++) {
             int[] mapRow = m[y];
             for (int x = 0; x < mapRow.length; x++) {
+                if (m[y][x] == Map.GROUND) {
+                    batch.draw(dungeonRegions[3][0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+                }
                 if (m[y][x] == Map.BEDROCK) {
                     blockSprite.setPosition(x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
                     blockSprite.draw(batch);
