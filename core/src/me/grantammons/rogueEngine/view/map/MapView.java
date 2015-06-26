@@ -60,6 +60,31 @@ public class MapView {
         if (map.tileAt(new Location(x,y - 1)) == Map.GROUND) paintWallAbove(batch, y, x);
         if (map.tileAt(new Location(x + 1,y)) == Map.GROUND) paintWallRight(batch, y, x);
         if (map.tileAt(new Location(x - 1,y)) == Map.GROUND) paintWallLeft(batch, y, x);
+
+        paintCorner(batch,y,x);
+
+    }
+
+    private void paintCorner(Batch batch, int y, int x) {
+        if ((map.tileAt(new Location(x - 1, y)) == Map.BEDROCK)
+                && (map.tileAt(new Location(x, y - 1)) == Map.BEDROCK)
+                && (map.tileAt(new Location(x - 1, y - 1)) == Map.GROUND))
+            paintWallAboveLeft(batch, y, x);
+
+        if ((map.tileAt(new Location(x + 1, y)) == Map.BEDROCK)
+                && (map.tileAt(new Location(x, y - 1 )) == Map.BEDROCK)
+                && (map.tileAt(new Location(x + 1, y - 1)) == Map.GROUND))
+            paintWallAboveRight(batch, y, x);
+
+        if ((map.tileAt(new Location(x, y + 1)) == Map.BEDROCK)
+                && (map.tileAt(new Location(x + 1, y )) == Map.BEDROCK)
+                && (map.tileAt(new Location(x + 1, y + 1)) == Map.GROUND))
+            paintWallBelowRight(batch, y, x);
+
+        if ((map.tileAt(new Location(x, y + 1)) == Map.BEDROCK)
+                && (map.tileAt(new Location(x - 1, y )) == Map.BEDROCK)
+                && (map.tileAt(new Location(x - 1, y + 1)) == Map.GROUND))
+            paintWallBelowLeft(batch, y, x);
     }
 
     private void paintWallBelow(Batch batch, int y, int x) {
@@ -76,6 +101,21 @@ public class MapView {
 
     private void paintWallLeft(Batch batch, int y, int x) {
         batch.draw(dungeonRegions[1][2], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+    }
+    private void paintWallAboveLeft(Batch batch, int y, int x) {
+        batch.draw(dungeonRegions[0][2], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+    }
+
+    private void paintWallAboveRight(Batch batch, int y, int x) {
+        batch.draw(dungeonRegions[0][0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+    }
+
+    private void paintWallBelowRight(Batch batch, int y, int x) {
+        batch.draw(dungeonRegions[2][0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+    }
+
+    private void paintWallBelowLeft(Batch batch, int y, int x) {
+        batch.draw(dungeonRegions[2][2], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
     }
 
     public void setupDirt() {
