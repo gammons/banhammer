@@ -42,4 +42,9 @@ public class Location {
     public boolean equals(Location other) {
         return (other.x == x && other.y == y);
     }
+
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+
+    }
 }

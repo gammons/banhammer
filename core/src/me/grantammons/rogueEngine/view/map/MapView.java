@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import me.grantammons.rogueEngine.core.Location;
 import me.grantammons.rogueEngine.core.Map;
 
 /**
@@ -33,12 +34,10 @@ public class MapView {
         for(int y = 0; y < m.length; y++) {
             int[] mapRow = m[y];
             for (int x = 0; x < mapRow.length; x++) {
+                if (m[y][x] == Map.BEDROCK)
+                    paintEdgeTile(batch, y,x);
                 if (m[y][x] == Map.GROUND) {
                     batch.draw(dungeonRegions[3][0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
-                }
-                if (m[y][x] == Map.BEDROCK) {
-                    blockSprite.setPosition(x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
-                    blockSprite.draw(batch);
                 }
                 if (m[y][x] == Map.DIRT) {
                     batch.draw(dirtRegions[0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
@@ -54,6 +53,29 @@ public class MapView {
                 }
             }
         }
+    }
+
+    private void paintEdgeTile(Batch batch, int y, int x) {
+        if (map.tileAt(new Location(x,y + 1)) == Map.GROUND) paintWallBelow(batch, y, x);
+        if (map.tileAt(new Location(x,y - 1)) == Map.GROUND) paintWallAbove(batch, y, x);
+        if (map.tileAt(new Location(x + 1,y)) == Map.GROUND) paintWallRight(batch, y, x);
+        if (map.tileAt(new Location(x - 1,y)) == Map.GROUND) paintWallLeft(batch, y, x);
+    }
+
+    private void paintWallBelow(Batch batch, int y, int x) {
+        batch.draw(dungeonRegions[2][1], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+    }
+
+    private void paintWallAbove(Batch batch, int y, int x) {
+        batch.draw(dungeonRegions[0][1], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+    }
+
+    private void paintWallRight(Batch batch, int y, int x) {
+        batch.draw(dungeonRegions[1][0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+    }
+
+    private void paintWallLeft(Batch batch, int y, int x) {
+        batch.draw(dungeonRegions[1][2], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
     }
 
     public void setupDirt() {

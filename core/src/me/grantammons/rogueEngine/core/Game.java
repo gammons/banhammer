@@ -22,7 +22,7 @@ public class Game {
     public Game() {
         notifier = new Notifier();
         player = new Brute(notifier);
-        player.location = new Location(1,1);
+        player.location = new Location(1,6);
 
         map = new Map();
         map.entities.add(player);
