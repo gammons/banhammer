@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import me.grantammons.rogueEngine.core.Constants;
 import me.grantammons.rogueEngine.core.Game;
 import me.grantammons.rogueEngine.core.entities.Entity;
@@ -62,17 +63,24 @@ public class GameView implements Screen {
         expireDeadThings();
 
         batch.begin();
+
         mapView.draw(batch);
         playerView.draw(batch);
 
         renderMonstersAndItems();
+        lerpCameraToTarget();
 
-        cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
-        cam.update();
         batch.end();
 
         hud.render(game);;
+    }
 
+    private void lerpCameraToTarget() {
+        Vector3 position = cam.position;
+        position.x = cam.position.x + (playerView.sprite.getX() - cam.position.x) * .2f;
+        position.y = cam.position.y + (playerView.sprite.getY() - cam.position.y) * .2f;
+        cam.position.set(position);
+        cam.update();
     }
 
     private void expireDeadThings() {
