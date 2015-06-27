@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import me.grantammons.rogueEngine.core.Location;
 import me.grantammons.rogueEngine.core.Map;
+import me.grantammons.rogueEngine.view.Physics;
 
 /**
  * Created by grantammons on 5/30/15.
@@ -19,14 +20,28 @@ public class MapView {
     private Sprite dirtSprite;
     private TextureRegion[] dirtRegions = new TextureRegion[4];
     private TextureRegion[][] dungeonRegions;
+    private Physics physics;
 
-    public MapView(Map map) {
+    public MapView(Map map, Physics physics) {
         this.map = map;
+        this.physics = physics;
         Texture dungeon = new Texture("dungeon.png");
         dungeonRegions = TextureRegion.split(dungeon, 16, 16);
         setupDirt();
         blockSprite = new Sprite(new Texture("block.png"));
         blockSprite.setSize(PIXEL_WIDTH, PIXEL_HEIGHT);
+
+        setupBodies();
+    }
+
+    public void setupBodies() {
+        int[][] m = map.getMap();
+        for (int y = 0; y < m.length; y++) {
+            int[] mapRow = m[y];
+            for (int x = 0; x < mapRow.length; x++)
+                if ((m[y][x] == Map.BEDROCK) && (map.anySurrounds(Map.GROUND, new Location(x, y))))
+                    physics.addBody(new Location(x, y));
+        }
     }
 
     public void draw(Batch batch) {
@@ -34,8 +49,9 @@ public class MapView {
         for(int y = 0; y < m.length; y++) {
             int[] mapRow = m[y];
             for (int x = 0; x < mapRow.length; x++) {
-                if (m[y][x] == Map.BEDROCK)
-                    paintEdgeTile(batch, y,x);
+                if (m[y][x] == Map.BEDROCK) {
+                    paintEdgeTile(batch, y, x);
+                }
                 if (m[y][x] == Map.GROUND) {
                     batch.draw(dungeonRegions[3][0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
                 }
@@ -54,6 +70,8 @@ public class MapView {
             }
         }
     }
+
+
 
     private void paintEdgeTile(Batch batch, int y, int x) {
         if (map.tileAt(new Location(x,y + 1)) == Map.GROUND) paintWallBelow(batch, y, x);

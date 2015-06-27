@@ -29,6 +29,8 @@ public class GameView implements Screen {
     private ArrayList<ItemView> itemViews;
     private Game game;
     private Hud hud;
+    private float accumulator;
+    private Physics physics;
 
 
     public GameView(GameInputProcessor processor) {
@@ -37,13 +39,16 @@ public class GameView implements Screen {
         inputProcessor = processor;
         game = new Game();
         hud = new Hud();
+        physics = new Physics();
     }
 
     @Override
     public void show() {
         batch = new SpriteBatch();
-        mapView = new MapView(game.map);
-        playerView = new PlayerView(game);
+        physics.init();
+
+        mapView = new MapView(game.map, physics);
+        playerView = new PlayerView(game, physics);
         setupMonsters();
         setupItems();
         inputProcessor.addListener(playerView);
@@ -71,8 +76,9 @@ public class GameView implements Screen {
         lerpCameraToTarget();
 
         batch.end();
+        physics.update(cam);
 
-        hud.render(game);;
+        hud.render(game);
     }
 
     private void lerpCameraToTarget() {

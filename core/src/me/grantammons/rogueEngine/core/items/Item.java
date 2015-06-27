@@ -3,11 +3,13 @@ package me.grantammons.rogueEngine.core.items;
 import me.grantammons.rogueEngine.core.Location;
 
 public abstract class Item implements ItemStatsInterface {
-    int requiredStrength;
-    int attack;
-    int defense;
-    int weight;
-    private boolean isExpired = false;
+    protected int requiredStrength;
+    protected int attack;
+    protected int defense;
+    protected int weight;
+
+    protected boolean isExpired = false;
+    protected boolean isPickupable = false;
 
     public String getName() {
         return name;
@@ -116,6 +118,10 @@ public abstract class Item implements ItemStatsInterface {
 
     public void setIsExpired(boolean isExpired) {
         this.isExpired = isExpired;
+    }
+
+    public boolean isPickupable() {
+        return isPickupable;
     }
 
 }

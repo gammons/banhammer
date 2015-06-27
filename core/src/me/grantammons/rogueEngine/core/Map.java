@@ -20,15 +20,24 @@ public class Map {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
-        {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0},
-        {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0},
+        {0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
+        {0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0},
+        {0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
         {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
         {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
         {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
+//    private int[][] map = {
+//        {0,0,0,0,0},
+//        {0,1,1,1,0},
+//        {0,1,1,1,0},
+//        {0,1,1,1,0},
+//        {0,0,0,0,0}
+//
+//
+//    };
 
     public ArrayList<Entity> entities;
     public ArrayList<Item> items;
@@ -69,10 +78,25 @@ public class Map {
     }
 
     public int tileAt(Location location) {
-        if ((location.y < 0 || location.y >= map.length - 1) ||
-                (location.x < 0 || location.x >= map[location.y].length - 1))
+        return tileAt(location.x, location.y);
+    }
+
+    public int tileAt(int x, int y) {
+        if ((y < 0 || y >= map.length - 1) ||
+                (x < 0 || x >= map[y].length - 1))
             return BEDROCK;
-        return map[location.y][location.x];
+        return map[y][x];
+    }
+
+    public boolean anySurrounds(int tileType, Location location) {
+        return tileAt(location.x - 1, location.y - 1) == tileType ||
+                tileAt(location.x - 1, location.y) == tileType ||
+                tileAt(location.x - 1, location.y + 1) == tileType ||
+                tileAt(location.x, location.y - 1) == tileType ||
+                tileAt(location.x, location.y + 1) == tileType ||
+                tileAt(location.x + 1, location.y - 1) == tileType ||
+                tileAt(location.x + 1, location.y) == tileType ||
+                tileAt(location.x + 1, location.y + 1) == tileType;
     }
 
     public Entity entityAt (Location location) {

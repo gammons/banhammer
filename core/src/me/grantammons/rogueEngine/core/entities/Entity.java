@@ -300,9 +300,11 @@ public abstract class Entity implements StatsInterface {
     }
 
     public void pickupItem(Item i) {
-        notifier.notify(name + " picks up "+i.getName());
-        sack.getItems().add(i);
-        i.setIsExpired(true);
+        if (i.isPickupable()) {
+            notifier.notify(name + " picks up " + i.getName());
+            sack.getItems().add(i);
+            i.setIsExpired(true);
+        }
     }
 
     public boolean isExpired() {
