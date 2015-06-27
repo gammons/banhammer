@@ -3,7 +3,6 @@ package me.grantammons.rogueEngine.core;
 import me.grantammons.banhammer.entities.playerClasses.Brute;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
-import me.grantammons.rogueEngine.core.entities.mobs.Mob;
 import me.grantammons.rogueEngine.core.utils.Scheduler;
 
 import java.util.ArrayList;
@@ -22,6 +21,8 @@ public class Game {
         map = new Map();
         notifier = new Notifier();
         scheduler = new Scheduler();
+        player = new Brute(notifier);
+        scheduler.addEntity(player);
 
         // temporary until we have better organization around levels.
         loadLevel(new Level());
@@ -32,10 +33,7 @@ public class Game {
     public void loadLevel(Level level) {
         this.level = level;
         this.level.load(map, notifier);
-        for(AnimatedEntity e : map.getEntities()) {
-            System.out.println("Scheduler adding entities: "+e);
-            scheduler.addEntity(e);
-        }
+        loadMonsters();
     }
 
     public void tick() {
@@ -50,13 +48,6 @@ public class Game {
         return map.canMove(Location.setLocationFromDirection(player.location, direction));
     }
 
-    public ArrayList<AnimatedEntity> getMonsters() {
-        ArrayList<AnimatedEntity> monsters = new ArrayList<AnimatedEntity>();
-        for(AnimatedEntity e : map.getEntities()) {
-            if (e instanceof Mob) monsters.add(e);
-        }
-        return monsters;
-    }
 
     public ArrayList<String> recentNotifications() {
         return notifier.recent();
@@ -89,10 +80,6 @@ public class Game {
         map.getItems().removeIf(i -> i.isExpired());
     }
 
-    private void generateMonsters() {
-
-    }
-
     private void bringOutYourDead() {
         map.getEntities().forEach(e -> {
             if (e.isExpired()) {
@@ -109,10 +96,15 @@ public class Game {
     }
 
     private void spawnPlayer() {
-        player = new Brute(notifier);
         player.location = level.getPlayerSpawnLocation();
         map.getEntities().add(player);
-        scheduler.addEntity(player);
+    }
+
+    private void loadMonsters() {
+        System.out.println("loadmonsters called");
+        for (AnimatedEntity e : map.getMonsters()) {
+            scheduler.addEntity(e);
+        }
     }
 
     public ArrayList<Item> getItems() {

@@ -26,6 +26,7 @@ public class Scheduler {
     }
 
     public void addEntity(AnimatedEntity e) {
+        System.out.println("Adding entity "+e);
         repeat.add(e);
         queue.add(e, e.getSpeed());
     }

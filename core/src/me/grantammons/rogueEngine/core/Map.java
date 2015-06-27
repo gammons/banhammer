@@ -3,6 +3,7 @@ package me.grantammons.rogueEngine.core;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
 import me.grantammons.rogueEngine.core.entities.items.props.Prop;
+import me.grantammons.rogueEngine.core.entities.mobs.Mob;
 
 import java.util.ArrayList;
 
@@ -96,6 +97,14 @@ public class Map {
 
     public ArrayList<AnimatedEntity> getEntities() {
         return entities;
+    }
+
+    public ArrayList<AnimatedEntity> getMonsters() {
+        ArrayList<AnimatedEntity> monsters = new ArrayList<AnimatedEntity>();
+        for(AnimatedEntity e : getEntities()) {
+            if (e instanceof Mob) monsters.add(e);
+        }
+        return monsters;
     }
 
     public ArrayList<Item> getItems() {

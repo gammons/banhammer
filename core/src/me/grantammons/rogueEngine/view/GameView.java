@@ -155,7 +155,7 @@ public class GameView implements Screen {
     }
 
     private void setupMonsters() {
-        for(AnimatedEntity e : game.getMonsters()) {
+        for(AnimatedEntity e : game.map.getMonsters()) {
             monsterViews.add(new AnimatedEntityView(game, e, "monster.png"));
         }
     }
