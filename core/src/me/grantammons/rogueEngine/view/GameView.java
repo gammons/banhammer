@@ -10,10 +10,13 @@ import me.grantammons.rogueEngine.core.Constants;
 import me.grantammons.rogueEngine.core.Game;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
+import me.grantammons.rogueEngine.core.entities.items.props.Prop;
+import me.grantammons.rogueEngine.core.entities.items.props.Torch;
 import me.grantammons.rogueEngine.view.entities.AnimatedEntityView;
 import me.grantammons.rogueEngine.view.entities.PlayerView;
 import me.grantammons.rogueEngine.view.input.GameInputProcessor;
 import me.grantammons.rogueEngine.view.items.ItemView;
+import me.grantammons.rogueEngine.view.items.props.TorchView;
 import me.grantammons.rogueEngine.view.map.MapView;
 
 import java.util.ArrayList;
@@ -27,6 +30,8 @@ public class GameView implements Screen {
     private PlayerView playerView;
     private ArrayList<AnimatedEntityView> monsterViews;
     private ArrayList<ItemView> itemViews;
+    private ArrayList<ItemView> propViews;
+
     private Game game;
     private Hud hud;
     private float accumulator;
@@ -36,6 +41,8 @@ public class GameView implements Screen {
     public GameView(GameInputProcessor processor) {
         monsterViews = new ArrayList<AnimatedEntityView>();
         itemViews = new ArrayList<ItemView>();
+        propViews = new ArrayList<ItemView>();
+
         inputProcessor = processor;
         game = new Game();
         hud = new Hud();
@@ -51,6 +58,7 @@ public class GameView implements Screen {
         playerView = new PlayerView(game, physics);
         setupMonsters();
         setupItems();
+        setupProps();
         inputProcessor.addListener(playerView);
 
         setupCamera();
@@ -98,6 +106,9 @@ public class GameView implements Screen {
             monsterView.draw(batch);
         }
         for (ItemView itemView : itemViews) {
+            itemView.draw(batch);
+        }
+        for (ItemView itemView : propViews) {
             itemView.draw(batch);
         }
     }
@@ -152,6 +163,15 @@ public class GameView implements Screen {
     private void setupItems() {
         for(Item i : game.getItems()) {
             itemViews.add(new ItemView(game, i));
+        }
+    }
+
+    private void setupProps() {
+        propViews = new ArrayList<ItemView>();
+        for (Prop prop : game.map.getProps()) {
+            if (prop instanceof Torch) {
+                propViews.add(new TorchView(game, prop, physics));
+            }
         }
     }
 }

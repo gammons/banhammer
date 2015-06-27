@@ -41,4 +41,10 @@ public class Brute extends PlayerClass {
     public float getBrainpowerModifier() {
         return BRAINPOWER_MODIFIER;
     }
+
+    public void move() {
+        super.move();
+        System.out.println("Player is at "+location.toString());
+
+    }
 }

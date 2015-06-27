@@ -8,14 +8,16 @@ import me.grantammons.rogueEngine.core.Game;
 import me.grantammons.rogueEngine.core.entities.items.Item;
 
 public class ItemView {
-    private Item item;
-    private Sprite sprite;
+    protected Item item;
+    protected Sprite sprite;
+    protected Game game;
 
     public ItemView(Game game, Item item) {
         sprite = new Sprite(new Texture(item.getSpriteFile()));
         sprite.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         sprite.setSize(Constants.PIXEL_WIDTH, Constants.PIXEL_HEIGHT);
         this.item = item;
+        this.game = game;
 
     }
 

@@ -17,7 +17,6 @@ public class MapView {
 
     private Map map;
     private Sprite blockSprite;
-    private Sprite dirtSprite;
     private TextureRegion[] dirtRegions = new TextureRegion[4];
     private TextureRegion[][] dungeonRegions;
     private Physics physics;
@@ -30,7 +29,6 @@ public class MapView {
         setupDirt();
         blockSprite = new Sprite(new Texture("block.png"));
         blockSprite.setSize(PIXEL_WIDTH, PIXEL_HEIGHT);
-
         setupBodies();
     }
 
@@ -45,6 +43,10 @@ public class MapView {
     }
 
     public void draw(Batch batch) {
+        drawMap(batch);
+    }
+
+    private void drawMap(Batch batch) {
         int[][] m = map.getMap();
         for(int y = 0; y < m.length; y++) {
             int[] mapRow = m[y];
@@ -70,7 +72,6 @@ public class MapView {
             }
         }
     }
-
 
 
     private void paintEdgeTile(Batch batch, int y, int x) {
@@ -143,4 +144,6 @@ public class MapView {
         dirtRegions[2] = new TextureRegion(dirtTexture, 31,0,PIXEL_WIDTH,PIXEL_HEIGHT);
         dirtRegions[3] = new TextureRegion(dirtTexture, 47,0,PIXEL_WIDTH,PIXEL_HEIGHT);
     }
+
+
 }

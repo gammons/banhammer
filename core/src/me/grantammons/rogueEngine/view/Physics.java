@@ -19,7 +19,7 @@ public class Physics {
         world = new World(new Vector2(0, 0), true);
 
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0f, 0f, 0f, 0.6f);
+        rayHandler.setAmbientLight(0f, 0f, 0f, 0.0f);
         rayHandler.setBlurNum(3);
         debugRenderer = new Box2DDebugRenderer();
     }
@@ -28,7 +28,7 @@ public class Physics {
 
         world.step(1 / 60f, 6, 2);
 
-        debugRenderer.render(world, cam.combined);
+        //debugRenderer.render(world, cam.combined);
         rayHandler.setCombinedMatrix(cam.combined);
         rayHandler.updateAndRender();
     }

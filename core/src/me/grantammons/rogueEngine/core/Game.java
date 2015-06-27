@@ -1,11 +1,9 @@
 package me.grantammons.rogueEngine.core;
 
-import me.grantammons.banhammer.entities.mobs.Imp;
 import me.grantammons.banhammer.entities.playerClasses.Brute;
-import me.grantammons.banhammer.items.weapons.TwoHandedSword;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
-import me.grantammons.rogueEngine.core.entities.mobs.Mob;
 import me.grantammons.rogueEngine.core.entities.items.Item;
+import me.grantammons.rogueEngine.core.entities.mobs.Mob;
 import me.grantammons.rogueEngine.core.utils.Scheduler;
 
 import java.util.ArrayList;
@@ -18,21 +16,26 @@ public class Game {
     public Map map;
     private Scheduler scheduler;
     private Notifier notifier;
+    private Level level;
 
     public Game() {
-        notifier = new Notifier();
-        player = new Brute(notifier);
-        player.location = new Location(1,6);
-
         map = new Map();
-        map.entities.add(player);
+        notifier = new Notifier();
         scheduler = new Scheduler();
 
-        TwoHandedSword sword = new TwoHandedSword(notifier);
-        sword.location = new Location(7,7);
-        map.items.add(sword);
+        // temporary until we have better organization around levels.
+        loadLevel(new Level());
 
-        generateMonsters();
+        spawnPlayer();
+    }
+
+    public void loadLevel(Level level) {
+        this.level = level;
+        this.level.load(map, notifier);
+        for(AnimatedEntity e : map.getEntities()) {
+            System.out.println("Scheduler adding entities: "+e);
+            scheduler.addEntity(e);
+        }
     }
 
     public void tick() {
@@ -49,7 +52,7 @@ public class Game {
 
     public ArrayList<AnimatedEntity> getMonsters() {
         ArrayList<AnimatedEntity> monsters = new ArrayList<AnimatedEntity>();
-        for(AnimatedEntity e : map.entities) {
+        for(AnimatedEntity e : map.getEntities()) {
             if (e instanceof Mob) monsters.add(e);
         }
         return monsters;
@@ -76,50 +79,43 @@ public class Game {
     }
 
     private void itemPickups() {
-        for(Item i : map.items) {
-            for(AnimatedEntity e : map.entities) {
+        for(Item i : map.getItems()) {
+            for(AnimatedEntity e : map.getEntities()) {
                 if (e.location.x == i.location.x && e.location.y == i.location.y) {
                     e.pickupItem(i);
                 }
             }
         }
-        map.items.removeIf(i -> i.isExpired());
+        map.getItems().removeIf(i -> i.isExpired());
     }
 
     private void generateMonsters() {
-        Mob mob = new Imp(notifier);
-        mob.location = new Location(3,3);
-        map.entities.add(mob);
 
-        Mob mob2 = new Imp(notifier);
-        mob2.location = new Location(6,6);
-        map.entities.add(mob2);
-
-        Mob mob3 = new Imp(notifier);
-        mob3.location = new Location(9,9);
-        map.entities.add(mob3);
-
-        for(AnimatedEntity e : map.entities) {
-            scheduler.addEntity(e);
-        }
     }
 
     private void bringOutYourDead() {
-        map.entities.forEach(e -> {
+        map.getEntities().forEach(e -> {
             if (e.isExpired()) {
                 scheduler.remove(e);
                 e.getSack().getItems().forEach(item -> {
-                    notifier.notify(e.name + " drops a "+item.getName());
+                    notifier.notify(e.name + " drops a " + item.getName());
                     item.setIsExpired(false);
-                    map.items.add(item);
+                    map.getItems().add(item);
                 });
             }
         });
-        map.entities.removeIf(e -> e.isExpired());
+        map.getEntities().removeIf(e -> e.isExpired());
 
     }
 
+    private void spawnPlayer() {
+        player = new Brute(notifier);
+        player.location = level.getPlayerSpawnLocation();
+        map.getEntities().add(player);
+        scheduler.addEntity(player);
+    }
+
     public ArrayList<Item> getItems() {
-        return map.items;
+        return map.getItems();
     }
 }
