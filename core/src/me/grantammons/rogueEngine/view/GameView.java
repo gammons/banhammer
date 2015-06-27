@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import me.grantammons.rogueEngine.core.Constants;
 import me.grantammons.rogueEngine.core.Game;
-import me.grantammons.rogueEngine.core.entities.Entity;
-import me.grantammons.rogueEngine.core.items.Item;
-import me.grantammons.rogueEngine.view.entities.EntityView;
+import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
+import me.grantammons.rogueEngine.core.entities.items.Item;
+import me.grantammons.rogueEngine.view.entities.AnimatedEntityView;
 import me.grantammons.rogueEngine.view.entities.PlayerView;
 import me.grantammons.rogueEngine.view.input.GameInputProcessor;
 import me.grantammons.rogueEngine.view.items.ItemView;
@@ -25,7 +25,7 @@ public class GameView implements Screen {
 
     private MapView mapView;
     private PlayerView playerView;
-    private ArrayList<EntityView> monsterViews;
+    private ArrayList<AnimatedEntityView> monsterViews;
     private ArrayList<ItemView> itemViews;
     private Game game;
     private Hud hud;
@@ -34,7 +34,7 @@ public class GameView implements Screen {
 
 
     public GameView(GameInputProcessor processor) {
-        monsterViews = new ArrayList<EntityView>();
+        monsterViews = new ArrayList<AnimatedEntityView>();
         itemViews = new ArrayList<ItemView>();
         inputProcessor = processor;
         game = new Game();
@@ -90,11 +90,11 @@ public class GameView implements Screen {
     }
 
     private void expireDeadThings() {
-        monsterViews.removeIf(m -> m.getEntity().isExpired() == true);
+        monsterViews.removeIf(m -> m.getAnimatedEntity().isExpired() == true);
     }
 
     private void renderMonstersAndItems() {
-        for (EntityView monsterView : monsterViews) {
+        for (AnimatedEntityView monsterView : monsterViews) {
             monsterView.draw(batch);
         }
         for (ItemView itemView : itemViews) {
@@ -144,8 +144,8 @@ public class GameView implements Screen {
     }
 
     private void setupMonsters() {
-        for(Entity e : game.getMonsters()) {
-            monsterViews.add(new EntityView(game, e, "monster.png"));
+        for(AnimatedEntity e : game.getMonsters()) {
+            monsterViews.add(new AnimatedEntityView(game, e, "monster.png"));
         }
     }
 

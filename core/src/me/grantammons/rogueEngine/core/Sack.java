@@ -1,6 +1,6 @@
 package me.grantammons.rogueEngine.core;
 
-import me.grantammons.rogueEngine.core.items.Item;
+import me.grantammons.rogueEngine.core.entities.items.Item;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package me.grantammons.rogueEngine.core;
 
-import me.grantammons.rogueEngine.core.entities.Entity;
-import me.grantammons.rogueEngine.core.items.Item;
+import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
+import me.grantammons.rogueEngine.core.entities.items.Item;
 
 import java.util.ArrayList;
 
@@ -29,6 +29,8 @@ public class Map {
         {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
+
+
 //    private int[][] map = {
 //        {0,0,0,0,0},
 //        {0,1,1,1,0},
@@ -39,11 +41,11 @@ public class Map {
 //
 //    };
 
-    public ArrayList<Entity> entities;
+    public ArrayList<AnimatedEntity> entities;
     public ArrayList<Item> items;
 
     public Map() {
-        entities = new ArrayList<Entity>();
+        entities = new ArrayList<AnimatedEntity>();
         items = new ArrayList<Item>();
     }
 
@@ -99,8 +101,8 @@ public class Map {
                 tileAt(location.x + 1, location.y + 1) == tileType;
     }
 
-    public Entity entityAt (Location location) {
-        for(Entity e : entities) {
+    public AnimatedEntity entityAt (Location location) {
+        for(AnimatedEntity e : entities) {
             if (e.location.equals(location))
                 return e;
         }

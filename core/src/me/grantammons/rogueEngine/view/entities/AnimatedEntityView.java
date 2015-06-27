@@ -6,14 +6,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.TimeUtils;
 import me.grantammons.rogueEngine.core.Game;
-import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 
 import static me.grantammons.rogueEngine.core.Constants.*;
 
 /**
  * Created by grantammons on 6/5/15.
  */
-public class EntityView {
+public class AnimatedEntityView {
     float WALK_SPEED = 90f;
 
     private long timestamp;
@@ -21,17 +21,17 @@ public class EntityView {
 
     public Sprite sprite;
     protected Game game;
-    protected Entity entity;
+    protected AnimatedEntity animatedEntity;
 
     private int lastSeenX;
     private int lastSeenY;
 
-    public EntityView(Game game, Entity entity, String asset) {
+    public AnimatedEntityView(Game game, AnimatedEntity animatedEntity, String asset) {
         this.game = game;
-        this.entity = entity;
+        this.animatedEntity = animatedEntity;
         sprite = new Sprite(new Texture(asset));
         sprite.setSize(PIXEL_WIDTH, PIXEL_HEIGHT);
-        sprite.setPosition(entity.location.x * PIXEL_WIDTH, entity.location.y * PIXEL_HEIGHT);
+        sprite.setPosition(animatedEntity.location.x * PIXEL_WIDTH, animatedEntity.location.y * PIXEL_HEIGHT);
         isWalking = false;
     }
 
@@ -45,7 +45,7 @@ public class EntityView {
             float t = TimeUtils.timeSinceMillis(timestamp) / WALK_SPEED;
             float lerped = Interpolation.fade.apply(0f, 15f, t);
 
-            switch (entity.intendedDirection) {
+            switch (animatedEntity.intendedDirection) {
                 case NORTH:
                     sprite.setPosition(lastSeenX * PIXEL_HEIGHT, lastSeenY * PIXEL_HEIGHT + lerped);
                     break;
@@ -79,20 +79,20 @@ public class EntityView {
                 isWalking = false;
             }
         } else {
-            batch.draw(sprite, entity.location.x * PIXEL_WIDTH, entity.location.y * PIXEL_HEIGHT);
+            batch.draw(sprite, animatedEntity.location.x * PIXEL_WIDTH, animatedEntity.location.y * PIXEL_HEIGHT);
         }
     }
 
     private void setLastSeen() {
-        lastSeenX = entity.location.x;
-        lastSeenY = entity.location.y;
+        lastSeenX = animatedEntity.location.x;
+        lastSeenY = animatedEntity.location.y;
     }
 
     private boolean didLocationChange() {
-        return lastSeenX != entity.location.x || lastSeenY != entity.location.y;
+        return lastSeenX != animatedEntity.location.x || lastSeenY != animatedEntity.location.y;
     }
 
-    public Entity getEntity() {
-        return entity;
+    public AnimatedEntity getAnimatedEntity() {
+        return animatedEntity;
     }
 }

@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.MathUtils;
 import me.grantammons.rogueEngine.core.Location;
 import me.grantammons.rogueEngine.core.Map;
 import me.grantammons.rogueEngine.core.Notifier;
-import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 
-public abstract class Mob extends Entity {
+public abstract class Mob extends AnimatedEntity {
     public Mob(Notifier notifier) {
         super(notifier);
     }

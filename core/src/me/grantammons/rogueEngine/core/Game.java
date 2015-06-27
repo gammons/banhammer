@@ -3,9 +3,9 @@ package me.grantammons.rogueEngine.core;
 import me.grantammons.banhammer.entities.mobs.Imp;
 import me.grantammons.banhammer.entities.playerClasses.Brute;
 import me.grantammons.banhammer.items.weapons.TwoHandedSword;
-import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.mobs.Mob;
-import me.grantammons.rogueEngine.core.items.Item;
+import me.grantammons.rogueEngine.core.entities.items.Item;
 import me.grantammons.rogueEngine.core.utils.Scheduler;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Created by grantammons on 5/31/15.
  */
 public class Game {
-    public Entity player;
+    public AnimatedEntity player;
     public Map map;
     private Scheduler scheduler;
     private Notifier notifier;
@@ -28,7 +28,7 @@ public class Game {
         map.entities.add(player);
         scheduler = new Scheduler();
 
-        TwoHandedSword sword = new TwoHandedSword();
+        TwoHandedSword sword = new TwoHandedSword(notifier);
         sword.location = new Location(7,7);
         map.items.add(sword);
 
@@ -47,9 +47,9 @@ public class Game {
         return map.canMove(Location.setLocationFromDirection(player.location, direction));
     }
 
-    public ArrayList<Entity> getMonsters() {
-        ArrayList<Entity> monsters = new ArrayList<Entity>();
-        for(Entity e : map.entities) {
+    public ArrayList<AnimatedEntity> getMonsters() {
+        ArrayList<AnimatedEntity> monsters = new ArrayList<AnimatedEntity>();
+        for(AnimatedEntity e : map.entities) {
             if (e instanceof Mob) monsters.add(e);
         }
         return monsters;
@@ -60,13 +60,13 @@ public class Game {
     }
 
     private void processPlayerTurn() {
-        Entity e = scheduler.currentEntity();
+        AnimatedEntity e = scheduler.currentEntity();
         if (e == null) e = scheduler.nextEntity(); // special case for first turn
         e.takeTurn(map);
     }
 
     private void processEntityTurns() {
-        Entity e;
+        AnimatedEntity e;
         e = scheduler.nextEntity();
         while (!e.equals(player)) {
             e.calculateMove(map);
@@ -77,7 +77,7 @@ public class Game {
 
     private void itemPickups() {
         for(Item i : map.items) {
-            for(Entity e : map.entities) {
+            for(AnimatedEntity e : map.entities) {
                 if (e.location.x == i.location.x && e.location.y == i.location.y) {
                     e.pickupItem(i);
                 }
@@ -99,7 +99,7 @@ public class Game {
         mob3.location = new Location(9,9);
         map.entities.add(mob3);
 
-        for(Entity e : map.entities) {
+        for(AnimatedEntity e : map.entities) {
             scheduler.addEntity(e);
         }
     }

@@ -1,8 +1,9 @@
-package me.grantammons.rogueEngine.core.items;
+package me.grantammons.rogueEngine.core.entities.items;
 
-import me.grantammons.rogueEngine.core.Location;
+import me.grantammons.rogueEngine.core.Notifier;
+import me.grantammons.rogueEngine.core.entities.Entity;
 
-public abstract class Item implements ItemStatsInterface {
+public abstract class Item extends Entity implements ItemStatsInterface {
     protected int requiredStrength;
     protected int attack;
     protected int defense;
@@ -11,13 +12,15 @@ public abstract class Item implements ItemStatsInterface {
     protected boolean isExpired = false;
     protected boolean isPickupable = false;
 
+    public Item(Notifier notifier) {
+        super(notifier);
+    }
+
     public String getName() {
         return name;
     }
 
-    protected String name;
     protected String unidentifiedName;
-    public Location location;
 
     public String getSpriteFile() {
         return spriteFile;

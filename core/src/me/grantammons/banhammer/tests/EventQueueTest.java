@@ -1,7 +1,7 @@
 package me.grantammons.banhammer.tests;
 
 import me.grantammons.rogueEngine.core.Notifier;
-import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.banhammer.entities.playerClasses.Brute;
 import me.grantammons.rogueEngine.core.utils.EventQueue;
 import org.testng.Assert;
@@ -39,7 +39,7 @@ public class EventQueueTest {
         EventQueue eq = new EventQueue();
         Brute p = new Brute(new Notifier());
         eq.add(p, 10);
-        Entity e = eq.get();
+        AnimatedEntity e = eq.get();
         Assert.assertEquals(e, p);
         Assert.assertEquals(eq.getTime(), 10);
     }
@@ -56,7 +56,7 @@ public class EventQueueTest {
         eq.add(p2, 10);
         eq.add(p3, 1);
 
-        Entity e = eq.get();
+        AnimatedEntity e = eq.get();
         Assert.assertEquals(e, p3);
         Assert.assertEquals(eq.getTime(), 1);
 

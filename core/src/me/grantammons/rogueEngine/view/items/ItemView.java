@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import me.grantammons.rogueEngine.core.Constants;
 import me.grantammons.rogueEngine.core.Game;
-import me.grantammons.rogueEngine.core.items.Item;
+import me.grantammons.rogueEngine.core.entities.items.Item;
 
 public class ItemView {
     private Item item;

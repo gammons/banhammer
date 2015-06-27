@@ -8,7 +8,7 @@ import me.grantammons.rogueEngine.core.Game;
 import me.grantammons.rogueEngine.view.Physics;
 import me.grantammons.rogueEngine.view.input.InputListener;
 
-public class PlayerView extends EntityView implements InputListener {
+public class PlayerView extends AnimatedEntityView implements InputListener {
 
     private Physics physics;
     private PointLight light;
@@ -43,7 +43,7 @@ public class PlayerView extends EntityView implements InputListener {
         if (isWalking) return;
 
         if (game.playerCanMoveTo(direction)) {
-            entity.intendedDirection = direction;
+            animatedEntity.intendedDirection = direction;
             game.tick();
         }
     }

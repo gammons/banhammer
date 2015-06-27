@@ -1,7 +1,7 @@
 package me.grantammons.banhammer.tests;
 
 import me.grantammons.rogueEngine.core.Notifier;
-import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.banhammer.entities.mobs.Imp;
 import me.grantammons.banhammer.entities.playerClasses.Brute;
 import me.grantammons.rogueEngine.core.utils.Scheduler;
@@ -19,7 +19,7 @@ public class SchedulerTest {
         p.name = "player";
         p.setSpeed(10);
 
-        Entity e = new Imp(new Notifier());
+        AnimatedEntity e = new Imp(new Notifier());
         e.name = "enemy";
         e.setSpeed(20);
 

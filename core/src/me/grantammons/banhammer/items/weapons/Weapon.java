@@ -1,8 +1,13 @@
 package me.grantammons.banhammer.items.weapons;
 
-import me.grantammons.rogueEngine.core.items.Item;
+import me.grantammons.rogueEngine.core.Notifier;
+import me.grantammons.rogueEngine.core.entities.items.Item;
 
 public abstract class Weapon extends Item {
+    public Weapon(Notifier notifier) {
+        super(notifier);
+    }
+
     public enum Types {
         Melee, Ranged, Bomb
     }

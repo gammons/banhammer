@@ -3,7 +3,7 @@ package me.grantammons.banhammer.tests;
 import me.grantammons.rogueEngine.core.Notifier;
 import me.grantammons.banhammer.entities.mobs.Imp;
 import me.grantammons.banhammer.entities.playerClasses.Brute;
-import me.grantammons.rogueEngine.core.items.Item;
+import me.grantammons.rogueEngine.core.entities.items.Item;
 import me.grantammons.banhammer.items.weapons.TwoHandedSword;
 import org.testng.annotations.Test;
 
@@ -31,7 +31,7 @@ public class AttackTest {
         Notifier n = new Notifier();
         Brute b = new Brute(n);
         Imp i = new Imp(n);
-        Item sword = new TwoHandedSword();
+        Item sword = new TwoHandedSword(n);
         b.attack(i);
         b.attack(i);
         b.attack(i);

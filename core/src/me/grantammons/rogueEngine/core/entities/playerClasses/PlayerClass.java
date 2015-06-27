@@ -2,9 +2,9 @@ package me.grantammons.rogueEngine.core.entities.playerClasses;
 
 import com.badlogic.gdx.math.MathUtils;
 import me.grantammons.rogueEngine.core.Notifier;
-import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 
-public abstract class PlayerClass extends Entity {
+public abstract class PlayerClass extends AnimatedEntity {
     public static final int MAX_STAT = 18;
 
     public PlayerClass(Notifier notifier) {

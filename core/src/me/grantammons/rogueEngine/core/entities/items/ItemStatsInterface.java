@@ -1,4 +1,4 @@
-package me.grantammons.rogueEngine.core.items;
+package me.grantammons.rogueEngine.core.entities.items;
 
 /**
  * Created by grantammons on 6/15/15.
