@@ -2,6 +2,7 @@ package me.grantammons.rogueEngine.core;
 
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
+import me.grantammons.rogueEngine.core.entities.items.Lights.Light;
 import me.grantammons.rogueEngine.core.entities.items.props.Prop;
 import me.grantammons.rogueEngine.core.entities.mobs.Mob;
 
@@ -23,12 +24,14 @@ public class Map {
     private ArrayList<AnimatedEntity> entities;
     private ArrayList<Item> items;
     private ArrayList<Prop> props;
+    private ArrayList<Light> lights;
     private int[][] map;
 
     public Map() {
         entities = new ArrayList<AnimatedEntity>();
         items = new ArrayList<Item>();
         props = new ArrayList<Prop>();
+        lights = new ArrayList<Light>();
     }
 
     public int[][] getMap() {
@@ -110,9 +113,11 @@ public class Map {
     public ArrayList<Item> getItems() {
         return items;
     }
-
     public ArrayList<Prop> getProps() {
         return props;
+    }
+    public ArrayList<Light> getLights() {
+        return lights;
     }
 
 }

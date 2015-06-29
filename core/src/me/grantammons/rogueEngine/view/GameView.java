@@ -10,12 +10,16 @@ import me.grantammons.rogueEngine.core.Constants;
 import me.grantammons.rogueEngine.core.Game;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
+import me.grantammons.rogueEngine.core.entities.items.Lights.Light;
+import me.grantammons.rogueEngine.core.entities.items.Lights.TorchLight;
 import me.grantammons.rogueEngine.core.entities.items.props.Prop;
 import me.grantammons.rogueEngine.core.entities.items.props.Torch;
 import me.grantammons.rogueEngine.view.entities.AnimatedEntityView;
 import me.grantammons.rogueEngine.view.entities.PlayerView;
 import me.grantammons.rogueEngine.view.input.GameInputProcessor;
 import me.grantammons.rogueEngine.view.items.ItemView;
+import me.grantammons.rogueEngine.view.items.lights.LightView;
+import me.grantammons.rogueEngine.view.items.lights.TorchLightView;
 import me.grantammons.rogueEngine.view.items.props.TorchView;
 import me.grantammons.rogueEngine.view.map.MapView;
 
@@ -31,6 +35,7 @@ public class GameView implements Screen {
     private ArrayList<AnimatedEntityView> monsterViews;
     private ArrayList<ItemView> itemViews;
     private ArrayList<ItemView> propViews;
+    private ArrayList<LightView> lightViews;
 
     private Game game;
     private Hud hud;
@@ -39,9 +44,10 @@ public class GameView implements Screen {
 
 
     public GameView(GameInputProcessor processor) {
-        monsterViews = new ArrayList<AnimatedEntityView>();
-        itemViews = new ArrayList<ItemView>();
-        propViews = new ArrayList<ItemView>();
+        monsterViews = new ArrayList<>();
+        itemViews = new ArrayList<>();
+        propViews = new ArrayList<>();
+        lightViews = new ArrayList<>();
 
         inputProcessor = processor;
         game = new Game();
@@ -59,6 +65,7 @@ public class GameView implements Screen {
         setupMonsters();
         setupItems();
         setupProps();
+        setupLights();
         inputProcessor.addListener(playerView);
 
         setupCamera();
@@ -110,6 +117,9 @@ public class GameView implements Screen {
         }
         for (ItemView itemView : propViews) {
             itemView.draw(batch);
+        }
+        for (LightView lightView : lightViews) {
+            lightView.draw();
         }
     }
 
@@ -167,10 +177,16 @@ public class GameView implements Screen {
     }
 
     private void setupProps() {
-        propViews = new ArrayList<ItemView>();
         for (Prop prop : game.map.getProps()) {
             if (prop instanceof Torch) {
-                propViews.add(new TorchView(game, prop, physics));
+                propViews.add(new TorchView(game, prop));
+            }
+        }
+    }
+    private void setupLights() {
+        for (Light light : game.map.getLights()) {
+            if (light instanceof TorchLight) {
+                lightViews.add(new TorchLightView(light, physics));
             }
         }
     }
