@@ -44,7 +44,5 @@ public class Brute extends PlayerClass {
 
     public void move() {
         super.move();
-        System.out.println("Player is at "+location.toString());
-
     }
 }

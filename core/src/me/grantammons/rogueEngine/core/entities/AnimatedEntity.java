@@ -3,6 +3,9 @@ package me.grantammons.rogueEngine.core.entities;
 import com.badlogic.gdx.math.MathUtils;
 import me.grantammons.rogueEngine.core.*;
 import me.grantammons.rogueEngine.core.entities.items.Item;
+import me.grantammons.rogueEngine.core.fov.Fov;
+
+import java.util.ArrayList;
 
 /**
  * Created by grantammons on 5/31/15.
@@ -36,6 +39,8 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
 
     public int intendedDirection = Constants.NO_DIRECTION;
 
+    private Fov fov;
+
     public AnimatedEntity(Notifier notifier) {
         super(notifier);
         sack = new Sack();
@@ -52,6 +57,7 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
                 map.dig(intendedLocation);
             } else if (map.canMove(intendedLocation)) {
                 move();
+                calculateFov(map);
             }
         } else {
             // do some other shit
@@ -303,5 +309,15 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     public boolean isExpired() {
         return isExpired;
     }
+
+    public ArrayList<Location> getVisibleTiles() {
+        return fov.getVisibleTiles();
+    }
+
+    public void calculateFov(Map map) {
+        fov = new Fov(map.getMap());
+        fov.calculateFov(location, map.getAmbientLightAt(location));
+    }
+
 }
 

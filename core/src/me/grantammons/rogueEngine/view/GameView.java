@@ -5,9 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import me.grantammons.rogueEngine.core.Constants;
 import me.grantammons.rogueEngine.core.Game;
+import me.grantammons.rogueEngine.core.Location;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
 import me.grantammons.rogueEngine.core.entities.items.Lights.Light;
@@ -25,6 +26,8 @@ import me.grantammons.rogueEngine.view.map.MapView;
 
 import java.util.ArrayList;
 
+import static me.grantammons.rogueEngine.core.Constants.*;
+
 public class GameView implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera cam;
@@ -41,6 +44,7 @@ public class GameView implements Screen {
     private Hud hud;
     private float accumulator;
     private Physics physics;
+    private ShapeRenderer shapeRenderer;
 
 
     public GameView(GameInputProcessor processor) {
@@ -48,6 +52,7 @@ public class GameView implements Screen {
         itemViews = new ArrayList<>();
         propViews = new ArrayList<>();
         lightViews = new ArrayList<>();
+        shapeRenderer = new ShapeRenderer();
 
         inputProcessor = processor;
         game = new Game();
@@ -78,22 +83,51 @@ public class GameView implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        /*
+        render lighted level
+        render visited areas that are not visible
+        render non-visited areas as black
+        render player
+        render monsters
+         */
+
         batch.setProjectionMatrix(cam.combined);
 
         expireDeadThings();
 
         batch.begin();
+        drawSprites();
+        batch.end();
 
+        lerpCameraToTarget();
+        physics.update(cam);
+        showFov();
+        hud.render(game);
+    }
+
+    private void showFov() {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        shapeRenderer.setProjectionMatrix(cam.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0, 1, 0, 0.3f);
+        for (Location location : game.player.getVisibleTiles()) {
+            shapeRenderer.rect(location.x * PIXEL_WIDTH, location.y * PIXEL_HEIGHT, PIXEL_WIDTH, PIXEL_HEIGHT);
+
+        }
+
+        shapeRenderer.end();
+
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+    }
+
+
+    private void drawSprites() {
         mapView.draw(batch);
         playerView.draw(batch);
 
         renderMonstersAndItems();
-        lerpCameraToTarget();
-
-        batch.end();
-        physics.update(cam);
-
-        hud.render(game);
     }
 
     private void lerpCameraToTarget() {
@@ -126,8 +160,8 @@ public class GameView implements Screen {
     @Override
     public void resize(int width, int height) {
         hud.resize(width, height);
-        cam.viewportHeight = Constants.VIEWPORT_HEIGHT;
-        cam.viewportWidth = (Constants.VIEWPORT_WIDTH / (float)height) * width;
+        cam.viewportHeight = VIEWPORT_HEIGHT;
+        cam.viewportWidth = (VIEWPORT_WIDTH / (float)height) * width;
         cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
         cam.update();
     }
@@ -155,13 +189,9 @@ public class GameView implements Screen {
     private void setupCamera() {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        cam = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT * (h / w));
+        cam = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT * (h / w));
         cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
         cam.update();
-    }
-
-    private void debugCoords(float x, float y) {
-        System.out.println("viewport = ("+x+", "+y+")");
     }
 
     private void setupMonsters() {

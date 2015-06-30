@@ -120,4 +120,7 @@ public class Map {
         return lights;
     }
 
+    public int getAmbientLightAt(Location location) {
+        return 1;
+    }
 }

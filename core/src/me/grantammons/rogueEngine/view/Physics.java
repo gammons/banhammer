@@ -21,6 +21,7 @@ public class Physics {
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f, 0f, 0f, 0.0f);
         rayHandler.setBlurNum(3);
+
         debugRenderer = new Box2DDebugRenderer();
     }
 

@@ -98,6 +98,9 @@ public class Game {
     private void spawnPlayer() {
         player.location = level.getPlayerSpawnLocation();
         map.getEntities().add(player);
+
+        // I don't know about this.
+        player.calculateFov(map);
     }
 
     private void loadMonsters() {
