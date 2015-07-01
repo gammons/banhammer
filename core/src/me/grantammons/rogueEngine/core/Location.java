@@ -39,8 +39,13 @@ public class Location {
         return loc;
     }
 
-    public boolean equals(Location other) {
-        return (other.x == x && other.y == y);
+    @Override
+    public boolean equals(Object other) {
+        if (other != null && other instanceof Location) {
+            Location l = (Location)other;
+            return (l.x == x && l.y == y);
+        }
+        return false;
     }
 
     public String toString() {
