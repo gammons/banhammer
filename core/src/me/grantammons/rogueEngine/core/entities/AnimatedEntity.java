@@ -6,6 +6,8 @@ import me.grantammons.rogueEngine.core.entities.items.Item;
 import me.grantammons.rogueEngine.core.fov.Fov;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by grantammons on 5/31/15.
@@ -40,10 +42,12 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     public int intendedDirection = Constants.NO_DIRECTION;
 
     private Fov fov;
+    private Set<Location> visitedTiles;
 
     public AnimatedEntity(Notifier notifier) {
         super(notifier);
         sack = new Sack();
+        visitedTiles = new HashSet<>();
     }
 
 
@@ -314,9 +318,14 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
         return fov.getVisibleTiles();
     }
 
+    public Set<Location> getVisitedTiles() {
+        return visitedTiles;
+    }
+
     public void calculateFov(Map map) {
         fov = new Fov(map.getMap());
         fov.calculateFov(location, map.getAmbientLightAt(location));
+        visitedTiles.addAll(fov.getVisibleTiles());
     }
 
 }

@@ -39,10 +39,10 @@ public class GameView implements Screen {
     private ArrayList<ItemView> itemViews;
     private ArrayList<ItemView> propViews;
     private ArrayList<LightView> lightViews;
+    private ArrayList<Location> nonVisibleTiles;
 
     private Game game;
     private Hud hud;
-    private float accumulator;
     private Physics physics;
     private ShapeRenderer shapeRenderer;
 
@@ -52,6 +52,7 @@ public class GameView implements Screen {
         itemViews = new ArrayList<>();
         propViews = new ArrayList<>();
         lightViews = new ArrayList<>();
+        nonVisibleTiles = new ArrayList<>();
         shapeRenderer = new ShapeRenderer();
 
         inputProcessor = processor;
@@ -83,45 +84,69 @@ public class GameView implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        expireDeadThings();
+
         /*
         render lighted level
+        render areas player can't currently see as black
         render visited areas that are not visible
-        render non-visited areas as black
         render player
         render monsters
          */
 
+        shapeRenderer.setProjectionMatrix(cam.combined);
         batch.setProjectionMatrix(cam.combined);
-
-        expireDeadThings();
-
         batch.begin();
         drawSprites();
         batch.end();
 
         lerpCameraToTarget();
-        physics.update(cam);
-        showFov();
+
+        renderLights();
+        renderFov();
+        renderSeenLevel();
         hud.render(game);
     }
 
-    private void showFov() {
+    /*
+    For tiles that are outside of the FOV area, and are also seen by the player,
+    render them darkened and unlit.
+     */
+    private void renderSeenLevel() {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0, 1, 0, 0.5f);
+        shapeRenderer.rect(64, 64, PIXEL_WIDTH, PIXEL_HEIGHT);
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+    }
+
+    private void renderLights() {
+        physics.update(cam);
+    }
+
+    private void renderFov() {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        shapeRenderer.setProjectionMatrix(cam.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 1, 0, 0.3f);
-        for (Location location : game.player.getVisibleTiles()) {
-            shapeRenderer.rect(location.x * PIXEL_WIDTH, location.y * PIXEL_HEIGHT, PIXEL_WIDTH, PIXEL_HEIGHT);
-
+        shapeRenderer.setColor(0, 0, 0, 1f);
+        nonVisibleTiles.clear();
+        for(int x = 0; x <= VIEWPORT_WIDTH / PIXEL_WIDTH; x++) {
+            for(int y = 0; y <= VIEWPORT_HEIGHT / PIXEL_HEIGHT; y ++) {
+                Location l = new Location(x,y);
+                if (!game.player.getVisibleTiles().contains(l)) {
+                    nonVisibleTiles.add(l);
+                    shapeRenderer.rect(x * PIXEL_WIDTH, y * PIXEL_HEIGHT, PIXEL_WIDTH, PIXEL_HEIGHT);
+                }
+            }
         }
 
         shapeRenderer.end();
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
-
 
     private void drawSprites() {
         mapView.draw(batch);
