@@ -1,4 +1,4 @@
-package me.grantammons.banhammer.tests;
+package me.grantammons.rogueEngine.tests;
 
 import me.grantammons.rogueEngine.core.Notifier;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
