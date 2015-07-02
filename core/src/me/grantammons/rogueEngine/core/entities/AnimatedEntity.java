@@ -318,8 +318,10 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
         return fov.getVisibleTiles();
     }
 
-    public Set<Location> getVisitedTiles() {
-        return visitedTiles;
+    public ArrayList<Location> getVisitedTiles() {
+        ArrayList<Location> ret = new ArrayList<>();
+        ret.addAll(visitedTiles);
+        return ret;
     }
 
     public void calculateFov(Map map) {

@@ -2,6 +2,7 @@ package me.grantammons.rogueEngine.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -98,13 +99,16 @@ public class GameView implements Screen {
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         drawSprites();
-        batch.end();
 
         lerpCameraToTarget();
 
         renderLights();
         renderFov();
+        batch.end();
+
+        batch.begin();
         renderSeenLevel();
+        batch.end();
         hud.render(game);
     }
 
@@ -115,10 +119,14 @@ public class GameView implements Screen {
     private void renderSeenLevel() {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 1, 0, 0.5f);
-        shapeRenderer.rect(64, 64, PIXEL_WIDTH, PIXEL_HEIGHT);
-        shapeRenderer.end();
+
+        batch.setColor(0.2f,0.2f,0.2f,0.8f);
+        for (Location location : game.player.getVisitedTiles()) {
+            if (!game.player.getVisibleTiles().contains(location))
+                mapView.drawMapTile(batch, location.x, location.y);
+        }
+
+        batch.setColor(Color.WHITE);
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
@@ -132,14 +140,11 @@ public class GameView implements Screen {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 0, 0, 1f);
-        nonVisibleTiles.clear();
         for(int x = 0; x <= VIEWPORT_WIDTH / PIXEL_WIDTH; x++) {
             for(int y = 0; y <= VIEWPORT_HEIGHT / PIXEL_HEIGHT; y ++) {
                 Location l = new Location(x,y);
-                if (!game.player.getVisibleTiles().contains(l)) {
-                    nonVisibleTiles.add(l);
+                if (!game.player.getVisitedTiles().contains(l))
                     shapeRenderer.rect(x * PIXEL_WIDTH, y * PIXEL_HEIGHT, PIXEL_WIDTH, PIXEL_HEIGHT);
-                }
             }
         }
 

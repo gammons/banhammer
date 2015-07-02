@@ -51,25 +51,30 @@ public class MapView {
         for(int y = 0; y < m.length; y++) {
             int[] mapRow = m[y];
             for (int x = 0; x < mapRow.length; x++) {
-                if (m[y][x] == Map.BEDROCK) {
-                    paintEdgeTile(batch, y, x);
-                }
-                if (m[y][x] == Map.GROUND) {
-                    batch.draw(dungeonRegions[3][0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
-                }
-                if (m[y][x] == Map.DIRT) {
-                    batch.draw(dirtRegions[0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
-                }
-                if (m[y][x] == Map.DIRTDUG1) {
-                    batch.draw(dirtRegions[1], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
-                }
-                if (m[y][x] == Map.DIRTDUG2) {
-                    batch.draw(dirtRegions[2], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
-                }
-                if (m[y][x] == Map.DIRTDUG3) {
-                    batch.draw(dirtRegions[3], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
-                }
+                drawMapTile(batch, x, y);
             }
+        }
+    }
+
+    public void drawMapTile(Batch batch, int x, int y) {
+        int[][] m = map.getMap();
+        if (m[y][x] == Map.BEDROCK) {
+            paintEdgeTile(batch, y, x);
+        }
+        if (m[y][x] == Map.GROUND) {
+            batch.draw(dungeonRegions[3][0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+        }
+        if (m[y][x] == Map.DIRT) {
+            batch.draw(dirtRegions[0], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+        }
+        if (m[y][x] == Map.DIRTDUG1) {
+            batch.draw(dirtRegions[1], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+        }
+        if (m[y][x] == Map.DIRTDUG2) {
+            batch.draw(dirtRegions[2], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
+        }
+        if (m[y][x] == Map.DIRTDUG3) {
+            batch.draw(dirtRegions[3], x * PIXEL_WIDTH, y * PIXEL_HEIGHT);
         }
     }
 
