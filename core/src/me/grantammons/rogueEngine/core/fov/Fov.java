@@ -29,7 +29,6 @@ public class Fov implements ILosBoard {
 
     @Override
     public boolean isObstacle(int x, int y) {
-        System.out.println("calculating is obstacle for "+ x + ", " + y);
         return (contains(x,y) && (map[y][x] != Map.GROUND));
     }
 
