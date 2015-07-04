@@ -123,4 +123,21 @@ public class Map {
     public int getAmbientLightAt(Location location) {
         return 1;
     }
+
+    public ArrayList<Integer> surrounding(int tileType, Location location) {
+        ArrayList<Integer> ret = new ArrayList<>();
+
+        if (tileAt(location.x - 1, location.y - 1) == tileType) ret.add(Constants.NORTHWEST);
+        if (tileAt(location.x - 1, location.y) == tileType) ret.add(Constants.WEST);
+        if (tileAt(location.x - 1, location.y + 1) == tileType) ret.add(Constants.SOUTHWEST);
+
+        if (tileAt(location.x, location.y - 1) == tileType) ret.add(Constants.NORTH);
+        if (tileAt(location.x, location.y + 1) == tileType) ret.add(Constants.SOUTH);
+
+        if (tileAt(location.x + 1, location.y - 1) == tileType) ret.add(Constants.NORTHEAST);
+        if (tileAt(location.x + 1, location.y) == tileType) ret.add(Constants.EAST);
+        if (tileAt(location.x + 1, location.y + 1) == tileType) ret.add(Constants.SOUTHEAST);
+
+        return ret;
+    }
 }
