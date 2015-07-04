@@ -17,7 +17,7 @@ public class PlayerView extends AnimatedEntityView implements InputListener {
         super(game, game.player, "player.png");
         this.physics = physics;
         TorchLight t = new TorchLight(new Notifier());
-        light = new TorchLightView(t, physics);
+        light = new TorchLightView(t, physics.getRayHandler());
     }
 
     public void draw(Batch batch) {

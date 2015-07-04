@@ -36,9 +36,11 @@ public class MapView {
         int[][] m = map.getMap();
         for (int y = 0; y < m.length; y++) {
             int[] mapRow = m[y];
-            for (int x = 0; x < mapRow.length; x++)
-                if ((m[y][x] == Map.BEDROCK) && (map.anySurrounds(Map.GROUND, new Location(x, y))))
-                    physics.addBody(new Location(x, y));
+            for (int x = 0; x < mapRow.length; x++) {
+                Location l = new Location(x, y);
+                if ((m[y][x] == Map.BEDROCK) && (map.anySurrounds(Map.GROUND, l)))
+                    physics.addBody(l, map.surrounding(Map.GROUND, l));
+            }
         }
     }
 

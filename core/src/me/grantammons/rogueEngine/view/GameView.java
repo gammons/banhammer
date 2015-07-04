@@ -246,7 +246,7 @@ public class GameView implements Screen {
     private void setupLights() {
         for (Light light : game.map.getLights()) {
             if (light instanceof TorchLight) {
-                lightViews.add(new TorchLightView(light, physics));
+                lightViews.add(new TorchLightView(light, physics.getRayHandler()));
             }
         }
     }

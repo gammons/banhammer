@@ -1,12 +1,12 @@
 package me.grantammons.rogueEngine.view.items.lights;
 
+import box2dLight.RayHandler;
 import me.grantammons.rogueEngine.core.entities.items.Lights.Light;
-import me.grantammons.rogueEngine.view.Physics;
 
 public class TorchLightView extends LightView {
 
-    public TorchLightView(Light light, Physics physics) {
-        super(light, physics);
+    public TorchLightView(Light light, RayHandler handler) {
+        super(light, handler);
         setupLight();
     }
 

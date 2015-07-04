@@ -2,28 +2,25 @@ package me.grantammons.rogueEngine.view.items.lights;
 
 import box2dLight.Light;
 import box2dLight.PointLight;
+import box2dLight.RayHandler;
 import com.badlogic.gdx.math.MathUtils;
-import me.grantammons.rogueEngine.view.Physics;
 
 import static me.grantammons.rogueEngine.core.Constants.PIXEL_HEIGHT;
 import static me.grantammons.rogueEngine.core.Constants.PIXEL_WIDTH;
 
-/**
- * Created by grantammons on 6/27/15.
- */
 public class LightView implements Lights {
     protected Light light;
-    protected Physics physics;
+    protected RayHandler rayHandler;
     protected me.grantammons.rogueEngine.core.entities.items.Lights.Light lightModel;
     protected float redColor;
     protected float greenColor;
     protected float blueColor;
     private int counter = 0;
 
-    public LightView(me.grantammons.rogueEngine.core.entities.items.Lights.Light light, Physics physics) {
+    public LightView(me.grantammons.rogueEngine.core.entities.items.Lights.Light light, RayHandler rayHandler) {
         this.lightModel = light;
-        this.light = new PointLight(physics.getRayHandler(), 128, null, lightModel.getBrightness(), 0f, 0f);
-        this.physics = physics;
+        this.light = new PointLight(rayHandler, 128, null, lightModel.getBrightness(), 0f, 0f);
+        this.rayHandler = rayHandler;
     }
 
     public void draw() {
