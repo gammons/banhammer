@@ -3,7 +3,7 @@ package me.grantammons.rogueEngine.tests;
 import me.grantammons.rogueEngine.core.Notifier;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.banhammer.entities.playerClasses.Brute;
-import me.grantammons.rogueEngine.core.utils.EventQueue;
+import me.grantammons.rogueEngine.core.utils.eventing.EventQueue;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

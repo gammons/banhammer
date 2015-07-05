@@ -140,4 +140,22 @@ public class Map {
 
         return ret;
     }
+
+    public ArrayList<Location> getPassableNeighbors(Location location) {
+        ArrayList<Location> ret = new ArrayList<>();
+
+        if (tileAt(location.x - 1, location.y - 1) == Map.GROUND) ret.add(new Location(location.x - 1, location.y - 1));
+        if (tileAt(location.x - 1, location.y) == Map.GROUND) ret.add(new Location(location.x - 1, location.y));
+        if (tileAt(location.x - 1, location.y + 1) == Map.GROUND) ret.add(new Location(location.x - 1, location.y + 1));
+
+        if (tileAt(location.x, location.y - 1) == Map.GROUND) ret.add(new Location(location.x, location.y - 1));
+        if (tileAt(location.x, location.y + 1) == Map.GROUND) ret.add(new Location(location.x, location.y + 1));
+
+        if (tileAt(location.x + 1, location.y - 1) == Map.GROUND) ret.add(new Location(location.x + 1, location.y - 1));
+        if (tileAt(location.x + 1, location.y) == Map.GROUND) ret.add(new Location(location.x + 1, location.y));
+        if (tileAt(location.x + 1, location.y + 1) == Map.GROUND) ret.add(new Location(location.x + 1, location.y + 1));
+
+        return ret;
+
+    }
 }

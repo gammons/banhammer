@@ -1,4 +1,4 @@
-package me.grantammons.rogueEngine.core.utils;
+package me.grantammons.rogueEngine.core.utils.eventing;
 
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 

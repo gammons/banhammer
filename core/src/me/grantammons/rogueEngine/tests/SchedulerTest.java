@@ -4,7 +4,7 @@ import me.grantammons.rogueEngine.core.Notifier;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.banhammer.entities.mobs.Imp;
 import me.grantammons.banhammer.entities.playerClasses.Brute;
-import me.grantammons.rogueEngine.core.utils.Scheduler;
+import me.grantammons.rogueEngine.core.utils.eventing.Scheduler;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

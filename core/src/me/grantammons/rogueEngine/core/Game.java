@@ -3,7 +3,7 @@ package me.grantammons.rogueEngine.core;
 import me.grantammons.banhammer.entities.playerClasses.Brute;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
-import me.grantammons.rogueEngine.core.utils.Scheduler;
+import me.grantammons.rogueEngine.core.utils.eventing.Scheduler;
 
 import java.util.ArrayList;
 
