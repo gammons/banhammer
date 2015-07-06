@@ -46,6 +46,7 @@ public class GameView implements Screen {
     private Hud hud;
     private Physics physics;
     private ShapeRenderer shapeRenderer;
+    private MouseSelector mouseSelector;
 
 
     public GameView(GameInputProcessor processor) {
@@ -76,6 +77,9 @@ public class GameView implements Screen {
         inputProcessor.addListener(playerView);
 
         setupCamera();
+        mouseSelector = new MouseSelector(cam, game);
+        inputProcessor.addListener(mouseSelector);
+
         batch.setProjectionMatrix(cam.combined);
 
     }
@@ -104,6 +108,7 @@ public class GameView implements Screen {
 
         renderLights();
         renderFov();
+        mouseSelector.draw(batch);
         batch.end();
 
         batch.begin();

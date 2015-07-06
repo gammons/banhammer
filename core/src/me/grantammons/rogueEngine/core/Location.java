@@ -12,6 +12,8 @@ public class Location {
         this.y = y;
     }
 
+    public Location() { }
+
     public static Location setLocationFromDirection(Location location, int direction) {
         Location loc = new Location(location.x, location.y);
         switch (direction) {

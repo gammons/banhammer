@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputProcessor;
 import me.grantammons.rogueEngine.core.Constants;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class GameInputProcessor implements InputProcessor {
@@ -156,7 +155,9 @@ public class GameInputProcessor implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        // TODO Auto-generated method stub
+        for (InputListener listener : listeners) {
+            listener.notifyMouseMoved(screenX, screenY);
+        }
         return false;
     }
 
@@ -166,9 +167,7 @@ public class GameInputProcessor implements InputProcessor {
         return false;
     }
     private void notifyListeners(int direction) {
-        Iterator<InputListener> iterator  = listeners.iterator();
-        while (iterator.hasNext()) {
-            InputListener listener = iterator.next();
+        for (InputListener listener : listeners) {
             listener.notify(direction);
         }
     }

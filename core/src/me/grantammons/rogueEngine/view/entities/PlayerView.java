@@ -34,4 +34,9 @@ public class PlayerView extends AnimatedEntityView implements InputListener {
             game.tick();
         }
     }
+
+    @Override
+    public void notifyMouseMoved(int screenX, int screenY) {
+
+    }
 }

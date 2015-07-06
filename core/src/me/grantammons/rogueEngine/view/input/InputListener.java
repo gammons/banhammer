@@ -5,4 +5,5 @@ package me.grantammons.rogueEngine.view.input;
  */
 public interface InputListener {
     void notify(int direction);
+    void notifyMouseMoved(int screenX, int screenY);
 }
