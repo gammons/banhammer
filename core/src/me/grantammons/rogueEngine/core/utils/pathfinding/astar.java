@@ -5,7 +5,7 @@ import me.grantammons.rogueEngine.core.Map;
 
 import java.util.ArrayList;
 
-public class Astar {
+public class AStar {
     private final Map map;
     private Location to;
     private Location from;
@@ -13,7 +13,7 @@ public class Astar {
     private ArrayList<AStarLocation> done;
 
 
-    public Astar(Location to, Map map) {
+    public AStar(Location to, Map map) {
         this.todo = new ArrayList<>();
         this.done = new ArrayList<>();
         this.to = to;
@@ -23,7 +23,29 @@ public class Astar {
     public ArrayList<Location> compute(Location from) {
         this.from = from;
         add(to, null);
+        populateTodo(from);
+        return calculatePath(from);
+    }
 
+    private ArrayList<Location> calculatePath(Location from) {
+        ArrayList<Location> path = new ArrayList<>();
+        AStarLocation loc = null;
+
+        for(AStarLocation l : done) {
+            if (l.location.equals(from)) {
+                loc = l;
+                break;
+            }
+        }
+
+        while(loc != null) {
+            path.add(loc.location);
+            loc = loc.prev;
+        }
+        return path;
+    }
+
+    private void populateTodo(Location from) {
         AStarLocation item;
         while(todo.size() > 0) {
             item = todo.get(0);
@@ -32,24 +54,19 @@ public class Astar {
             if (item.location.equals(from)) break;
 
             for (Location loc : map.getPassableNeighbors(item.location)) {
-                boolean doneContainsLocation = false;
-                for (AStarLocation aStarLocation : done) {
-                    if (aStarLocation.location.equals(loc))
-                        doneContainsLocation = true;
-                }
-                if (doneContainsLocation) continue;
+                if (containsLocation(loc)) continue;
                 add(loc, item);
             }
         }
-        ArrayList<Location> path = new ArrayList<>();
+    }
 
-        AStarLocation loc = done.stream().filter(l -> l.location.equals(from)).findFirst().get();
-
-        while(loc != null) {
-            path.add(loc.location);
-            loc = loc.prev;
+    private boolean containsLocation(Location loc) {
+        boolean doneContainsLocation = false;
+        for (AStarLocation aStarLocation : done) {
+            if (aStarLocation.location.equals(loc))
+                doneContainsLocation = true;
         }
-        return path;
+        return doneContainsLocation;
     }
 
     private void add(Location l , AStarLocation prev) {

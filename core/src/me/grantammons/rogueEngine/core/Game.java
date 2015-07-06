@@ -104,7 +104,6 @@ public class Game {
     }
 
     private void loadMonsters() {
-        System.out.println("loadmonsters called");
         for (AnimatedEntity e : map.getMonsters()) {
             scheduler.addEntity(e);
         }
