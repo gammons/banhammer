@@ -8,9 +8,6 @@ import me.grantammons.rogueEngine.core.utils.eventing.Scheduler;
 
 import java.util.ArrayList;
 
-/**
- * Created by grantammons on 5/31/15.
- */
 public class Game {
     public AnimatedEntity player;
     public Map map;

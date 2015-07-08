@@ -8,9 +8,6 @@ import me.grantammons.rogueEngine.core.Location;
 import me.grantammons.rogueEngine.core.Map;
 import me.grantammons.rogueEngine.view.Physics;
 
-/**
- * Created by grantammons on 5/30/15.
- */
 public class MapView {
     int PIXEL_WIDTH = 16;
     int PIXEL_HEIGHT = 16;
@@ -45,10 +42,6 @@ public class MapView {
     }
 
     public void draw(Batch batch) {
-        drawMap(batch);
-    }
-
-    private void drawMap(Batch batch) {
         int[][] m = map.getMap();
         for(int y = 0; y < m.length; y++) {
             int[] mapRow = m[y];

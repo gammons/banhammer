@@ -16,9 +16,6 @@ import static me.grantammons.rogueEngine.core.Constants.PIXEL_WIDTH;
 public class AnimatedEntityView implements Drawable{
     float WALK_SPEED = 0.17f;
 
-    private long timestamp;
-    protected boolean isWalking;
-
     public Sprite sprite;
     protected Game game;
     protected AnimatedEntity animatedEntity;
@@ -32,7 +29,6 @@ public class AnimatedEntityView implements Drawable{
         sprite = new Sprite(new Texture(asset));
         sprite.setSize(PIXEL_WIDTH, PIXEL_HEIGHT);
         sprite.setPosition(animatedEntity.location.x * PIXEL_WIDTH, animatedEntity.location.y * PIXEL_HEIGHT);
-        isWalking = false;
     }
 
     public void draw(Batch batch, TweenManager tweenManager) {

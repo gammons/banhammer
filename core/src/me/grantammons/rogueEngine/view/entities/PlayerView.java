@@ -29,8 +29,6 @@ public class PlayerView extends AnimatedEntityView implements InputListener {
 
     @Override
     public void notify(int direction) {
-        if (isWalking) return;
-
         if (game.playerCanMoveTo(direction)) {
             animatedEntity.intendedLocation = Location.setLocationFromDirection(animatedEntity.location, direction);
             game.tick();

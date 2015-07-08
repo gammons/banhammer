@@ -43,7 +43,6 @@ public class GameView implements Screen {
     private ArrayList<ItemView> itemViews;
     private ArrayList<ItemView> propViews;
     private ArrayList<LightView> lightViews;
-    private ArrayList<Location> nonVisibleTiles;
 
     private Game game;
     private Hud hud;
@@ -58,13 +57,14 @@ public class GameView implements Screen {
         itemViews = new ArrayList<>();
         propViews = new ArrayList<>();
         lightViews = new ArrayList<>();
-        nonVisibleTiles = new ArrayList<>();
         shapeRenderer = new ShapeRenderer();
 
         inputProcessor = processor;
         game = new Game();
         hud = new Hud();
         physics = new Physics();
+        Tween.registerAccessor(Sprite.class, new SpriteTween());
+        tweenManager = new TweenManager();
     }
 
     @Override
@@ -75,8 +75,6 @@ public class GameView implements Screen {
         mapView = new MapView(game.map, physics);
         playerView = new PlayerView(game, physics);
 
-        Tween.registerAccessor(Sprite.class, new SpriteTween());
-        tweenManager = new TweenManager();
 
         setupMonsters();
         setupItems();
