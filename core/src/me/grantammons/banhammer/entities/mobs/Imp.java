@@ -11,7 +11,7 @@ public class Imp extends Mob {
         super(notifier);
         name = "Imp";
         hp = 5;
-        speed = 5;
+        speed = 20;
     }
 
     @Override
