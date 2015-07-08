@@ -1,10 +1,13 @@
 package me.grantammons.rogueEngine.view;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
@@ -47,6 +50,7 @@ public class GameView implements Screen {
     private Physics physics;
     private ShapeRenderer shapeRenderer;
     private MouseSelector mouseSelector;
+    private TweenManager tweenManager;
 
 
     public GameView(GameInputProcessor processor) {
@@ -70,6 +74,10 @@ public class GameView implements Screen {
 
         mapView = new MapView(game.map, physics);
         playerView = new PlayerView(game, physics);
+
+        Tween.registerAccessor(Sprite.class, new SpriteTween());
+        tweenManager = new TweenManager();
+
         setupMonsters();
         setupItems();
         setupProps();
@@ -90,6 +98,7 @@ public class GameView implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         expireDeadThings();
+        tweenManager.update(delta);
 
         /*
         render lighted level
@@ -108,7 +117,7 @@ public class GameView implements Screen {
 
         renderLights();
         renderFov();
-        mouseSelector.draw(batch);
+        mouseSelector.draw(batch, tweenManager);
         batch.end();
 
         batch.begin();
@@ -160,7 +169,7 @@ public class GameView implements Screen {
 
     private void drawSprites() {
         mapView.draw(batch);
-        playerView.draw(batch);
+        playerView.draw(batch, tweenManager);
 
         renderMonstersAndItems();
     }
@@ -179,13 +188,13 @@ public class GameView implements Screen {
 
     private void renderMonstersAndItems() {
         for (AnimatedEntityView monsterView : monsterViews) {
-            monsterView.draw(batch);
+            monsterView.draw(batch, tweenManager);
         }
         for (ItemView itemView : itemViews) {
-            itemView.draw(batch);
+            itemView.draw(batch, tweenManager);
         }
         for (ItemView itemView : propViews) {
-            itemView.draw(batch);
+            itemView.draw(batch, tweenManager);
         }
         for (LightView lightView : lightViews) {
             lightView.draw();

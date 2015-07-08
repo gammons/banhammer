@@ -1,20 +1,20 @@
 package me.grantammons.rogueEngine.view.entities;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.equations.Quad;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.utils.TimeUtils;
 import me.grantammons.rogueEngine.core.Game;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
+import me.grantammons.rogueEngine.view.Drawable;
 
-import static me.grantammons.rogueEngine.core.Constants.*;
+import static me.grantammons.rogueEngine.core.Constants.PIXEL_HEIGHT;
+import static me.grantammons.rogueEngine.core.Constants.PIXEL_WIDTH;
 
-/**
- * Created by grantammons on 6/5/15.
- */
-public class AnimatedEntityView {
-    float WALK_SPEED = 90f;
+public class AnimatedEntityView implements Drawable{
+    float WALK_SPEED = 0.17f;
 
     private long timestamp;
     protected boolean isWalking;
@@ -35,52 +35,12 @@ public class AnimatedEntityView {
         isWalking = false;
     }
 
-    public void draw(Batch batch) {
+    public void draw(Batch batch, TweenManager tweenManager) {
         if (didLocationChange()) {
-            isWalking = true;
-            if (timestamp == 0) {
-                timestamp = TimeUtils.millis();
-            }
-
-            float t = TimeUtils.timeSinceMillis(timestamp) / WALK_SPEED;
-            float lerped = Interpolation.fade.apply(0f, 15f, t);
-
-            switch (animatedEntity.intendedDirection) {
-                case NORTH:
-                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT, lastSeenY * PIXEL_HEIGHT + lerped);
-                    break;
-                case SOUTH:
-                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT, lastSeenY * PIXEL_HEIGHT - lerped);
-                    break;
-                case WEST:
-                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT - lerped, lastSeenY * PIXEL_HEIGHT);
-                    break;
-                case EAST:
-                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT + lerped, lastSeenY * PIXEL_HEIGHT);
-                    break;
-                case NORTHEAST:
-                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT + lerped, lastSeenY * PIXEL_HEIGHT + lerped);
-                    break;
-                case NORTHWEST:
-                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT - lerped, lastSeenY * PIXEL_HEIGHT + lerped);
-                    break;
-                case SOUTHEAST:
-                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT + lerped, lastSeenY * PIXEL_HEIGHT - lerped);
-                    break;
-                case SOUTHWEST:
-                    sprite.setPosition(lastSeenX * PIXEL_HEIGHT - lerped, lastSeenY * PIXEL_HEIGHT - lerped);
-                    break;
-            }
-            sprite.draw(batch);
-
-            if (lerped >= 15) {
-                setLastSeen();
-                timestamp = 0;
-                isWalking = false;
-            }
-        } else {
-            batch.draw(sprite, animatedEntity.location.x * PIXEL_WIDTH, animatedEntity.location.y * PIXEL_HEIGHT);
+            Tween.to(sprite, 0, WALK_SPEED).target(animatedEntity.location.x * PIXEL_WIDTH, animatedEntity.location.y * PIXEL_HEIGHT).ease(Quad.INOUT).start(tweenManager);
+            setLastSeen();
         }
+        sprite.draw(batch);
     }
 
     private void setLastSeen() {

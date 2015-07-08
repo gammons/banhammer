@@ -1,5 +1,6 @@
 package me.grantammons.rogueEngine.view;
 
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,7 +21,6 @@ public class MouseSelector implements InputListener, Drawable {
 
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
-    private Location location;
     private Game game;
     private ArrayList<Location> path;
 
@@ -28,7 +28,6 @@ public class MouseSelector implements InputListener, Drawable {
         this.cam = cam;
         this.game = game;
         shapeRenderer = new ShapeRenderer();
-        location = new Location();
         path = new ArrayList<>();
     }
 
@@ -39,20 +38,22 @@ public class MouseSelector implements InputListener, Drawable {
 
     @Override
     public void notifyMouseMoved(int screenX, int screenY) {
-        Vector3 coords = new Vector3(screenX, screenY, 0);
-        cam.unproject(coords);
-        coords.x /= PIXEL_WIDTH;
-        coords.y /= PIXEL_HEIGHT;
+        Location location = getLocation(screenX, screenY);
+        setPath(location);
+    }
 
-        location.x = (int)coords.x;
-        location.y = (int)coords.y;
 
-        AStar AStar = new AStar(location, game.map);
-        path =  AStar.compute(game.player.location);
+    @Override
+    public void notifyMouseClicked(int screenX, int screenY, int button) {
+        setPath(getLocation(screenX, screenY));
+        if (!path.isEmpty()) {
+            game.player.setPath(path);
+            game.tick();
+        }
     }
 
     @Override
-    public void draw(Batch batch) {
+    public void draw(Batch batch, TweenManager tweenManager) {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -65,6 +66,23 @@ public class MouseSelector implements InputListener, Drawable {
         shapeRenderer.end();
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
+    }
 
+    private Location getLocation(int screenX, int screenY) {
+        Vector3 coords = new Vector3(screenX, screenY, 0);
+        cam.unproject(coords);
+        coords.x /= PIXEL_WIDTH;
+        coords.y /= PIXEL_HEIGHT;
+
+        return new Location((int)coords.x, (int)coords.y);
+    }
+
+    private void setPath(Location location) {
+        if (game.player.getVisibleTiles().contains(location)) {
+            AStar AStar = new AStar(location, game.map);
+            path =  AStar.compute(game.player.location);
+        } else {
+            path.clear();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package me.grantammons.rogueEngine.view.entities;
 
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import me.grantammons.rogueEngine.core.Game;
 import me.grantammons.rogueEngine.core.Location;
@@ -21,8 +22,8 @@ public class PlayerView extends AnimatedEntityView implements InputListener {
         light = new TorchLightView(t, physics.getRayHandler());
     }
 
-    public void draw(Batch batch) {
-        super.draw(batch);
+    public void draw(Batch batch, TweenManager tweenManager) {
+        super.draw(batch, tweenManager);
         light.drawAt(sprite.getX(), sprite.getY());
     }
 

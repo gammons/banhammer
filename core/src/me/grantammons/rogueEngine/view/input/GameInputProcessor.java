@@ -138,6 +138,9 @@ public class GameInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        for (InputListener listener : listeners) {
+            listener.notifyMouseClicked(screenX, screenY, button);
+        }
         return false;
     }
 

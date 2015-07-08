@@ -1,5 +1,6 @@
 package me.grantammons.rogueEngine.view.items.props;
 
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -22,7 +23,8 @@ public class TorchView extends ItemView {
     }
 
 
-    public void draw(Batch batch) {
+    @Override
+    public void draw(Batch batch, TweenManager tweenManager) {
         stateTime += Gdx.graphics.getDeltaTime();
         batch.draw(animation.getKeyFrame(stateTime, true), item.location.x * Constants.PIXEL_WIDTH, item.location.y * Constants.PIXEL_HEIGHT);
     }
