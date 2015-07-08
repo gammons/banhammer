@@ -2,6 +2,7 @@ package me.grantammons.rogueEngine.core;
 
 import me.grantammons.banhammer.entities.playerClasses.Brute;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
+import me.grantammons.rogueEngine.core.entities.Entity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
 import me.grantammons.rogueEngine.core.utils.eventing.Scheduler;
 
@@ -37,11 +38,17 @@ public class Game {
     }
 
     public void tick() {
-        processPlayerTurn();
-        bringOutYourDead();
-        processEntityTurns();
-        itemPickups();
-        bringOutYourDead();
+        Entity e = scheduler.nextEntity();
+        while (continueProcessing(e)) {
+            e.takeTurn(map);
+            bringOutYourDead();
+            itemPickups();
+            e = scheduler.nextEntity();
+        }
+    }
+
+    private boolean continueProcessing(Entity e) {
+        return !e.equals(player) || !player.needsHumanInput();
     }
 
     public boolean playerCanMoveTo(int direction) {
@@ -51,22 +58,6 @@ public class Game {
 
     public ArrayList<String> recentNotifications() {
         return notifier.recent();
-    }
-
-    private void processPlayerTurn() {
-        AnimatedEntity e = scheduler.currentEntity();
-        if (e == null) e = scheduler.nextEntity(); // special case for first turn
-        e.takeTurn(map);
-    }
-
-    private void processEntityTurns() {
-        AnimatedEntity e;
-        e = scheduler.nextEntity();
-        while (!e.equals(player)) {
-            e.calculateMove(map);
-            e.takeTurn(map);
-            e = scheduler.nextEntity();
-        }
     }
 
     private void itemPickups() {

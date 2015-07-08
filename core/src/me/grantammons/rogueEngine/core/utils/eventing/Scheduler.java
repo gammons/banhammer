@@ -1,6 +1,6 @@
 package me.grantammons.rogueEngine.core.utils.eventing;
 
-import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
+import me.grantammons.rogueEngine.core.entities.Entity;
 
 import java.util.ArrayList;
 
@@ -11,21 +11,21 @@ public class Scheduler {
     private static final int DEFAULT_DURATION = 1;
     private int duration;
     private EventQueue queue;
-    private ArrayList<AnimatedEntity> repeat;
-    private AnimatedEntity current;
+    private ArrayList<Entity> repeat;
+    private Entity current;
 
     public Scheduler() {
         queue = new EventQueue();
-        repeat = new ArrayList<AnimatedEntity>();
+        repeat = new ArrayList<>();
     }
 
-    public void add(AnimatedEntity e, boolean repeat, int time) {
+    public void add(Entity e, boolean repeat, int time) {
         if (repeat)
             this.repeat.add(e);
         queue.add(e, time);
     }
 
-    public void addEntity(AnimatedEntity e) {
+    public void addEntity(Entity e) {
         repeat.add(e);
         queue.add(e, e.getSpeed());
     }
@@ -37,11 +37,11 @@ public class Scheduler {
         duration = DEFAULT_DURATION;
     }
 
-    public AnimatedEntity remove(AnimatedEntity item) {
+    public Entity remove(Entity item) {
         if (item == current)
             duration = DEFAULT_DURATION;
 
-        AnimatedEntity result = queue.remove(item);
+        Entity result = queue.remove(item);
         repeat.remove(item);
 
         if (current == item)
@@ -50,7 +50,7 @@ public class Scheduler {
         return result;
     }
 
-    public AnimatedEntity nextEntity() {
+    public Entity nextEntity() {
         if (current != null && repeat.indexOf(current) != -1) {
             queue.add(current, current.getSpeed());
         }
@@ -60,7 +60,7 @@ public class Scheduler {
         return current;
     }
 
-    public AnimatedEntity currentEntity() {
+    public Entity currentEntity() {
         return current;
     }
 

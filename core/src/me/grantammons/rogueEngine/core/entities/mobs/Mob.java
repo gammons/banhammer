@@ -14,7 +14,7 @@ public abstract class Mob extends AnimatedEntity {
     public void calculateMove(Map map) {
         boolean moveFound = false;
         for(int x = 0; x < 10; x++) {
-            intendedDirection = MathUtils.random(3);
+            int intendedDirection = MathUtils.random(3);
             intendedLocation = Location.setLocationFromDirection(location, intendedDirection);
             if (map.canMove(intendedLocation)) {
                 moveFound = true;
@@ -22,5 +22,9 @@ public abstract class Mob extends AnimatedEntity {
         }
 
         if (!moveFound) intendedLocation = location;
+    }
+
+    public boolean hasAI() {
+        return true;
     }
 }

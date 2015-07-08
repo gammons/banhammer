@@ -39,8 +39,6 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     protected Item gloves;
     protected Sack sack;
 
-    public int intendedDirection = Constants.NO_DIRECTION;
-
     private Fov fov;
     private Set<Location> visitedTiles;
 
@@ -52,19 +50,33 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
 
 
     public void takeTurn(Map map) {
-        if (intendedDirection >= 0) {
-            intendedLocation = Location.setLocationFromDirection(location, intendedDirection);
-            AnimatedEntity attackable = map.entityAt(intendedLocation);
-            if (attackable != null) {
-                attack(attackable);
-            } else if (map.canDig(intendedLocation)) {
-                map.dig(intendedLocation);
-            } else if (map.canMove(intendedLocation)) {
-                move();
-                calculateFov(map);
-            }
-        } else {
-            // do some other shit
+        if (hasPath()) {
+            followPath();
+        } else if (hasAI()) {
+            calculateMove(map);
+        }
+        processMove(map);
+    }
+
+    private void followPath() {
+        intendedLocation = path.get(0);
+        path.remove(0);
+    }
+
+    public boolean hasAI() {
+        return false;
+    }
+
+    private void processMove(Map map) {
+        AnimatedEntity attackable = map.entityAt(intendedLocation);
+        if (attackable != null) {
+            attack(attackable);
+            intendedLocation = location;
+        } else if (map.canDig(intendedLocation)) {
+            map.dig(intendedLocation);
+        } else if (map.canMove(intendedLocation)) {
+            move();
+            calculateFov(map);
         }
     }
 
@@ -330,5 +342,8 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
         visitedTiles.addAll(fov.getVisibleTiles());
     }
 
+    public boolean needsHumanInput() {
+        return !hasPath() && (intendedLocation.equals(location));
+    }
 }
 

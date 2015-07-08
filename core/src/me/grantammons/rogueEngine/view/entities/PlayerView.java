@@ -2,6 +2,7 @@ package me.grantammons.rogueEngine.view.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import me.grantammons.rogueEngine.core.Game;
+import me.grantammons.rogueEngine.core.Location;
 import me.grantammons.rogueEngine.core.Notifier;
 import me.grantammons.rogueEngine.core.entities.items.Lights.TorchLight;
 import me.grantammons.rogueEngine.view.Physics;
@@ -30,13 +31,18 @@ public class PlayerView extends AnimatedEntityView implements InputListener {
         if (isWalking) return;
 
         if (game.playerCanMoveTo(direction)) {
-            animatedEntity.intendedDirection = direction;
+            animatedEntity.intendedLocation = Location.setLocationFromDirection(animatedEntity.location, direction);
             game.tick();
         }
     }
 
     @Override
     public void notifyMouseMoved(int screenX, int screenY) {
+
+    }
+
+    @Override
+    public void notifyMouseClicked(int screenX, int screenY, int button) {
 
     }
 }

@@ -1,6 +1,6 @@
 package me.grantammons.rogueEngine.core.utils.eventing;
 
-import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
+import me.grantammons.rogueEngine.core.entities.Entity;
 
 import java.util.ArrayList;
 
@@ -9,12 +9,12 @@ import java.util.ArrayList;
  */
 public class EventQueue {
     private int time;
-    public ArrayList<AnimatedEntity> entityEvents;
+    public ArrayList<Entity> entityEvents;
     public ArrayList<Integer> eventTimes;
 
     public EventQueue() {
         time = 0;
-        entityEvents = new ArrayList<AnimatedEntity>();
+        entityEvents = new ArrayList<Entity>();
         eventTimes = new ArrayList<Integer>();
     }
 
@@ -27,7 +27,7 @@ public class EventQueue {
         eventTimes.clear();
     }
 
-    public void add(AnimatedEntity entity, int time) {
+    public void add(Entity entity, int time) {
         int index = entityEvents.size();
         for (int i = 0; i < eventTimes.size(); i++) {
             if (eventTimes.get(i) > time) {
@@ -40,7 +40,7 @@ public class EventQueue {
 
     }
 
-    public AnimatedEntity get() {
+    public Entity get() {
         if (entityEvents.size() == 0)
             return null;
 
@@ -52,18 +52,18 @@ public class EventQueue {
                 eventTimes.set(i, eventTimes.get(i) - _time);
             }
         }
-        AnimatedEntity e = entityEvents.remove(0);
+        Entity e = entityEvents.remove(0);
 
         return e;
     }
 
-    public AnimatedEntity remove(AnimatedEntity entity) {
+    public Entity remove(Entity entity) {
         int index = entityEvents.indexOf(entity);
         eventTimes.remove(index);
         return entityEvents.remove(index);
     }
 
-    public ArrayList<AnimatedEntity> getEntityEvents() {
+    public ArrayList<Entity> getEntityEvents() {
         return entityEvents;
     }
 
@@ -74,7 +74,7 @@ public class EventQueue {
 
     private void debugEvents(String s) {
         System.out.print(s + " [");
-        for(AnimatedEntity e : entityEvents) {
+        for(Entity e : entityEvents) {
             System.out.print(e.name + ", ");
         }
         System.out.print("]\n");
