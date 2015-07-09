@@ -20,6 +20,7 @@ import me.grantammons.rogueEngine.core.entities.items.Lights.TorchLight;
 import me.grantammons.rogueEngine.core.entities.items.props.Prop;
 import me.grantammons.rogueEngine.core.entities.items.props.Torch;
 import me.grantammons.rogueEngine.view.entities.AnimatedEntityView;
+import me.grantammons.rogueEngine.view.entities.EntityView;
 import me.grantammons.rogueEngine.view.entities.PlayerView;
 import me.grantammons.rogueEngine.view.input.GameInputProcessor;
 import me.grantammons.rogueEngine.view.items.ItemView;
@@ -39,9 +40,7 @@ public class GameView implements Screen {
 
     private MapView mapView;
     private PlayerView playerView;
-    private ArrayList<AnimatedEntityView> monsterViews;
-    private ArrayList<ItemView> itemViews;
-    private ArrayList<ItemView> propViews;
+    private ArrayList<EntityView> entityViews;
     private ArrayList<LightView> lightViews;
 
     private Game game;
@@ -53,9 +52,7 @@ public class GameView implements Screen {
 
 
     public GameView(GameInputProcessor processor) {
-        monsterViews = new ArrayList<>();
-        itemViews = new ArrayList<>();
-        propViews = new ArrayList<>();
+        entityViews = new ArrayList<>();
         lightViews = new ArrayList<>();
         shapeRenderer = new ShapeRenderer();
 
@@ -74,15 +71,11 @@ public class GameView implements Screen {
 
         mapView = new MapView(game.map, physics);
         playerView = new PlayerView(game, physics);
-
-
-        setupMonsters();
-        setupItems();
-        setupProps();
-        setupLights();
+        entityViews.add(playerView);
         inputProcessor.addListener(playerView);
 
         setupCamera();
+        setupEntityViews();
         mouseSelector = new MouseSelector(cam, game);
         inputProcessor.addListener(mouseSelector);
 
@@ -143,6 +136,10 @@ public class GameView implements Screen {
     }
 
     private void renderLights() {
+        for (LightView lightView : lightViews) {
+            lightView.draw(batch, tweenManager);
+        }
+
         physics.update(cam);
     }
 
@@ -167,36 +164,21 @@ public class GameView implements Screen {
 
     private void drawSprites() {
         mapView.draw(batch);
-        playerView.draw(batch, tweenManager);
-
-        renderMonstersAndItems();
+        for (EntityView entityView : entityViews) {
+            entityView.draw(batch, tweenManager);
+        }
     }
 
     private void lerpCameraToTarget() {
         Vector3 position = cam.position;
-        position.x = cam.position.x + (playerView.sprite.getX() - cam.position.x) * .2f;
-        position.y = cam.position.y + (playerView.sprite.getY() - cam.position.y) * .2f;
+        position.x = cam.position.x + (playerView.getSprite().getX() - cam.position.x) * .2f;
+        position.y = cam.position.y + (playerView.getSprite().getY() - cam.position.y) * .2f;
         cam.position.set(position);
         cam.update();
     }
 
     private void expireDeadThings() {
-        monsterViews.removeIf(m -> m.getAnimatedEntity().isExpired() == true);
-    }
-
-    private void renderMonstersAndItems() {
-        for (AnimatedEntityView monsterView : monsterViews) {
-            monsterView.draw(batch, tweenManager);
-        }
-        for (ItemView itemView : itemViews) {
-            itemView.draw(batch, tweenManager);
-        }
-        for (ItemView itemView : propViews) {
-            itemView.draw(batch, tweenManager);
-        }
-        for (LightView lightView : lightViews) {
-            lightView.draw();
-        }
+        entityViews.removeIf(m -> m.getEntity().isExpired() == true);
     }
 
     @Override
@@ -204,7 +186,7 @@ public class GameView implements Screen {
         hud.resize(width, height);
         cam.viewportHeight = VIEWPORT_HEIGHT;
         cam.viewportWidth = (VIEWPORT_WIDTH / (float)height) * width;
-        cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
+        cam.position.set(playerView.getSprite().getX(), playerView.getSprite().getY(), 0);
         cam.update();
     }
 
@@ -232,30 +214,22 @@ public class GameView implements Screen {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         cam = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT * (h / w));
-        cam.position.set(playerView.sprite.getX(), playerView.sprite.getY(), 0);
+        cam.position.set(playerView.getSprite().getX(), playerView.getSprite().getY(), 0);
         cam.update();
     }
 
-    private void setupMonsters() {
+    private void setupEntityViews() {
         for(AnimatedEntity e : game.map.getMonsters()) {
-            monsterViews.add(new AnimatedEntityView(game, e, "monster.png"));
+            entityViews.add(new AnimatedEntityView(game, e, "monster.png"));
         }
-    }
-
-    private void setupItems() {
         for(Item i : game.getItems()) {
-            itemViews.add(new ItemView(game, i));
+            entityViews.add(new ItemView(game, i));
         }
-    }
-
-    private void setupProps() {
         for (Prop prop : game.map.getProps()) {
             if (prop instanceof Torch) {
-                propViews.add(new TorchView(game, prop));
+                entityViews.add(new TorchView(game, prop));
             }
         }
-    }
-    private void setupLights() {
         for (Light light : game.map.getLights()) {
             if (light instanceof TorchLight) {
                 lightViews.add(new TorchLightView(light, physics.getRayHandler()));

@@ -22,6 +22,7 @@ public class PlayerView extends AnimatedEntityView implements InputListener {
         light = new TorchLightView(t, physics.getRayHandler());
     }
 
+    @Override
     public void draw(Batch batch, TweenManager tweenManager) {
         super.draw(batch, tweenManager);
         light.drawAt(sprite.getX(), sprite.getY());
@@ -30,7 +31,7 @@ public class PlayerView extends AnimatedEntityView implements InputListener {
     @Override
     public void notify(int direction) {
         if (game.playerCanMoveTo(direction)) {
-            animatedEntity.intendedLocation = Location.setLocationFromDirection(animatedEntity.location, direction);
+            entity.intendedLocation = Location.setLocationFromDirection(entity.location, direction);
             game.tick();
         }
     }

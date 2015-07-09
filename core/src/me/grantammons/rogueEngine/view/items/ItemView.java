@@ -7,14 +7,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import me.grantammons.rogueEngine.core.Constants;
 import me.grantammons.rogueEngine.core.Game;
 import me.grantammons.rogueEngine.core.entities.items.Item;
-import me.grantammons.rogueEngine.view.Drawable;
+import me.grantammons.rogueEngine.view.entities.EntityView;
 
-public class ItemView implements Drawable {
+public class ItemView extends EntityView {
     protected Item item;
-    protected Sprite sprite;
-    protected Game game;
 
     public ItemView(Game game, Item item) {
+        super(game, item);
         sprite = new Sprite(new Texture(item.getSpriteFile()));
         sprite.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         sprite.setSize(Constants.PIXEL_WIDTH, Constants.PIXEL_HEIGHT);
@@ -25,6 +24,7 @@ public class ItemView implements Drawable {
 
     @Override
     public void draw(Batch batch, TweenManager tweenManager) {
+        super.draw(batch, tweenManager);
         if (item.isExpired()) return;
         batch.draw(sprite, item.location.x * Constants.PIXEL_WIDTH, item.location.y * Constants.PIXEL_HEIGHT);
     }

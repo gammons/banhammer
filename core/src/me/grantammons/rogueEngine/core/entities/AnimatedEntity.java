@@ -14,7 +14,6 @@ import java.util.Set;
  */
 
 public abstract class AnimatedEntity extends Entity implements StatsInterface {
-    public Location intendedLocation;
 
     protected int speed;
 
@@ -320,10 +319,6 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
             sack.getItems().add(i);
             i.setIsExpired(true);
         }
-    }
-
-    public boolean isExpired() {
-        return isExpired;
     }
 
     public ArrayList<Location> getVisibleTiles() {

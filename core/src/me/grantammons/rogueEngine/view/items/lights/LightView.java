@@ -1,14 +1,17 @@
 package me.grantammons.rogueEngine.view.items.lights;
 
+import aurelienribon.tweenengine.TweenManager;
 import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
+import me.grantammons.rogueEngine.view.Drawable;
 
 import static me.grantammons.rogueEngine.core.Constants.PIXEL_HEIGHT;
 import static me.grantammons.rogueEngine.core.Constants.PIXEL_WIDTH;
 
-public class LightView implements Lights {
+public class LightView implements Drawable {
     protected Light light;
     protected RayHandler rayHandler;
     protected me.grantammons.rogueEngine.core.entities.items.Lights.Light lightModel;
@@ -23,12 +26,12 @@ public class LightView implements Lights {
         this.rayHandler = rayHandler;
     }
 
-    public void draw() {
+    @Override
+    public void draw(Batch batch, TweenManager tweenManager) {
         light.setPosition(getX(), getY());
         if (lightModel.isFlickering())
             setIntensity();
     }
-
 
     public void drawAt(float x, float y) {
         light.setPosition(x + (PIXEL_WIDTH / 2), y + (PIXEL_HEIGHT / 2));

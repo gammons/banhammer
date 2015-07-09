@@ -6,12 +6,15 @@ import me.grantammons.rogueEngine.core.Notifier;
 
 import java.util.ArrayList;
 
-/**
- * Created by grantammons on 6/27/15.
- */
 public class Entity {
     public Location location;
+    public Location intendedLocation;
     public String name;
+
+    public boolean isExpired() {
+        return isExpired;
+    }
+
     protected boolean isExpired = false;
     protected Notifier notifier;
     protected ArrayList<Location> path;
