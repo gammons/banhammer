@@ -73,15 +73,19 @@ public class Game {
         map.getEntities().forEach(e -> {
             if (e.isExpired()) {
                 scheduler.remove(e);
-                e.getSack().getItems().forEach(item -> {
-                    notifier.notify(e.name + " drops a " + item.getName());
-                    item.setIsExpired(false);
-                    map.getItems().add(item);
-                });
+                dropTheSack(e);
             }
         });
         map.getEntities().removeIf(e -> e.isExpired());
 
+    }
+
+    private void dropTheSack(AnimatedEntity e) {
+        e.getSack().getItems().forEach(item -> {
+            notifier.notify(e.name + " drops a " + item.getName());
+            item.setIsExpired(false);
+            map.getItems().add(item);
+        });
     }
 
     private void spawnPlayer() {
