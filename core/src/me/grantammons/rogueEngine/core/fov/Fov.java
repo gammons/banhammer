@@ -14,12 +14,12 @@ public class Fov implements ILosBoard {
 
     public Fov(int[][] map) {
         this.map = map;
-        visibleTiles = new ArrayList<Location>();
+        visibleTiles = new ArrayList<>();
     }
 
     public void calculateFov(Location location, int radius) {
         IFovAlgorithm p = new PrecisePermissive();
-        p.visitFieldOfView(this, location.x, location.y, 4);
+        p.visitFieldOfView(this, location.x, location.y, 2);
     }
 
     @Override

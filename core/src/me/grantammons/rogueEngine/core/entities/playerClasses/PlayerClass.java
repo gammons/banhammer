@@ -1,6 +1,7 @@
 package me.grantammons.rogueEngine.core.entities.playerClasses;
 
 import com.badlogic.gdx.math.MathUtils;
+import me.grantammons.rogueEngine.core.Map;
 import me.grantammons.rogueEngine.core.Notifier;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 
@@ -10,6 +11,11 @@ public abstract class PlayerClass extends AnimatedEntity {
     public PlayerClass(Notifier notifier) {
         super(notifier);
         genStats();
+    }
+
+    @Override
+    public void takeTurn(Map map) {
+        super.takeTurn(map);
     }
 
     private void genStats() {

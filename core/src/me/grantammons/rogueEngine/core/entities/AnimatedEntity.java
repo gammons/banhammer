@@ -40,21 +40,47 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
 
     private Fov fov;
     private Set<Location> visitedTiles;
+    private ArrayList<Entity> previouslyNoticedEntities;
+    private ArrayList<Entity> newlyNoticedEntities;
+    private ArrayList<Location> visibleTiles;
 
     public AnimatedEntity(Notifier notifier) {
         super(notifier);
         sack = new Sack();
         visitedTiles = new HashSet<>();
+        visibleTiles  = new ArrayList<>();
+        previouslyNoticedEntities = new ArrayList<>();
+        newlyNoticedEntities = new ArrayList<>();
     }
 
 
     public void takeTurn(Map map) {
+        previouslyNoticedEntities.addAll(newlyNoticedEntities);
+        previouslyNoticedEntities.add(this);
         if (hasPath()) {
             followPath();
         } else if (hasAI()) {
             calculateMove(map);
         }
         processMove(map);
+        noticeThings(map);
+        previouslyNoticedEntities.clear();
+    }
+
+    private void noticeThings(Map map) {
+        ArrayList<Entity> mapEntities = (ArrayList<Entity>) map.getEntities().clone();
+        mapEntities.removeAll(previouslyNoticedEntities);
+
+        for (Entity e : mapEntities) {
+            if (visibleTiles.stream().anyMatch(e.location::equals)) {
+                notifier.notify("You noticed "+e.name);
+                newlyNoticedEntities.add(e);
+            }
+        }
+    }
+
+    public void clearNewlyNoticedEntities() {
+        newlyNoticedEntities.clear();
     }
 
     private void followPath() {
@@ -335,10 +361,11 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
         fov = new Fov(map.getMap());
         fov.calculateFov(location, map.getAmbientLightAt(location));
         visitedTiles.addAll(fov.getVisibleTiles());
+        visibleTiles = fov.getVisibleTiles();
     }
 
     public boolean needsHumanInput() {
-        return !hasPath() && (intendedLocation.equals(location));
+        return newlyNoticedEntities.size() > 0 || (!hasPath() && (intendedLocation.equals(location)));
     }
 }
 

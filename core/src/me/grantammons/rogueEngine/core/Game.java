@@ -36,6 +36,7 @@ public class Game {
 
     public void tick() {
         Entity e = scheduler.nextEntity();
+        player.clearNewlyNoticedEntities();
         while (continueProcessing(e)) {
             e.takeTurn(map);
             bringOutYourDead();

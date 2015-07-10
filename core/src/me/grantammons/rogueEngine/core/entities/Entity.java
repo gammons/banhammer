@@ -39,4 +39,5 @@ public class Entity {
     public boolean hasPath() {
         return !this.path.isEmpty();
     }
+
 }

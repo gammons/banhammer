@@ -121,7 +121,7 @@ public class Map {
     }
 
     public int getAmbientLightAt(Location location) {
-        return 1;
+        return 4;
     }
 
     public ArrayList<Integer> surrounding(int tileType, Location location) {
