@@ -50,7 +50,7 @@ public class Game {
     }
 
     public boolean playerCanMoveTo(int direction) {
-        return map.canMove(Location.setLocationFromDirection(player.location, direction));
+        return direction == Constants.WAIT || map.canMove(Location.setLocationFromDirection(player.location, direction));
     }
 
 

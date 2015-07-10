@@ -55,8 +55,7 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
 
 
     public void takeTurn(Map map) {
-        previouslyNoticedEntities.addAll(newlyNoticedEntities);
-        previouslyNoticedEntities.add(this);
+        unnoticeNewThings();
         if (hasPath()) {
             followPath();
         } else if (hasAI()) {
@@ -64,7 +63,11 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
         }
         processMove(map);
         noticeThings(map);
-        previouslyNoticedEntities.clear();
+    }
+
+    private void unnoticeNewThings() {
+        previouslyNoticedEntities.addAll(newlyNoticedEntities);
+        previouslyNoticedEntities.add(this);
     }
 
     private void noticeThings(Map map) {
@@ -77,6 +80,7 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
                 newlyNoticedEntities.add(e);
             }
         }
+        previouslyNoticedEntities.clear();
     }
 
     public void clearNewlyNoticedEntities() {

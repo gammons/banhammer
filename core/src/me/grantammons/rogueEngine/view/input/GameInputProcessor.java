@@ -19,6 +19,7 @@ public class GameInputProcessor implements InputProcessor {
     private boolean upRightPressed;
 
     private List<InputListener> listeners;
+    private boolean periodPressed;
 
     public GameInputProcessor() {
         listeners = new ArrayList<InputListener>();
@@ -83,6 +84,11 @@ public class GameInputProcessor implements InputProcessor {
                     notifyListeners(Constants.NORTHEAST);
                 upRightPressed = true;
                 break;
+            case Keys.PERIOD:
+                if (periodPressed == false)
+                    notifyListeners(Constants.WAIT);
+                periodPressed = true;
+                break;
         }
         return false;
     }
@@ -125,6 +131,9 @@ public class GameInputProcessor implements InputProcessor {
             case Keys.NUM_9:
             case Keys.U:
                 upRightPressed = false;
+                break;
+            case Keys.PERIOD:
+                periodPressed = false;
                 break;
         }
         return false;

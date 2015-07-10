@@ -24,7 +24,7 @@ public class Physics {
 
         //RayHandler.useDiffuseLight(true);
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0f, 0f, 0f, 0.5f);
+        rayHandler.setAmbientLight(0f, 0f, 0f, 0.0f);
         rayHandler.setBlurNum(3);
 
         debugRenderer = new Box2DDebugRenderer();

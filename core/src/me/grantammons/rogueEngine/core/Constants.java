@@ -16,6 +16,8 @@ public class Constants {
     public static final int SOUTHEAST = 6;
     public static final int SOUTHWEST = 7;
 
+    public static final int WAIT = 8;
+
     public static final int VIEWPORT_WIDTH=256;
     public static final int VIEWPORT_HEIGHT=256;
 
