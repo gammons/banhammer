@@ -2,6 +2,7 @@ package me.grantammons.rogueEngine.core.entities;
 
 import com.badlogic.gdx.math.MathUtils;
 import me.grantammons.rogueEngine.core.*;
+import me.grantammons.rogueEngine.core.entities.AIs.AIable;
 import me.grantammons.rogueEngine.core.entities.items.Item;
 import me.grantammons.rogueEngine.core.fov.Fov;
 
@@ -39,6 +40,8 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     private ArrayList<Entity> previouslyNoticedEntities;
     private ArrayList<Entity> newlyNoticedEntities;
     private ArrayList<Location> visibleTiles;
+
+    protected AIable ai;
 
     public AnimatedEntity(Notifier notifier) {
         super(notifier);
@@ -89,7 +92,7 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     }
 
     public boolean hasAI() {
-        return false;
+        return (ai != null);
     }
 
     private void processMove(Map map) {
@@ -314,7 +317,7 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     }
 
     public void calculateMove(Map map) {
-
+        if (hasAI()) intendedLocation = ai.calculateMove(map);
     }
 
     public void attack(AnimatedEntity victim) {

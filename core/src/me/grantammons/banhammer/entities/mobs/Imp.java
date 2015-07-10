@@ -1,6 +1,7 @@
 package me.grantammons.banhammer.entities.mobs;
 
 import me.grantammons.rogueEngine.core.Notifier;
+import me.grantammons.rogueEngine.core.entities.AIs.RandomAI;
 import me.grantammons.rogueEngine.core.entities.mobs.Mob;
 
 /**
@@ -11,7 +12,8 @@ public class Imp extends Mob {
         super(notifier);
         name = "Imp";
         hp = 5;
-        speed = 20;
+        speed = 10;
+        ai = new RandomAI(this);
     }
 
     @Override
