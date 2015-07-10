@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by grantammons on 5/31/15.
- */
-
 public abstract class AnimatedEntity extends Entity implements StatsInterface {
 
     protected int speed;
