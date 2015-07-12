@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import me.grantammons.rogueEngine.core.*;
 import me.grantammons.rogueEngine.core.entities.AIs.AIable;
 import me.grantammons.rogueEngine.core.entities.items.Item;
+import me.grantammons.rogueEngine.core.entities.playerClasses.PlayerClass;
 import me.grantammons.rogueEngine.core.fov.Fov;
 
 import java.util.ArrayList;
@@ -72,7 +73,8 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
 
         for (Entity e : mapEntities) {
             if (visibleTiles.stream().anyMatch(e.location::equals)) {
-                notifier.notify("You noticed "+e.name);
+                if (this instanceof PlayerClass)
+                    notifier.notify("You noticed "+e.name);
                 newlyNoticedEntities.add(e);
             }
         }
@@ -326,6 +328,8 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
             //hit
             float damage = getOffense() - victim.getDefense();
             damage += MathUtils.randomTriangular((float)(-1 * (damage * 0.2)), (float)(damage * 0.2));
+            if (damage <= 0) damage = 1;
+
             notifier.notify(name + " hits " + victim.name + " for " + (int)damage + " damage.");
             victim.receiveDamage(damage);
         } else {
