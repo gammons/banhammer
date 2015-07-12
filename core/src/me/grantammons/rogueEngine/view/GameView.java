@@ -125,7 +125,7 @@ public class GameView implements Screen {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        batch.setColor(0.2f,0.2f,0.2f,0.8f);
+        batch.setColor(0.05f,0.05f,0.05f,1.0f);
         for (Location location : game.player.getVisitedTiles()) {
             if (!game.player.getVisibleTiles().contains(location))
                 mapView.drawMapTile(batch, location.x, location.y);
