@@ -40,4 +40,7 @@ public class Entity {
         return !this.path.isEmpty();
     }
 
+    public ArrayList<Location> getPath() {
+        return path;
+    }
 }

@@ -55,11 +55,8 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
 
     public void takeTurn(Map map) {
         unnoticeNewThings();
-        if (hasPath()) {
-            followPath();
-        } else if (hasAI()) {
-            calculateMove(map);
-        }
+        if (hasAI()) calculateMove(map);
+        if (hasPath()) followPath();
         processMove(map);
         noticeThings(map);
     }
@@ -317,10 +314,14 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     }
 
     public void calculateMove(Map map) {
-        if (hasAI()) intendedLocation = ai.calculateMove(map);
+        if (hasAI()) ai.calculateMove(map);
     }
 
     public void attack(AnimatedEntity victim) {
+        System.out.println("Attacker:");
+        System.out.println(this);
+        System.out.println("Victom:");
+        System.out.println(victim);
         if (getHitPercentage(victim.dodgeNumber()) > MathUtils.randomTriangular(0, 1)) {
             //hit
             float damage = getOffense() - victim.getDefense();
@@ -334,7 +335,7 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     }
 
     private float getHitPercentage(float defense) {
-        return 1 - (defense / getStrength());
+        return ((defense + getSquirrel()) / getStrength());
     }
 
     private void receiveDamage(float amount) {

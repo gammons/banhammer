@@ -1,11 +1,11 @@
 package me.grantammons.rogueEngine.core.entities.AIs;
 
-import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 
 public abstract class AI {
-    protected Entity entity;
+    protected AnimatedEntity entity;
 
-    public AI(Entity entity) {
+    public AI(AnimatedEntity entity) {
         this.entity = entity;
     }
 }
