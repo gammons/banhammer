@@ -5,7 +5,7 @@ import me.grantammons.rogueEngine.core.*;
 import me.grantammons.rogueEngine.core.entities.AIs.AIable;
 import me.grantammons.rogueEngine.core.entities.items.Item;
 import me.grantammons.rogueEngine.core.entities.playerClasses.PlayerClass;
-import me.grantammons.rogueEngine.core.fov.Fov;
+import me.grantammons.rogueEngine.core.utils.fov.Fov;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -6,7 +6,7 @@ public class TorchLight extends Light {
 
     public TorchLight(Notifier notifier) {
         super(notifier);
-        brightness = 64;
+        brightness = 96;
         flickering = true;
     }
 }

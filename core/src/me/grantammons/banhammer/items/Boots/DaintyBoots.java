@@ -18,4 +18,29 @@ public class DaintyBoots extends Item {
     public float getEquippedSquirrelModifier() {
         return 2.6f;
     }
+
+    @Override
+    public float getStrengthModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getMagicModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getFortitudeModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getCharmModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getBrainpowerModifier() {
+        return 0;
+    }
 }

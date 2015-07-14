@@ -1,9 +1,9 @@
 package me.grantammons.rogueEngine.core.entities.items;
 
 import me.grantammons.rogueEngine.core.Notifier;
-import me.grantammons.rogueEngine.core.entities.Entity;
+import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 
-public abstract class Item extends Entity implements ItemStatsInterface {
+public abstract class Item extends AnimatedEntity implements ItemStatsInterface {
     protected int requiredStrength;
     protected int attack;
     protected int defense;

@@ -9,4 +9,28 @@ public class SpeedBoots extends Item {
         name = "Super duper speed boots";
     }
 
+    @Override
+    public float getStrengthModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getMagicModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getFortitudeModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getCharmModifier() {
+        return 0;
+    }
+
+    @Override
+    public float getBrainpowerModifier() {
+        return 0;
+    }
 }

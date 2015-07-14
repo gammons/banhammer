@@ -4,7 +4,6 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,13 +11,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import me.grantammons.rogueEngine.core.Game;
-import me.grantammons.rogueEngine.core.Location;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
 import me.grantammons.rogueEngine.core.entities.items.Lights.Light;
 import me.grantammons.rogueEngine.core.entities.items.Lights.TorchLight;
 import me.grantammons.rogueEngine.core.entities.items.props.Prop;
 import me.grantammons.rogueEngine.core.entities.items.props.Torch;
+import me.grantammons.rogueEngine.core.utils.los.Line;
 import me.grantammons.rogueEngine.view.entities.AnimatedEntityView;
 import me.grantammons.rogueEngine.view.entities.EntityView;
 import me.grantammons.rogueEngine.view.entities.PlayerView;
@@ -31,7 +30,8 @@ import me.grantammons.rogueEngine.view.map.MapView;
 
 import java.util.ArrayList;
 
-import static me.grantammons.rogueEngine.core.Constants.*;
+import static me.grantammons.rogueEngine.core.Constants.VIEWPORT_HEIGHT;
+import static me.grantammons.rogueEngine.core.Constants.VIEWPORT_WIDTH;
 
 public class GameView implements Screen {
     private SpriteBatch batch;
@@ -49,6 +49,7 @@ public class GameView implements Screen {
     private ShapeRenderer shapeRenderer;
     private MouseSelector mouseSelector;
     private TweenManager tweenManager;
+    private FovRenderer fovRenderer;
 
 
     public GameView(GameInputProcessor processor) {
@@ -81,6 +82,8 @@ public class GameView implements Screen {
 
         batch.setProjectionMatrix(cam.combined);
 
+        fovRenderer = new FovRenderer(cam, game.player, game.map);
+
     }
 
     @Override
@@ -99,7 +102,6 @@ public class GameView implements Screen {
         render monsters
          */
 
-        shapeRenderer.setProjectionMatrix(cam.combined);
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         drawSprites();
@@ -107,59 +109,25 @@ public class GameView implements Screen {
         lerpCameraToTarget();
 
         renderLights();
-        renderFov();
+        fovRenderer.draw(batch, tweenManager);
         mouseSelector.draw(batch, tweenManager);
         batch.end();
 
-        batch.begin();
-        renderSeenLevel();
-        batch.end();
         hud.render(game);
-    }
-
-    /*
-    For tiles that are outside of the FOV area, and are also seen by the player,
-    render them darkened and unlit.
-     */
-    private void renderSeenLevel() {
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        batch.setColor(0.05f,0.05f,0.05f,1.0f);
-        for (Location location : game.player.getVisitedTiles()) {
-            if (!game.player.getVisibleTiles().contains(location))
-                mapView.drawMapTile(batch, location.x, location.y);
-        }
-
-        batch.setColor(Color.WHITE);
-        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     private void renderLights() {
         for (LightView lightView : lightViews) {
+            lightView.setVisible(lightInSight(lightView.getLightModel()));
             lightView.draw(batch, tweenManager);
         }
 
         physics.update(cam);
     }
 
-    private void renderFov() {
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 0, 0, 1f);
-        for(int x = 0; x <= VIEWPORT_WIDTH / PIXEL_WIDTH; x++) {
-            for(int y = 0; y <= VIEWPORT_HEIGHT / PIXEL_HEIGHT; y ++) {
-                Location l = new Location(x,y);
-                if (!game.player.getVisitedTiles().contains(l))
-                    shapeRenderer.rect(x * PIXEL_WIDTH, y * PIXEL_HEIGHT, PIXEL_WIDTH, PIXEL_HEIGHT);
-            }
-        }
-
-        shapeRenderer.end();
-
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+    private boolean lightInSight(Light light) {
+        Line line = new Line(game.map);
+        return line.hasClearLine(light.location, game.player.location);
     }
 
     private void drawSprites() {

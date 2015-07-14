@@ -1,4 +1,4 @@
-package me.grantammons.rogueEngine.core.fov;
+package me.grantammons.rogueEngine.core.utils.fov;
 
 import me.grantammons.rogueEngine.core.Location;
 import me.grantammons.rogueEngine.core.Map;
@@ -19,7 +19,7 @@ public class Fov implements ILosBoard {
 
     public void calculateFov(Location location, int radius) {
         IFovAlgorithm p = new PrecisePermissive();
-        p.visitFieldOfView(this, location.x, location.y, 2);
+        p.visitFieldOfView(this, location.x, location.y, 3);
     }
 
     @Override

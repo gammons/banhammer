@@ -14,6 +14,7 @@ import static me.grantammons.rogueEngine.core.Constants.PIXEL_WIDTH;
 public class LightView implements Drawable {
     protected Light light;
     protected RayHandler rayHandler;
+
     protected me.grantammons.rogueEngine.core.entities.items.Lights.Light lightModel;
     protected float redColor;
     protected float greenColor;
@@ -39,6 +40,11 @@ public class LightView implements Drawable {
             setIntensity();
     }
 
+    public me.grantammons.rogueEngine.core.entities.items.Lights.Light getLightModel() {
+        return lightModel;
+    }
+
+
     private float getX() {
         return lightModel.location.x * PIXEL_WIDTH + (PIXEL_WIDTH / 2);
     }
@@ -55,5 +61,9 @@ public class LightView implements Drawable {
             light.setDistance(MathUtils.randomTriangular(lightModel.getBrightness() - 4, lightModel.getBrightness() + 4));
             counter = 0;
         }
+    }
+
+    public void setVisible(boolean visible) {
+        this.light.setActive(visible);
     }
 }

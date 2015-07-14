@@ -156,4 +156,17 @@ public class Map {
         return ret;
 
     }
+
+    public boolean entityOrWallAt(Location l) {
+        if (entityAt(l) != null) return true;
+        if (tileAt(l) != GROUND) return true;
+        return false;
+    }
+
+    public int sizeY() {
+        return getMap().length;
+    }
+    public int sizeX() {
+        return getMap()[0].length;
+    }
 }
