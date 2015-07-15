@@ -1,4 +1,4 @@
-package me.grantammons.rogueEngine.view;
+package me.grantammons.rogueEngine.view.tweens;
 
 import aurelienribon.tweenengine.TweenAccessor;
 import com.badlogic.gdx.graphics.g2d.Sprite;

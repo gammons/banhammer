@@ -1,10 +1,12 @@
 package me.grantammons.rogueEngine.core.entities;
 
 import com.badlogic.gdx.math.MathUtils;
-import me.grantammons.rogueEngine.core.*;
+import me.grantammons.rogueEngine.core.Location;
+import me.grantammons.rogueEngine.core.Map;
+import me.grantammons.rogueEngine.core.Notifier;
+import me.grantammons.rogueEngine.core.Sack;
 import me.grantammons.rogueEngine.core.entities.AIs.AIable;
 import me.grantammons.rogueEngine.core.entities.items.Item;
-import me.grantammons.rogueEngine.core.entities.playerClasses.PlayerClass;
 import me.grantammons.rogueEngine.core.utils.fov.Fov;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     protected int maxHp;
 
     protected Item weapon;
+
     protected Item secondWeapon;
 
     protected Item hat;
@@ -73,8 +76,6 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
 
         for (Entity e : mapEntities) {
             if (visibleTiles.stream().anyMatch(e.location::equals)) {
-                if (this instanceof PlayerClass)
-                    notifier.notify("You noticed "+e.name);
                 newlyNoticedEntities.add(e);
             }
         }
@@ -375,5 +376,14 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     public boolean needsHumanInput() {
         return newlyNoticedEntities.size() > 0 || (!hasPath() && (intendedLocation.equals(location)));
     }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
 }
 

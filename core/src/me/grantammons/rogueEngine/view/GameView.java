@@ -27,6 +27,9 @@ import me.grantammons.rogueEngine.view.items.lights.LightView;
 import me.grantammons.rogueEngine.view.items.lights.TorchLightView;
 import me.grantammons.rogueEngine.view.items.props.TorchView;
 import me.grantammons.rogueEngine.view.map.MapView;
+import me.grantammons.rogueEngine.view.tweens.ProgressBarTween;
+import me.grantammons.rogueEngine.view.tweens.SpriteTween;
+import me.grantammons.rogueEngine.view.utils.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -51,7 +54,6 @@ public class GameView implements Screen {
     private TweenManager tweenManager;
     private FovRenderer fovRenderer;
 
-
     public GameView(GameInputProcessor processor) {
         entityViews = new ArrayList<>();
         lightViews = new ArrayList<>();
@@ -62,7 +64,9 @@ public class GameView implements Screen {
         hud = new Hud();
         physics = new Physics();
         Tween.registerAccessor(Sprite.class, new SpriteTween());
+        Tween.registerAccessor(ProgressBar.class, new ProgressBarTween());
         tweenManager = new TweenManager();
+
     }
 
     @Override
@@ -109,9 +113,18 @@ public class GameView implements Screen {
         lerpCameraToTarget();
 
         renderLights();
-        fovRenderer.draw(batch, tweenManager);
         mouseSelector.draw(batch, tweenManager);
         batch.end();
+
+        batch.begin();
+        for (EntityView entityView : entityViews) {
+            if (entityView instanceof AnimatedEntityView) {
+                ((AnimatedEntityView) entityView).drawHud(batch, tweenManager);
+            }
+        }
+        fovRenderer.draw(batch, tweenManager);
+        batch.end();
+
 
         hud.render(game);
     }

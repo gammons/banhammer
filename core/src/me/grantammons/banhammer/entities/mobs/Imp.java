@@ -11,8 +11,10 @@ public class Imp extends Mob {
     public Imp(Notifier notifier) {
         super(notifier);
         name = "Imp";
-        hp = 5;
-        speed = 10;
+        hp = 25;
+        maxHp = 25;
+
+        speed = 15;
         ai = new HostileAI(this);
     }
 
