@@ -26,7 +26,7 @@ public class TorchView extends ItemView {
     @Override
     public void draw(Batch batch, TweenManager tweenManager) {
         stateTime += Gdx.graphics.getDeltaTime();
-        batch.draw(animation.getKeyFrame(stateTime, true), item.location.x * Constants.PIXEL_WIDTH, item.location.y * Constants.PIXEL_HEIGHT);
+        batch.draw(animation.getKeyFrame(stateTime, true), entity.location.x * Constants.PIXEL_WIDTH, entity.location.y * Constants.PIXEL_HEIGHT);
     }
 
     private void setupTexture() {
@@ -36,5 +36,6 @@ public class TorchView extends ItemView {
         regions[2] = new TextureRegion(torchTexture, 32, 0, 16, 16);
         regions[3] = new TextureRegion(torchTexture, 48, 0, 16, 16);
         animation = new Animation(0.25f, regions);
+        sprite.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 }

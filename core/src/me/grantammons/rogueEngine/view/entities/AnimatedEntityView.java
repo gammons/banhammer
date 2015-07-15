@@ -23,6 +23,7 @@ public class AnimatedEntityView extends EntityView {
     public AnimatedEntityView(Game game, AnimatedEntity animatedEntity, String asset) {
         super(game, animatedEntity);
         sprite = new Sprite(new Texture(asset));
+        sprite.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         sprite.setSize(PIXEL_WIDTH, PIXEL_HEIGHT);
         sprite.setPosition(animatedEntity.location.x * PIXEL_WIDTH, animatedEntity.location.y * PIXEL_HEIGHT);
         hpBar = new ProgressBar(0,
@@ -35,6 +36,7 @@ public class AnimatedEntityView extends EntityView {
 
     @Override
     public void draw(Batch batch, TweenManager tweenManager) {
+        if (entity.isExpired()) return;
         hpBar.setProjectionMatrix(batch.getProjectionMatrix());
 
         if (didLocationChange()) {
@@ -47,6 +49,7 @@ public class AnimatedEntityView extends EntityView {
     }
 
     public void drawHud(Batch batch, TweenManager tweenManager) {
+        if (entity.isExpired()) return;
         hpBar.draw(batch, tweenManager);
     }
 

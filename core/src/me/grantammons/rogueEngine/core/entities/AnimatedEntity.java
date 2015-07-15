@@ -321,10 +321,6 @@ public abstract class AnimatedEntity extends Entity implements StatsInterface {
     }
 
     public void attack(AnimatedEntity victim) {
-        System.out.println("Attacker:");
-        System.out.println(this);
-        System.out.println("Victom:");
-        System.out.println(victim);
         if (getHitPercentage(victim.dodgeNumber()) > MathUtils.randomTriangular(0, 1)) {
             //hit
             float damage = getOffense() - victim.getDefense();

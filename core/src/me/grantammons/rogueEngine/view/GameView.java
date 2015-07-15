@@ -95,7 +95,6 @@ public class GameView implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        expireDeadThings();
         tweenManager.update(delta);
 
         /*
@@ -156,10 +155,6 @@ public class GameView implements Screen {
         position.y = cam.position.y + (playerView.getSprite().getY() - cam.position.y) * .2f;
         cam.position.set(position);
         cam.update();
-    }
-
-    private void expireDeadThings() {
-        entityViews.removeIf(m -> m.getEntity().isExpired() == true);
     }
 
     @Override
