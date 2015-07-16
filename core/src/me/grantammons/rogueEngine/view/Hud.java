@@ -16,6 +16,8 @@ import me.grantammons.rogueEngine.core.Game;
  */
 public class Hud {
 
+    private static final int LINE_HEIGHT = 16;
+
     private Sprite hudScaffold;
     private OrthographicCamera hudCamera;
     private BitmapFont font;
@@ -32,8 +34,6 @@ public class Hud {
     public void resize (int width, int height) {
         hudCamera.viewportHeight = Constants.VIEWPORT_HEIGHT * 2;
         hudCamera.viewportWidth = ((Constants.VIEWPORT_HEIGHT * 2) / (float)height) * (float)width;
-//        hudCamera.viewportHeight = 375;
-//        hudCamera.viewportWidth = 667;
         hudCamera.position.set(hudCamera.viewportWidth / 4, hudCamera.viewportHeight / 4, 0);
         hudCamera.update();
     }
@@ -45,10 +45,10 @@ public class Hud {
         batch.begin();
         hudScaffold.draw(batch);
 
-        int i = 0;
+        int i = 290;
         for(String s : game.recentNotifications()) {
-            font.draw(batch, s, 340, 290 + i);
-            i += 20;
+            font.draw(batch, s, 340, i);
+            i += LINE_HEIGHT;
         }
 
         batch.end();
@@ -65,10 +65,12 @@ public class Hud {
     private void setupFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Inconsolata-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 20;
+        parameter.size = 5;
         parameter.flip = true;
         parameter.borderColor = Color.BLACK;
-        font = generator.generateFont(parameter);
+
+        font = new BitmapFont(Gdx.files.internal("fonts/lumenari.fnt"), true);
+        //font = generator.generateFont(parameter);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         generator.dispose();
     }
