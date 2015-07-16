@@ -90,7 +90,7 @@ public class GameInputProcessor implements InputProcessor {
                 periodPressed = true;
                 break;
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -136,7 +136,7 @@ public class GameInputProcessor implements InputProcessor {
                 periodPressed = false;
                 break;
         }
-        return false;
+        return true;
     }
 
     @Override

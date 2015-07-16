@@ -1,13 +1,11 @@
 package me.grantammons.rogueEngine.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import me.grantammons.rogueEngine.core.Constants;
 import me.grantammons.rogueEngine.core.Game;
 
@@ -63,16 +61,8 @@ public class Hud {
     }
 
     private void setupFont() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Inconsolata-Regular.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 5;
-        parameter.flip = true;
-        parameter.borderColor = Color.BLACK;
-
-        font = new BitmapFont(Gdx.files.internal("fonts/lumenari.fnt"), true);
-        //font = generator.generateFont(parameter);
+        font = new BitmapFont(Gdx.files.internal("fonts/lumenari-15.fnt"), true);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        generator.dispose();
     }
 
     private void setupHudScaffold() {

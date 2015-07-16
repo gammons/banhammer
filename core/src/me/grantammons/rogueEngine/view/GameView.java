@@ -3,6 +3,7 @@ package me.grantammons.rogueEngine.view;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import me.grantammons.rogueEngine.core.Game;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
@@ -37,6 +40,7 @@ import static me.grantammons.rogueEngine.core.Constants.VIEWPORT_HEIGHT;
 import static me.grantammons.rogueEngine.core.Constants.VIEWPORT_WIDTH;
 
 public class GameView implements Screen {
+    private final Stage stage;
     private SpriteBatch batch;
     private OrthographicCamera cam;
     private GameInputProcessor inputProcessor;
@@ -53,6 +57,7 @@ public class GameView implements Screen {
     private MouseSelector mouseSelector;
     private TweenManager tweenManager;
     private FovRenderer fovRenderer;
+    private GamePopupMenu popupMenu;
 
     public GameView(GameInputProcessor processor) {
         entityViews = new ArrayList<>();
@@ -66,6 +71,9 @@ public class GameView implements Screen {
         Tween.registerAccessor(Sprite.class, new SpriteTween());
         Tween.registerAccessor(ProgressBar.class, new ProgressBarTween());
         tweenManager = new TweenManager();
+
+        stage = new Stage(new ScreenViewport());
+        popupMenu = new GamePopupMenu(stage);
 
     }
 
@@ -83,6 +91,7 @@ public class GameView implements Screen {
         setupEntityViews();
         mouseSelector = new MouseSelector(cam, game);
         inputProcessor.addListener(mouseSelector);
+        inputProcessor.addListener(popupMenu);
 
         batch.setProjectionMatrix(cam.combined);
 
@@ -124,6 +133,7 @@ public class GameView implements Screen {
         fovRenderer.draw(batch, tweenManager);
         batch.end();
 
+        popupMenu.render();
 
         hud.render(game);
     }
@@ -211,5 +221,9 @@ public class GameView implements Screen {
                 lightViews.add(new TorchLightView(light, physics.getRayHandler()));
             }
         }
+    }
+
+    public InputProcessor getUIInputProcessor() {
+        return stage;
     }
 }
