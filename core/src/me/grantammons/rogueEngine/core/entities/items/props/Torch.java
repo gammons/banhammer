@@ -8,7 +8,7 @@ public class Torch extends Prop {
         super(notifier);
 
         isPickupable = false;
-        spriteFile = "torch.png";
+        spriteFile = "torch_unlit.png";
 
     }
 }

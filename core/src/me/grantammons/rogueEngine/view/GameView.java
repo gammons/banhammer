@@ -116,7 +116,7 @@ public class GameView implements Screen {
 
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
-        drawSprites();
+        drawSprites(delta);
 
         lerpCameraToTarget();
 
@@ -152,9 +152,10 @@ public class GameView implements Screen {
         return line.hasClearLine(light.location, game.player.location);
     }
 
-    private void drawSprites() {
+    private void drawSprites(float delta) {
         mapView.draw(batch);
         for (EntityView entityView : entityViews) {
+            entityView.updateDelta(delta);
             entityView.draw(batch, tweenManager);
         }
     }

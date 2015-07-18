@@ -34,6 +34,11 @@ public class LightView implements Drawable {
             setIntensity();
     }
 
+    @Override
+    public void updateDelta(float delta) {
+
+    }
+
     public void drawAt(float x, float y) {
         light.setPosition(x + (PIXEL_WIDTH / 2), y + (PIXEL_HEIGHT / 2));
         if (lightModel.isFlickering())

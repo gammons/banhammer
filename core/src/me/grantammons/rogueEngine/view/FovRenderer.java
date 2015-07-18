@@ -71,6 +71,11 @@ public class FovRenderer implements Drawable {
 
     }
 
+    @Override
+    public void updateDelta(float delta) {
+
+    }
+
     private void setBounds(int xSize, int ySize) {
         startX = 0;
         if (entity.location.x - BUFFER > (xSize / 2))

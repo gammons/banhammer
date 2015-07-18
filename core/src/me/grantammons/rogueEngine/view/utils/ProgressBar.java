@@ -52,6 +52,11 @@ public class ProgressBar implements Drawable {
         shapeRenderer.end();
     }
 
+    @Override
+    public void updateDelta(float delta) {
+
+    }
+
     public int getX() {
         return x;
     }

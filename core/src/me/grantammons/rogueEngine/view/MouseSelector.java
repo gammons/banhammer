@@ -68,6 +68,11 @@ public class MouseSelector implements InputListener, Drawable {
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
+    @Override
+    public void updateDelta(float delta) {
+
+    }
+
     private Location getLocation(int screenX, int screenY) {
         Vector3 coords = new Vector3(screenX, screenY, 0);
         cam.unproject(coords);

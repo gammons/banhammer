@@ -12,6 +12,7 @@ public class EntityView implements Drawable {
     protected Sprite sprite;
     protected Game game;
     protected Entity entity;
+    protected float delta;
 
     public EntityView(Game game, Entity entity) {
         this.entity = entity;
@@ -22,6 +23,11 @@ public class EntityView implements Drawable {
         if (entity.isExpired()) return;
         sprite.setPosition(entity.location.x * Constants.PIXEL_WIDTH, entity.location.y * Constants.PIXEL_HEIGHT);
         sprite.draw(batch);
+    }
+
+    @Override
+    public void updateDelta(float delta) {
+        this.delta = delta;
     }
 
     public Sprite getSprite() {
