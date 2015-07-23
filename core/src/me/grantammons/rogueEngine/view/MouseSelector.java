@@ -45,6 +45,7 @@ public class MouseSelector implements InputListener, Drawable {
 
     @Override
     public void notifyMouseClicked(int screenX, int screenY, int button) {
+        if (button == 0) return;
         setPath(getLocation(screenX, screenY));
         if (!path.isEmpty()) {
             game.player.setPath(path);
