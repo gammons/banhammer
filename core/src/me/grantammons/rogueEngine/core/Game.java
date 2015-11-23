@@ -1,7 +1,6 @@
 package me.grantammons.rogueEngine.core;
 
 import me.grantammons.banhammer.entities.playerClasses.Brute;
-import me.grantammons.banhammer.levels.TestLevel1;
 import me.grantammons.rogueEngine.core.entities.AnimatedEntity;
 import me.grantammons.rogueEngine.core.entities.Entity;
 import me.grantammons.rogueEngine.core.entities.items.Item;
@@ -24,7 +23,9 @@ public class Game {
         scheduler.addEntity(player);
 
         // temporary until we have better organization around levels.
-        loadLevel(new TestLevel1(map, notifier));
+        LevelGen lg = new LevelGen(map, notifier);
+
+        loadLevel(lg.generate());
 
         spawnPlayer();
     }

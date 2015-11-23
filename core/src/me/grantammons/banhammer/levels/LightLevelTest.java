@@ -47,29 +47,18 @@ public class LightLevelTest extends Level {
     }
 
     @Override
-    public void loadMap() {
+    public void load() {
         map.setMap(generatedMap);
-
+        loadProps();
+        loadLights();
     }
 
-    @Override
-    public void loadItems() {
-
-    }
-
-    @Override
-    public void loadMonsters() {
-
-    }
-
-    @Override
     public void loadProps() {
         Torch t3 = new Torch(notifier);
         t3.location = new Location(9,9);
         map.getProps().add(t3);
     }
 
-    @Override
     public void loadLights() {
         TorchLight t3 = new TorchLight(notifier);
         t3.location = new Location(9,9);

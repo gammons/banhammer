@@ -29,19 +29,20 @@ public class TestLevel1 extends Level {
         super(map, notifier);
     }
 
-    @Override
-    public void loadMap() {
+    public void load() {
         map.setMap(generatedMap);
+        loadItems();
+        loadMonsters();
+        loadLights();
+        loadProps();
     }
 
-    @Override
     public void loadItems() {
         TwoHandedSword sword = new TwoHandedSword(notifier);
         sword.location = new Location(7,7);
         map.getItems().add(sword);
     }
 
-    @Override
     public void loadMonsters() {
         Mob mob = new Imp(notifier);
         mob.location = new Location(3,3);
@@ -56,7 +57,6 @@ public class TestLevel1 extends Level {
         map.getEntities().add(mob3);
     }
 
-    @Override
     public void loadProps() {
         Torch t = new Torch(notifier);
         t.location = new Location(5,2);
@@ -75,7 +75,6 @@ public class TestLevel1 extends Level {
         map.getProps().add(t4);
     }
 
-    @Override
     public void loadLights() {
         TorchLight t = new TorchLight(notifier);
         t.location = new Location(5,2);
