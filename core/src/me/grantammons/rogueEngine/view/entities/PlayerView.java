@@ -45,4 +45,14 @@ public class PlayerView extends AnimatedEntityView implements InputListener {
     public void notifyMouseClicked(int screenX, int screenY, int button) {
 
     }
+
+    @Override
+    public void notifyMouseScrollDown() {
+
+    }
+
+    @Override
+    public void notifyMouseScrollUp() {
+
+    }
 }

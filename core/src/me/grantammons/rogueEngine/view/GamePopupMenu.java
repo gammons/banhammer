@@ -61,4 +61,14 @@ public class GamePopupMenu implements InputListener {
         table.setY(coords.y);
         table.setVisible(true);
     }
+
+    @Override
+    public void notifyMouseScrollDown() {
+
+    }
+
+    @Override
+    public void notifyMouseScrollUp() {
+
+    }
 }

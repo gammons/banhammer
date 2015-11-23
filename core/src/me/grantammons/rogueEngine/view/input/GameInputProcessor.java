@@ -175,9 +175,16 @@ public class GameInputProcessor implements InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
-        // TODO Auto-generated method stub
+        for (InputListener listener : listeners) {
+            if (amount == 1) {
+                listener.notifyMouseScrollUp();
+            } else if (amount == -1) {
+                listener.notifyMouseScrollDown();
+            }
+        }
         return false;
     }
+
     private void notifyListeners(int direction) {
         for (InputListener listener : listeners) {
             listener.notify(direction);

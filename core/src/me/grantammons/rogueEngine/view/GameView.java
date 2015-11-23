@@ -2,6 +2,7 @@ package me.grantammons.rogueEngine.view;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.equations.Quad;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -25,11 +26,13 @@ import me.grantammons.rogueEngine.view.entities.AnimatedEntityView;
 import me.grantammons.rogueEngine.view.entities.EntityView;
 import me.grantammons.rogueEngine.view.entities.PlayerView;
 import me.grantammons.rogueEngine.view.input.GameInputProcessor;
+import me.grantammons.rogueEngine.view.input.InputListener;
 import me.grantammons.rogueEngine.view.items.ItemView;
 import me.grantammons.rogueEngine.view.items.lights.LightView;
 import me.grantammons.rogueEngine.view.items.lights.TorchLightView;
 import me.grantammons.rogueEngine.view.items.props.TorchView;
 import me.grantammons.rogueEngine.view.map.MapView;
+import me.grantammons.rogueEngine.view.tweens.CamZoomTween;
 import me.grantammons.rogueEngine.view.tweens.ProgressBarTween;
 import me.grantammons.rogueEngine.view.tweens.SpriteTween;
 import me.grantammons.rogueEngine.view.utils.ProgressBar;
@@ -39,7 +42,7 @@ import java.util.ArrayList;
 import static me.grantammons.rogueEngine.core.Constants.VIEWPORT_HEIGHT;
 import static me.grantammons.rogueEngine.core.Constants.VIEWPORT_WIDTH;
 
-public class GameView implements Screen {
+public class GameView implements Screen, InputListener {
     private final Stage stage;
     private SpriteBatch batch;
     private OrthographicCamera cam;
@@ -70,6 +73,7 @@ public class GameView implements Screen {
         physics = new Physics();
         Tween.registerAccessor(Sprite.class, new SpriteTween());
         Tween.registerAccessor(ProgressBar.class, new ProgressBarTween());
+        Tween.registerAccessor(OrthographicCamera.class, new CamZoomTween());
         tweenManager = new TweenManager();
 
         stage = new Stage(new ScreenViewport());
@@ -92,6 +96,7 @@ public class GameView implements Screen {
         mouseSelector = new MouseSelector(cam, game);
         inputProcessor.addListener(mouseSelector);
         inputProcessor.addListener(popupMenu);
+        inputProcessor.addListener(this);
 
         batch.setProjectionMatrix(cam.combined);
 
@@ -226,5 +231,30 @@ public class GameView implements Screen {
 
     public InputProcessor getUIInputProcessor() {
         return stage;
+    }
+
+    @Override
+    public void notify(int direction) {
+
+    }
+
+    @Override
+    public void notifyMouseMoved(int screenX, int screenY) {
+
+    }
+
+    @Override
+    public void notifyMouseClicked(int screenX, int screenY, int button) {
+
+    }
+
+    @Override
+    public void notifyMouseScrollDown() {
+        Tween.to(cam, 0, 0.2f).target(cam.viewportWidth / 0.5f, cam.viewportHeight / 0.5f).ease(Quad.INOUT).start(tweenManager);
+    }
+
+    @Override
+    public void notifyMouseScrollUp() {
+        Tween.to(cam, 0, 0.2f).target(cam.viewportWidth * 0.5f, cam.viewportHeight * 0.5f).ease(Quad.INOUT).start(tweenManager);
     }
 }

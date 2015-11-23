@@ -54,6 +54,16 @@ public class MouseSelector implements InputListener, Drawable {
     }
 
     @Override
+    public void notifyMouseScrollDown() {
+
+    }
+
+    @Override
+    public void notifyMouseScrollUp() {
+
+    }
+
+    @Override
     public void draw(Batch batch, TweenManager tweenManager) {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
