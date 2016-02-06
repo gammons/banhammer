@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 
 public class LevelGen {
-    private static final int STAGE_WIDTH = 33;
-    private static final int STAGE_HEIGHT = 33;
+    private static final int STAGE_WIDTH = 63;
+    private static final int STAGE_HEIGHT = 63;
 
     private static final int NUM_ROOM_TRIES = 12;
     private static final int ROOM_EXTRA_SIZE = 1;
@@ -27,41 +27,12 @@ public class LevelGen {
         rooms = new ArrayList<>();
     }
 
-    private void findPlayerSpawn() {
-        boolean found = false;
-
-        int x = 0;
-        int y = 0;
-
-        while(!found) {
-            x = MathUtils.random(0, STAGE_WIDTH - 1);
-            y = MathUtils.random(0, STAGE_HEIGHT - 1);
-            if (stage[y][x] == Map.GROUND) found = true;
-        }
-        level.setPlayerSpawnLocation(new Location(x,y));
-    }
-
-    /*
-    Growing tree algorithm - http://www.astrolog.org/labyrnth/algrithm.htm
-    http://weblog.jamisbuck.org/2011/1/27/maze-generation-growing-tree-algorithm
-    This is a general algorithm, capable of creating Mazes of different textures.
-    It requires storage up to the size of the Maze.
-    Each time you carve a cell, add that cell to a list.
-    Proceed by picking a cell from the list, and carving into an unmade cell next to it.
-    If there are no unmade cells next to the current cell, remove the current cell from the list.
-    The Maze is done when the list becomes empty.
-    The interesting part that allows many possible textures is how you pick a cell from the list.
-    For example, if you always pick the most recent cell added to it, this algorithm turns into the recursive backtracker.
-    If you always pick cells at random, this will behave similarly but not exactly to Prim's algorithm.
-    If you always pick the oldest cells added to the list, this will create Mazes with about as low a "river" factor as possible, even lower than Prim's algorithm.
-    If you usually pick the most recent cell, but occasionally pick a random cell, the Maze will have a high "river" factor but a short direct solution.
-    If you randomly pick among the most recent cells, the Maze will have a low "river" factor but a long windy solution.
-     */
     public Level generate() {
         fillStage();
         fillRooms();
         addMaze();
         connectRooms();
+        removeDeadEnds();
         findPlayerSpawn();
         level.setStage(stage);
         return level;
@@ -74,12 +45,21 @@ public class LevelGen {
         cells.add(findMazeStartPoint());
 
         while(!cells.isEmpty()) {
-            Location l = cells.get(cells.size() - 1);
+            Location l = getNextCell(cells);
 
             if (allNeighborsVisited(l, visited))
                 cells.remove(l);
 
             carveNeighbor(l, cells, visited);
+        }
+    }
+
+    private Location getNextCell(ArrayList<Location> cells) {
+        if (MathUtils.randomTriangular(0,100) < 70) {
+            return cells.get(MathUtils.random(0, cells.size() - 1));
+        } else {
+            //return cells.get(cells.size() - 1);
+            return cells.get(0);
         }
     }
 
@@ -181,6 +161,10 @@ public class LevelGen {
         stage[l.y][l.x] = Map.GROUND;
     }
 
+    private void uncarve(Location l) {
+        stage[l.y][l.x] = Map.BEDROCK;
+    }
+
     private void fillStage() {
         for(int y = 0; y < STAGE_HEIGHT; y++) {
             for(int x = 0; x < STAGE_WIDTH; x++) {
@@ -205,6 +189,80 @@ public class LevelGen {
                 }
             }
         }
+    }
+
+    private void connectRooms() {
+        for (Room room : rooms) {
+            int doors = MathUtils.random(1,3);
+            int implementedDoors = 0;
+            while (implementedDoors < doors) {
+                Location point = room.getRandomPointForDoorway();
+                Location above = new Location(point.x, point.y - 1);
+                Location below = new Location(point.x, point.y + 1);
+                Location leftSide = new Location(point.x - 1, point.y);
+                Location rightSide = new Location(point.x + 1, point.y);
+
+                if (isWithinMaze(above) && isWithinMaze(below) && (stage[above.y][above.x] != Map.BEDROCK) &&
+                        (stage[below.y][below.x] != Map.BEDROCK)) {
+                    carve(point);
+                    implementedDoors++;
+                } else {
+                    if (isWithinMaze(leftSide) && isWithinMaze(rightSide) && (stage[leftSide.y][leftSide.x] != Map.BEDROCK) &&
+                            (stage[rightSide.y][rightSide.x] != Map.BEDROCK)) {
+                        carve(point);
+                        implementedDoors++;
+                    }
+                }
+            }
+        }
+    }
+
+    private void removeDeadEnds() {
+        boolean done = false;
+
+        while (done == false) {
+            done = true;
+            for (int y = 0; y < STAGE_HEIGHT; y++) {
+                for (int x = 0; x < STAGE_WIDTH; x++) {
+                    Location point = new Location(x, y);
+                    if (tileAt(point) == Map.BEDROCK) continue;
+
+                    Location above = new Location(point.x, point.y - 1);
+                    Location below = new Location(point.x, point.y + 1);
+                    Location leftSide = new Location(point.x - 1, point.y);
+                    Location rightSide = new Location(point.x + 1, point.y);
+
+                    int emptySides = 0;
+                    if (isNotWithinMaze(above) || tileAt(above) == Map.BEDROCK) emptySides++;
+                    if (isNotWithinMaze(below) || tileAt(below) == Map.BEDROCK) emptySides++;
+                    if (isNotWithinMaze(leftSide) || tileAt(leftSide) == Map.BEDROCK) emptySides++;
+                    if (isNotWithinMaze(rightSide) || tileAt(rightSide) == Map.BEDROCK) emptySides++;
+
+                    if (emptySides >= 3) {
+                        uncarve(point);
+                        done = false;
+                    }
+                }
+            }
+        }
+    }
+
+    private int tileAt(Location l) {
+        return stage[l.y][l.x];
+    }
+
+    private void findPlayerSpawn() {
+        boolean found = false;
+
+        int x = 0;
+        int y = 0;
+
+        while(!found) {
+            x = MathUtils.random(0, STAGE_WIDTH - 1);
+            y = MathUtils.random(0, STAGE_HEIGHT - 1);
+            if (stage[y][x] == Map.GROUND) found = true;
+        }
+        level.setPlayerSpawnLocation(new Location(x,y));
     }
 
     class Room {
@@ -269,29 +327,4 @@ public class LevelGen {
         }
     }
 
-    private void connectRooms() {
-        for (Room room : rooms) {
-            int doors = MathUtils.random(1,3);
-            int implementedDoors = 0;
-            while (implementedDoors < doors) {
-                Location point = room.getRandomPointForDoorway();
-                Location above = new Location(point.x, point.y - 1);
-                Location below = new Location(point.x, point.y + 1);
-                Location leftSide = new Location(point.x - 1, point.y);
-                Location rightSide = new Location(point.x + 1, point.y);
-
-                if (isWithinMaze(above) && isWithinMaze(below) && (stage[above.y][above.x] != Map.BEDROCK) &&
-                        (stage[below.y][below.x] != Map.BEDROCK)) {
-                    stage[point.y][point.x] = Map.DIRT;
-                    implementedDoors++;
-                } else {
-                    if (isWithinMaze(leftSide) && isWithinMaze(rightSide) && (stage[leftSide.y][leftSide.x] != Map.BEDROCK) &&
-                            (stage[rightSide.y][rightSide.x] != Map.BEDROCK)) {
-                        stage[point.y][point.x] = Map.DIRT;
-                        implementedDoors++;
-                    }
-                }
-            }
-        }
-    }
 }
