@@ -61,6 +61,7 @@ public class LevelGen {
         fillStage();
         fillRooms();
         addMaze();
+        connectRooms();
         findPlayerSpawn();
         level.setStage(stage);
         return level;
@@ -233,6 +234,10 @@ public class LevelGen {
             if (y % 2 == 0) y++;
         }
 
+        public String toString() {
+            return "Room at (" + x + ", " + y + ") with width "+ width + " and height " + height;
+        }
+
         public boolean intersects(Room other) {
             return Intersector.intersectRectangles(getRectangle(), other.getRectangle(), new Rectangle());
         }
@@ -243,6 +248,50 @@ public class LevelGen {
 
         public boolean contains(Location loc) {
             return ((loc.x >= this.x) && (loc.x <= this.width + this.x) && (loc.y >= this.y) && (loc.y <= this.height + this.y));
+        }
+
+        public Location getRandomPointForDoorway() {
+            ArrayList<Location> points = new ArrayList<>();
+            for(int y = this.y; y <= this.y + this.height; y++) {
+                Location l1 = new Location(this.x - 1, y);
+                Location l2 = new Location(this.x + this.width, y);
+                if (isWithinMaze(l1)) points.add(l1);
+                if (isWithinMaze(l2)) points.add(l2);
+            }
+
+            for (int x = this.x; x <= this.x + this.width; x++) {
+                Location l1 = new Location(x, this.y - 1);
+                Location l2 = new Location(x, this.y + this.height);
+                if (isWithinMaze(l1)) points.add(l1);
+                if (isWithinMaze(l2)) points.add(l2);
+            }
+            return points.get(MathUtils.random(0, points.size() - 1));
+        }
+    }
+
+    private void connectRooms() {
+        for (Room room : rooms) {
+            int doors = MathUtils.random(1,3);
+            int implementedDoors = 0;
+            while (implementedDoors < doors) {
+                Location point = room.getRandomPointForDoorway();
+                Location above = new Location(point.x, point.y - 1);
+                Location below = new Location(point.x, point.y + 1);
+                Location leftSide = new Location(point.x - 1, point.y);
+                Location rightSide = new Location(point.x + 1, point.y);
+
+                if (isWithinMaze(above) && isWithinMaze(below) && (stage[above.y][above.x] != Map.BEDROCK) &&
+                        (stage[below.y][below.x] != Map.BEDROCK)) {
+                    stage[point.y][point.x] = Map.DIRT;
+                    implementedDoors++;
+                } else {
+                    if (isWithinMaze(leftSide) && isWithinMaze(rightSide) && (stage[leftSide.y][leftSide.x] != Map.BEDROCK) &&
+                            (stage[rightSide.y][rightSide.x] != Map.BEDROCK)) {
+                        stage[point.y][point.x] = Map.DIRT;
+                        implementedDoors++;
+                    }
+                }
+            }
         }
     }
 }
