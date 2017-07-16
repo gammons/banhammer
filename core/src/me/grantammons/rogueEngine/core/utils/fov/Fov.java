@@ -22,17 +22,14 @@ public class Fov implements ILosBoard {
         p.visitFieldOfView(this, location.x, location.y, 3);
     }
 
-    @Override
     public boolean contains(int x, int y) {
         return (x > 0 && y > 0) && (y < map.length) && (x < map[y].length);
     }
 
-    @Override
     public boolean isObstacle(int x, int y) {
         return (contains(x,y) && (map[y][x] != Map.GROUND));
     }
 
-    @Override
     public void visit(int x, int y) {
         visibleTiles.add(new Location(x,y));
     }
